@@ -1,0 +1,65 @@
+commit 3a206f52084bb72b7b21e17b518177169785315e
+Author: 0guzhan <oguzhan.acargil@gmail.com>
+Date:   Tue Jul 23 10:44:59 2013 +0300
+
+    initial commit
+
+diff --git xstream-demo/pom.xml xstream-demo/pom.xml
+new file mode 100644
+index 0000000..ed73180
+--- /dev/null
++++ xstream-demo/pom.xml
+@@ -0,0 +1,52 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++	<groupId>xstream.demo</groupId>
++	<artifactId>xstream-demo</artifactId>
++	<version>0.0.1-SNAPSHOT</version>
++
++
++	<properties>
++		<logback.version>1.0.13</logback.version>
++		<slf.version>1.7.5</slf.version>
++		<xstream.version>1.4.4</xstream.version>
++	</properties>
++
++	<dependencies>
++		<dependency>
++			<groupId>org.slf4j</groupId>
++			<artifactId>slf4j-api</artifactId>
++			<version>${slf.version}</version>
++		</dependency>
++		<dependency>
++			<groupId>com.thoughtworks.xstream</groupId>
++			<artifactId>xstream</artifactId>
++			<version>${xstream.version}</version>
++		</dependency>
++		<dependency>
++			<groupId>ch.qos.logback</groupId>
++			<artifactId>logback-classic</artifactId>
++			<version>${logback.version}</version>
++		</dependency>
++		<dependency>
++			<groupId>ch.qos.logback</groupId>
++			<artifactId>logback-core</artifactId>
++			<version>${logback.version}</version>
++		</dependency>
++	</dependencies>
++
++	<build>
++		<plugins>
++			<plugin>
++				<groupId>org.apache.maven.plugins</groupId>
++				<artifactId>maven-compiler-plugin</artifactId>
++				<version>3.1</version>
++				<configuration>
++					<source>1.6</source>
++					<target>1.6</target>
++				</configuration>
++			</plugin>
++		</plugins>
++	</build>
++
++</project>
+\ No newline at end of file

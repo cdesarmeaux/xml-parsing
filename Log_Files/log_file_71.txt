@@ -1,0 +1,1007 @@
+commit 21eeb84f2c6df217fbbf0a387134984c4fb07e80
+Author: Alexey Romanchuk <romanchuk@se-b.ru>
+Date:   Tue Sep 27 16:56:46 2011 +0700
+
+    Теперь на ЖАВА!
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..90f36b2
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,57 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++	<groupId>ru.oculus</groupId>
++	<artifactId>oculus</artifactId>
++	<version>1.0.0</version>
++	<name>oculus</name>
++
++	<repositories>
++		<repository>
++			<id>maven2-repository.java.net</id>
++			<name>Java.net Repository for Maven</name>
++			<url>http://download.java.net/maven/2/</url>
++			<layout>default</layout>
++		</repository>
++	</repositories>
++
++	<dependencies>
++		<dependency>
++			<groupId>com.sun.jersey</groupId>
++			<artifactId>jersey-server</artifactId>
++			<version>1.9.1</version>
++		</dependency>
++		<dependency>
++			<groupId>com.sun.jersey</groupId>
++			<artifactId>jersey-client</artifactId>
++			<version>1.9.1</version>
++		</dependency>
++		<dependency>
++			<groupId>com.sun.grizzly</groupId>
++			<artifactId>grizzly-servlet-webserver</artifactId>
++			<version>1.9.36</version>
++		</dependency>
++		<dependency>
++			<groupId>com.sun.jersey</groupId>
++			<artifactId>jersey-grizzly</artifactId>
++			<version>1.9.1</version>
++		</dependency>
++		<dependency>
++			<groupId>com.sun.jersey</groupId>
++			<artifactId>jersey-json</artifactId>
++			<version>1.9.1</version>
++		</dependency>
++
++		<dependency>
++			<groupId>org.apache.commons</groupId>
++			<artifactId>commons-lang3</artifactId>
++			<version>3.0.1</version>
++		</dependency>
++
++		<dependency>
++			<groupId>com.sun.jersey.contribs</groupId>
++			<artifactId>jersey-spring</artifactId>
++			<version>1.9.1</version>
++		</dependency>
++	</dependencies>
++</project>
+\ No newline at end of file
+
+commit 52181d712b34cf91940e52ffc74f65da99511b49
+Author: Alexey Romanchuk <romanchuk@se-b.ru>
+Date:   Wed Sep 28 17:02:33 2011 +0700
+
+    complete java rewritting
+
+diff --git pom.xml pom.xml
+index 90f36b2..00aaaaf 100644
+--- pom.xml
++++ pom.xml
+@@ -1,57 +1,75 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>ru.oculus</groupId>
+ 	<artifactId>oculus</artifactId>
+ 	<version>1.0.0</version>
+ 	<name>oculus</name>
+ 
+ 	<repositories>
+ 		<repository>
+ 			<id>maven2-repository.java.net</id>
+ 			<name>Java.net Repository for Maven</name>
+ 			<url>http://download.java.net/maven/2/</url>
+ 			<layout>default</layout>
+ 		</repository>
+ 	</repositories>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-server</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-client</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.grizzly</groupId>
+ 			<artifactId>grizzly-servlet-webserver</artifactId>
+ 			<version>1.9.36</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+-			<artifactId>jersey-grizzly</artifactId>
++			<artifactId>jersey-json</artifactId>
++			<version>1.9.1</version>
++		</dependency>
++		<dependency>
++			<groupId>com.sun.jersey.contribs</groupId>
++			<artifactId>jersey-spring</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+-			<artifactId>jersey-json</artifactId>
++			<artifactId>jersey-grizzly</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 
++        <dependency>
++            <groupId>org.apache.commons</groupId>
++            <artifactId>commons-lang3</artifactId>
++            <version>3.0.1</version>
++        </dependency>
++
++
+ 		<dependency>
+-			<groupId>org.apache.commons</groupId>
+-			<artifactId>commons-lang3</artifactId>
+-			<version>3.0.1</version>
++			<groupId>org.springframework</groupId>
++			<artifactId>spring-context</artifactId>
++			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+-
+ 		<dependency>
+-			<groupId>com.sun.jersey.contribs</groupId>
+-			<artifactId>jersey-spring</artifactId>
+-			<version>1.9.1</version>
++			<groupId>org.springframework</groupId>
++			<artifactId>spring-jdbc</artifactId>
++			<version>3.0.6.RELEASE</version>
+ 		</dependency>
++		
++		<dependency>
++            <groupId>com.oracle</groupId>
++            <artifactId>ojdbc6</artifactId>
++            <version>11.2.0.2.0</version>
++        </dependency>
++		
+ 	</dependencies>
+ </project>
+\ No newline at end of file
+
+commit 1011cefb1bb304891bbabf537867717ec31eb0b0
+Author: Alexey Romanchuk <romanchuk@se-b.ru>
+Date:   Wed Sep 28 19:12:14 2011 +0700
+
+    Now complete on java!
+
+diff --git pom.xml pom.xml
+index 00aaaaf..a9dad00 100644
+--- pom.xml
++++ pom.xml
+@@ -1,75 +1,87 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>ru.oculus</groupId>
+ 	<artifactId>oculus</artifactId>
+ 	<version>1.0.0</version>
+ 	<name>oculus</name>
+ 
+ 	<repositories>
+ 		<repository>
+ 			<id>maven2-repository.java.net</id>
+ 			<name>Java.net Repository for Maven</name>
+ 			<url>http://download.java.net/maven/2/</url>
+ 			<layout>default</layout>
+ 		</repository>
+ 	</repositories>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-server</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-client</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.grizzly</groupId>
+ 			<artifactId>grizzly-servlet-webserver</artifactId>
+ 			<version>1.9.36</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-json</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey.contribs</groupId>
+ 			<artifactId>jersey-spring</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-grizzly</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 
+         <dependency>
+             <groupId>org.apache.commons</groupId>
+             <artifactId>commons-lang3</artifactId>
+             <version>3.0.1</version>
+         </dependency>
++        <dependency>
++            <groupId>commons-collections</groupId>
++            <artifactId>commons-collections</artifactId>
++            <version>3.2.1</version>
++        </dependency>
+ 
+ 
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-context</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-jdbc</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 		
+ 		<dependency>
+             <groupId>com.oracle</groupId>
+             <artifactId>ojdbc6</artifactId>
+             <version>11.2.0.2.0</version>
+         </dependency>
+ 		
++		<dependency>
++			<groupId>com.jcraft</groupId>
++			<artifactId>jsch</artifactId>
++			<version>0.1.44-1</version>
++			<type>jar</type>
++			<scope>compile</scope>
++		</dependency>
+ 	</dependencies>
+ </project>
+\ No newline at end of file
+
+commit 51224e76c4588123ea562d899a0a0359538aef90
+Author: Alexey Romanchuk <romanchuk@se-b.ru>
+Date:   Tue Oct 4 14:53:22 2011 +0700
+
+    Dynamic connection pooling
+
+diff --git pom.xml pom.xml
+index a9dad00..f0b7def 100644
+--- pom.xml
++++ pom.xml
+@@ -1,87 +1,119 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>ru.oculus</groupId>
+ 	<artifactId>oculus</artifactId>
+ 	<version>1.0.0</version>
+ 	<name>oculus</name>
+ 
+ 	<repositories>
+ 		<repository>
+ 			<id>maven2-repository.java.net</id>
+ 			<name>Java.net Repository for Maven</name>
+ 			<url>http://download.java.net/maven/2/</url>
+ 			<layout>default</layout>
+ 		</repository>
+ 	</repositories>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-server</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-client</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.grizzly</groupId>
+ 			<artifactId>grizzly-servlet-webserver</artifactId>
+ 			<version>1.9.36</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-json</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey.contribs</groupId>
+ 			<artifactId>jersey-spring</artifactId>
+ 			<version>1.9.1</version>
++			<exclusions>
++				<exclusion>
++					<artifactId>spring-core</artifactId>
++					<groupId>org.springframework</groupId>
++				</exclusion>
++				<exclusion>
++					<artifactId>spring-context</artifactId>
++					<groupId>org.springframework</groupId>
++				</exclusion>
++				<exclusion>
++					<artifactId>spring-aop</artifactId>
++					<groupId>org.springframework</groupId>
++				</exclusion>
++				<exclusion>
++					<artifactId>spring-web</artifactId>
++					<groupId>org.springframework</groupId>
++				</exclusion>
++				<exclusion>
++					<artifactId>spring-beans</artifactId>
++					<groupId>org.springframework</groupId>
++				</exclusion>
++			</exclusions>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-grizzly</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 
+-        <dependency>
+-            <groupId>org.apache.commons</groupId>
+-            <artifactId>commons-lang3</artifactId>
+-            <version>3.0.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>commons-collections</groupId>
+-            <artifactId>commons-collections</artifactId>
+-            <version>3.2.1</version>
+-        </dependency>
++		<dependency>
++			<groupId>org.apache.commons</groupId>
++			<artifactId>commons-lang3</artifactId>
++			<version>3.0.1</version>
++		</dependency>
++		<dependency>
++			<groupId>commons-collections</groupId>
++			<artifactId>commons-collections</artifactId>
++			<version>3.2.1</version>
++		</dependency>
+ 
+ 
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+-			<artifactId>spring-context</artifactId>
++			<artifactId>spring-jdbc</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+-			<artifactId>spring-jdbc</artifactId>
++			<artifactId>spring-web</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+-		
++
+ 		<dependency>
+-            <groupId>com.oracle</groupId>
+-            <artifactId>ojdbc6</artifactId>
+-            <version>11.2.0.2.0</version>
+-        </dependency>
+-		
++			<groupId>com.oracle</groupId>
++			<artifactId>ojdbc6</artifactId>
++			<version>11.2.0.2.0</version>
++		</dependency>
++
+ 		<dependency>
+ 			<groupId>com.jcraft</groupId>
+ 			<artifactId>jsch</artifactId>
+ 			<version>0.1.44-1</version>
+ 			<type>jar</type>
+ 			<scope>compile</scope>
+ 		</dependency>
++		<dependency>
++			<groupId>commons-dbcp</groupId>
++			<artifactId>commons-dbcp</artifactId>
++			<version>1.4</version>
++		</dependency>
++		<dependency>
++			<groupId>log4j</groupId>
++			<artifactId>log4j</artifactId>
++			<version>1.2.16</version>
++		</dependency>
+ 	</dependencies>
+ </project>
+\ No newline at end of file
+
+commit 6aeef9bad576dae72940eaec0d09b819fbe0fcc9
+Author: Alexey Romanchuk <alexey.romanchuk@gmail.com>
+Date:   Wed Oct 5 06:48:45 2011 +0700
+
+    sql factory support
+    tables support
+
+diff --git pom.xml pom.xml
+index f0b7def..c8a86d9 100644
+--- pom.xml
++++ pom.xml
+@@ -1,119 +1,125 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>ru.oculus</groupId>
+ 	<artifactId>oculus</artifactId>
+ 	<version>1.0.0</version>
+ 	<name>oculus</name>
+ 
+ 	<repositories>
+ 		<repository>
+ 			<id>maven2-repository.java.net</id>
+ 			<name>Java.net Repository for Maven</name>
+ 			<url>http://download.java.net/maven/2/</url>
+ 			<layout>default</layout>
+ 		</repository>
+ 	</repositories>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-server</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-client</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.grizzly</groupId>
+ 			<artifactId>grizzly-servlet-webserver</artifactId>
+ 			<version>1.9.36</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-json</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey.contribs</groupId>
+ 			<artifactId>jersey-spring</artifactId>
+ 			<version>1.9.1</version>
+ 			<exclusions>
+ 				<exclusion>
+ 					<artifactId>spring-core</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-context</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-aop</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-web</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-beans</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 			</exclusions>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-grizzly</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>org.apache.commons</groupId>
+ 			<artifactId>commons-lang3</artifactId>
+ 			<version>3.0.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>commons-collections</groupId>
+ 			<artifactId>commons-collections</artifactId>
+ 			<version>3.2.1</version>
+ 		</dependency>
+ 
+ 
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-jdbc</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-web</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.oracle</groupId>
+ 			<artifactId>ojdbc6</artifactId>
+ 			<version>11.2.0.2.0</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.jcraft</groupId>
+ 			<artifactId>jsch</artifactId>
+ 			<version>0.1.44-1</version>
+ 			<type>jar</type>
+ 			<scope>compile</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>commons-dbcp</groupId>
+ 			<artifactId>commons-dbcp</artifactId>
+ 			<version>1.4</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>log4j</groupId>
+ 			<artifactId>log4j</artifactId>
+ 			<version>1.2.16</version>
+ 		</dependency>
++		
++		<dependency>
++			<groupId>ru.sqlfactory</groupId>
++			<artifactId>sqlfactory</artifactId>
++			<version>0.9.0-SNAPSHOT</version>
++		</dependency>
+ 	</dependencies>
+ </project>
+\ No newline at end of file
+
+commit 5106fb6b299b146e06372c8178a945ffdd709fdf
+Author: Alexey Romanchuk <romanchuk-as@ess54.ru>
+Date:   Fri Feb 10 11:16:25 2012 +0700
+
+    update workspace
+
+diff --git pom.xml pom.xml
+index c8a86d9..f7ab2f3 100644
+--- pom.xml
++++ pom.xml
+@@ -1,125 +1,130 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>ru.oculus</groupId>
+ 	<artifactId>oculus</artifactId>
+ 	<version>1.0.0</version>
+ 	<name>oculus</name>
+ 
+ 	<repositories>
+ 		<repository>
+ 			<id>maven2-repository.java.net</id>
+ 			<name>Java.net Repository for Maven</name>
+ 			<url>http://download.java.net/maven/2/</url>
+ 			<layout>default</layout>
+ 		</repository>
+ 	</repositories>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-server</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-client</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.grizzly</groupId>
+ 			<artifactId>grizzly-servlet-webserver</artifactId>
+ 			<version>1.9.36</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-json</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey.contribs</groupId>
+ 			<artifactId>jersey-spring</artifactId>
+ 			<version>1.9.1</version>
+ 			<exclusions>
+ 				<exclusion>
+ 					<artifactId>spring-core</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-context</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-aop</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-web</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-beans</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 			</exclusions>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-grizzly</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>org.apache.commons</groupId>
+ 			<artifactId>commons-lang3</artifactId>
+ 			<version>3.0.1</version>
+ 		</dependency>
++        <dependency>
++            <groupId>commons-lang</groupId>
++            <artifactId>commons-lang</artifactId>
++            <version>2.6</version>
++        </dependency>
+ 		<dependency>
+ 			<groupId>commons-collections</groupId>
+ 			<artifactId>commons-collections</artifactId>
+ 			<version>3.2.1</version>
+ 		</dependency>
+ 
+-
++>
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-jdbc</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-web</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.oracle</groupId>
+ 			<artifactId>ojdbc6</artifactId>
+ 			<version>11.2.0.2.0</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.jcraft</groupId>
+ 			<artifactId>jsch</artifactId>
+ 			<version>0.1.44-1</version>
+ 			<type>jar</type>
+ 			<scope>compile</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>commons-dbcp</groupId>
+ 			<artifactId>commons-dbcp</artifactId>
+ 			<version>1.4</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>log4j</groupId>
+ 			<artifactId>log4j</artifactId>
+ 			<version>1.2.16</version>
+ 		</dependency>
+ 		
+ 		<dependency>
+ 			<groupId>ru.sqlfactory</groupId>
+ 			<artifactId>sqlfactory</artifactId>
+ 			<version>0.9.0-SNAPSHOT</version>
+ 		</dependency>
+ 	</dependencies>
+ </project>
+\ No newline at end of file
+
+commit 5a674fe5f0aa5fa602b5fe55fc300d87e3580065
+Author: Alexey Romanchuk <romanchuk-as@ess54.ru>
+Date:   Fri Feb 10 11:17:02 2012 +0700
+
+    update workspace
+
+diff --git pom.xml pom.xml
+index f7ab2f3..f78dd76 100644
+--- pom.xml
++++ pom.xml
+@@ -1,130 +1,130 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>ru.oculus</groupId>
+ 	<artifactId>oculus</artifactId>
+ 	<version>1.0.0</version>
+ 	<name>oculus</name>
+ 
+ 	<repositories>
+ 		<repository>
+ 			<id>maven2-repository.java.net</id>
+ 			<name>Java.net Repository for Maven</name>
+ 			<url>http://download.java.net/maven/2/</url>
+ 			<layout>default</layout>
+ 		</repository>
+ 	</repositories>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-server</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-client</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.grizzly</groupId>
+ 			<artifactId>grizzly-servlet-webserver</artifactId>
+ 			<version>1.9.36</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-json</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey.contribs</groupId>
+ 			<artifactId>jersey-spring</artifactId>
+ 			<version>1.9.1</version>
+ 			<exclusions>
+ 				<exclusion>
+ 					<artifactId>spring-core</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-context</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-aop</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-web</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-beans</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 			</exclusions>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-grizzly</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>org.apache.commons</groupId>
+ 			<artifactId>commons-lang3</artifactId>
+ 			<version>3.0.1</version>
+ 		</dependency>
+         <dependency>
+             <groupId>commons-lang</groupId>
+             <artifactId>commons-lang</artifactId>
+             <version>2.6</version>
+         </dependency>
+ 		<dependency>
+ 			<groupId>commons-collections</groupId>
+ 			<artifactId>commons-collections</artifactId>
+ 			<version>3.2.1</version>
+ 		</dependency>
+ 
+->
++
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-jdbc</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-web</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.oracle</groupId>
+ 			<artifactId>ojdbc6</artifactId>
+ 			<version>11.2.0.2.0</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.jcraft</groupId>
+ 			<artifactId>jsch</artifactId>
+ 			<version>0.1.44-1</version>
+ 			<type>jar</type>
+ 			<scope>compile</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>commons-dbcp</groupId>
+ 			<artifactId>commons-dbcp</artifactId>
+ 			<version>1.4</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>log4j</groupId>
+ 			<artifactId>log4j</artifactId>
+ 			<version>1.2.16</version>
+ 		</dependency>
+ 		
+ 		<dependency>
+ 			<groupId>ru.sqlfactory</groupId>
+ 			<artifactId>sqlfactory</artifactId>
+ 			<version>0.9.0-SNAPSHOT</version>
+ 		</dependency>
+ 	</dependencies>
+ </project>
+\ No newline at end of file
+
+commit 276176c00a6b6267eca150a3ff3eeac2da7a161a
+Author: Alexey Romanchuk <romanchuk-as@ess54.ru>
+Date:   Tue May 29 15:51:02 2012 +0700
+
+    build
+
+diff --git pom.xml pom.xml
+index f78dd76..9377cfd 100644
+--- pom.xml
++++ pom.xml
+@@ -1,130 +1,150 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>ru.oculus</groupId>
+ 	<artifactId>oculus</artifactId>
+ 	<version>1.0.0</version>
+ 	<name>oculus</name>
+ 
+ 	<repositories>
+ 		<repository>
+ 			<id>maven2-repository.java.net</id>
+ 			<name>Java.net Repository for Maven</name>
+ 			<url>http://download.java.net/maven/2/</url>
+ 			<layout>default</layout>
+ 		</repository>
+ 	</repositories>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-server</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-client</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.grizzly</groupId>
+ 			<artifactId>grizzly-servlet-webserver</artifactId>
+ 			<version>1.9.36</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-json</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey.contribs</groupId>
+ 			<artifactId>jersey-spring</artifactId>
+ 			<version>1.9.1</version>
+ 			<exclusions>
+ 				<exclusion>
+ 					<artifactId>spring-core</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-context</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-aop</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-web</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 				<exclusion>
+ 					<artifactId>spring-beans</artifactId>
+ 					<groupId>org.springframework</groupId>
+ 				</exclusion>
+ 			</exclusions>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.sun.jersey</groupId>
+ 			<artifactId>jersey-grizzly</artifactId>
+ 			<version>1.9.1</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>org.apache.commons</groupId>
+ 			<artifactId>commons-lang3</artifactId>
+ 			<version>3.0.1</version>
+ 		</dependency>
+         <dependency>
+             <groupId>commons-lang</groupId>
+             <artifactId>commons-lang</artifactId>
+             <version>2.6</version>
+         </dependency>
+ 		<dependency>
+ 			<groupId>commons-collections</groupId>
+ 			<artifactId>commons-collections</artifactId>
+ 			<version>3.2.1</version>
+ 		</dependency>
+ 
+ 
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-jdbc</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.springframework</groupId>
+ 			<artifactId>spring-web</artifactId>
+ 			<version>3.0.6.RELEASE</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.oracle</groupId>
+ 			<artifactId>ojdbc6</artifactId>
+ 			<version>11.2.0.2.0</version>
+ 		</dependency>
+ 
+ 		<dependency>
+ 			<groupId>com.jcraft</groupId>
+ 			<artifactId>jsch</artifactId>
+ 			<version>0.1.44-1</version>
+ 			<type>jar</type>
+ 			<scope>compile</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>commons-dbcp</groupId>
+ 			<artifactId>commons-dbcp</artifactId>
+ 			<version>1.4</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>log4j</groupId>
+ 			<artifactId>log4j</artifactId>
+ 			<version>1.2.16</version>
+ 		</dependency>
+ 		
+ 		<dependency>
+ 			<groupId>ru.sqlfactory</groupId>
+ 			<artifactId>sqlfactory</artifactId>
+ 			<version>0.9.0-SNAPSHOT</version>
+ 		</dependency>
+ 	</dependencies>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-dependency-plugin</artifactId>
++                <executions>
++                    <execution>
++                        <id>copy-dependencies</id>
++                        <goals>
++                            <goal>copy-dependencies</goal>
++                        </goals>
++                        <configuration>
++                            <excludeTypes>pom</excludeTypes>
++                        </configuration>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
++    </build>
+ </project>
+\ No newline at end of file

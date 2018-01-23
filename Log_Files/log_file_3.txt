@@ -1,0 +1,32 @@
+commit 84bd27a517d5997cfb7fa2c692ad716a075defb3
+Author: 007slm <007slm@163.com>
+Date:   Mon Oct 21 16:49:43 2013 +0800
+
+    about java sinppets
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..614ae59
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,19 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>JavaSnippets</groupId>
++  <artifactId>JavaSnippets</artifactId>
++  <version>0.0.1-SNAPSHOT</version>
++  <build>
++    <sourceDirectory>src</sourceDirectory>
++    <plugins>
++      <plugin>
++        <artifactId>maven-compiler-plugin</artifactId>
++        <version>3.1</version>
++        <configuration>
++          <source>1.6</source>
++          <target>1.6</target>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
++</project>
+\ No newline at end of file

@@ -1,0 +1,340 @@
+commit 47c93cf315f7fce09b85dbd387b2c28b817d8a45
+Author: Michael Fairley <michaelfairley@gmail.com>
+Date:   Wed Aug 1 13:44:47 2012 -0700
+
+    Initial commit
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..c38e28f
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,62 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>photon-example</groupId>
++    <artifactId>photon-example</artifactId>
++    <version>0.1</version>
++
++    <dependencies>
++        <dependency>
++            <groupId>com.thousandmemories.photon</groupId>
++            <artifactId>photon-core</artifactId>
++            <version>0.1.0-SNAPSHOT</version>
++        </dependency>
++        <dependency>
++            <groupId>com.yammer.dropwizard</groupId>
++            <artifactId>dropwizard-core</artifactId>
++            <version>0.5.0</version>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-shade-plugin</artifactId>
++                <version>1.4</version>
++                <configuration>
++                    <createDependencyReducedPom>true</createDependencyReducedPom>
++                    <filters>
++                        <filter>
++                            <artifact>*:*</artifact>
++                            <excludes>
++                                <exclude>META-INF/*.SF</exclude>
++                                <exclude>META-INF/*.DSA</exclude>
++                                <exclude>META-INF/*.RSA</exclude>
++                            </excludes>
++                        </filter>
++                    </filters>
++                </configuration>
++                <executions>
++                    <execution>
++                        <phase>package</phase>
++                        <goals>
++                            <goal>shade</goal>
++                        </goals>
++                        <configuration>
++                            <transformers>
++                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
++                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
++                                    <mainClass>com.thousandmemories.photon.example.PhotonExampleService</mainClass>
++                                </transformer>
++                            </transformers>
++                        </configuration>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
++    </build>
++</project>
+
+commit cfc56ab22f2b2bef7b637da143bd1ac120772dea
+Author: Michael Fairley <michaelfairley@gmail.com>
+Date:   Thu Aug 2 11:43:54 2012 -0700
+
+    Use sonatype snapshots until photon-core is in maven central
+
+diff --git pom.xml pom.xml
+index c38e28f..bf5d980 100644
+--- pom.xml
++++ pom.xml
+@@ -1,62 +1,76 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>photon-example</groupId>
+     <artifactId>photon-example</artifactId>
+     <version>0.1</version>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>com.thousandmemories.photon</groupId>
+             <artifactId>photon-core</artifactId>
+             <version>0.1.0-SNAPSHOT</version>
+         </dependency>
+         <dependency>
+             <groupId>com.yammer.dropwizard</groupId>
+             <artifactId>dropwizard-core</artifactId>
+             <version>0.5.0</version>
+         </dependency>
+     </dependencies>
+ 
++    <repositories>
++        <repository>
++            <id>sonatype-nexus-snapshots</id>
++            <name>Sonatype Nexus Snapshots</name>
++            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
++            <releases>
++                <enabled>false</enabled>
++            </releases>
++            <snapshots>
++                <enabled>true</enabled>
++            </snapshots>
++        </repository>
++    </repositories>
++
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-shade-plugin</artifactId>
+                 <version>1.4</version>
+                 <configuration>
+                     <createDependencyReducedPom>true</createDependencyReducedPom>
+                     <filters>
+                         <filter>
+                             <artifact>*:*</artifact>
+                             <excludes>
+                                 <exclude>META-INF/*.SF</exclude>
+                                 <exclude>META-INF/*.DSA</exclude>
+                                 <exclude>META-INF/*.RSA</exclude>
+                             </excludes>
+                         </filter>
+                     </filters>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>shade</goal>
+                         </goals>
+                         <configuration>
+                             <transformers>
+                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                     <mainClass>com.thousandmemories.photon.example.PhotonExampleService</mainClass>
+                                 </transformer>
+                             </transformers>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+ </project>
+
+commit 0fa9c73178f85cd1ef885467a993e0344045e973
+Author: Michael Fairley <michaelfairley@gmail.com>
+Date:   Thu Aug 2 13:10:53 2012 -0700
+
+    Use a different version of photon-core to get around caching
+
+diff --git pom.xml pom.xml
+index bf5d980..6271619 100644
+--- pom.xml
++++ pom.xml
+@@ -1,76 +1,76 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>photon-example</groupId>
+     <artifactId>photon-example</artifactId>
+     <version>0.1</version>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>com.thousandmemories.photon</groupId>
+             <artifactId>photon-core</artifactId>
+-            <version>0.1.0-SNAPSHOT</version>
++            <version>0.1.1-SNAPSHOT</version>
+         </dependency>
+         <dependency>
+             <groupId>com.yammer.dropwizard</groupId>
+             <artifactId>dropwizard-core</artifactId>
+             <version>0.5.0</version>
+         </dependency>
+     </dependencies>
+ 
+     <repositories>
+         <repository>
+             <id>sonatype-nexus-snapshots</id>
+             <name>Sonatype Nexus Snapshots</name>
+             <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+         </repository>
+     </repositories>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-shade-plugin</artifactId>
+                 <version>1.4</version>
+                 <configuration>
+                     <createDependencyReducedPom>true</createDependencyReducedPom>
+                     <filters>
+                         <filter>
+                             <artifact>*:*</artifact>
+                             <excludes>
+                                 <exclude>META-INF/*.SF</exclude>
+                                 <exclude>META-INF/*.DSA</exclude>
+                                 <exclude>META-INF/*.RSA</exclude>
+                             </excludes>
+                         </filter>
+                     </filters>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>shade</goal>
+                         </goals>
+                         <configuration>
+                             <transformers>
+                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                     <mainClass>com.thousandmemories.photon.example.PhotonExampleService</mainClass>
+                                 </transformer>
+                             </transformers>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+ </project>
+
+commit 2f3f608295452658cf09dd238584a07e4f3fbecc
+Author: Michael Fairley <michaelfairley@gmail.com>
+Date:   Thu Aug 2 16:54:51 2012 -0700
+
+    Use release version of photon-core
+
+diff --git pom.xml pom.xml
+index 6271619..3ff0cdd 100644
+--- pom.xml
++++ pom.xml
+@@ -1,76 +1,76 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>photon-example</groupId>
+     <artifactId>photon-example</artifactId>
+     <version>0.1</version>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>com.thousandmemories.photon</groupId>
+             <artifactId>photon-core</artifactId>
+-            <version>0.1.1-SNAPSHOT</version>
++            <version>0.1.0</version>
+         </dependency>
+         <dependency>
+             <groupId>com.yammer.dropwizard</groupId>
+             <artifactId>dropwizard-core</artifactId>
+             <version>0.5.0</version>
+         </dependency>
+     </dependencies>
+ 
+     <repositories>
+         <repository>
+             <id>sonatype-nexus-snapshots</id>
+             <name>Sonatype Nexus Snapshots</name>
+             <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+         </repository>
+     </repositories>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-shade-plugin</artifactId>
+                 <version>1.4</version>
+                 <configuration>
+                     <createDependencyReducedPom>true</createDependencyReducedPom>
+                     <filters>
+                         <filter>
+                             <artifact>*:*</artifact>
+                             <excludes>
+                                 <exclude>META-INF/*.SF</exclude>
+                                 <exclude>META-INF/*.DSA</exclude>
+                                 <exclude>META-INF/*.RSA</exclude>
+                             </excludes>
+                         </filter>
+                     </filters>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>shade</goal>
+                         </goals>
+                         <configuration>
+                             <transformers>
+                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                     <mainClass>com.thousandmemories.photon.example.PhotonExampleService</mainClass>
+                                 </transformer>
+                             </transformers>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+ </project>

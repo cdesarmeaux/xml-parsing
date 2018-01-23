@@ -1,0 +1,186 @@
+commit 260a8e74281823beb0a977385f1d7c5a004ac473
+Author: Say <120011676@qq.com>
+Date:   Thu Mar 21 16:19:02 2013 +0800
+
+    update
+
+diff --git redspider/pom.xml redspider/pom.xml
+new file mode 100644
+index 0000000..7e8abc1
+--- /dev/null
++++ redspider/pom.xml
+@@ -0,0 +1,23 @@
++<project
++ xmlns="http://maven.apache.org/POM/4.0.0"
++ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++ <modelVersion>4.0.0</modelVersion>
++ <groupId>redspider</groupId>
++ <artifactId>redspider</artifactId>
++ <version>0.0.1-SNAPSHOT</version>
++ <dependencies>
++  <dependency>
++   <groupId>junit</groupId>
++   <artifactId>junit</artifactId>
++   <version>4.11</version>
++   <scope>test</scope>
++  </dependency>
++  <dependency>
++   <groupId>org.json</groupId>
++   <artifactId>org.json</artifactId>
++   <version>chargebee-1.0</version>
++   <scope>test</scope>
++  </dependency>
++ </dependencies>
++</project>
+\ No newline at end of file
+
+commit bbf691a7f9c7b7b4b5e0915d7068c9164da3eeeb
+Author: Say <120011676@qq.com>
+Date:   Thu Mar 21 16:20:54 2013 +0800
+
+    pom.xml
+
+diff --git redspider/pom.xml redspider/pom.xml
+index 7e8abc1..b09c509 100644
+--- redspider/pom.xml
++++ redspider/pom.xml
+@@ -1,23 +1,36 @@
+ <project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>redspider</groupId>
+  <artifactId>redspider</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+   <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.11</version>
+    <scope>test</scope>
+   </dependency>
+   <dependency>
+    <groupId>org.json</groupId>
+    <artifactId>org.json</artifactId>
+    <version>chargebee-1.0</version>
+    <scope>test</scope>
+   </dependency>
+  </dependencies>
++
++ <developers>
++  <developer>
++   <name>Say</name>
++   <email>120011676@qq.com</email>
++  </developer>
++ </developers>
++ <mailingLists>
++  <mailingList>
++   <name>Say</name>
++   <post>120011676@qq.com</post>
++  </mailingList>
++ </mailingLists>
+ </project>
+\ No newline at end of file
+
+commit 002bd6886ffeb275ab96fc3aedfdc23beeac3ba6
+Author: Say <120011676@qq.com>
+Date:   Thu Mar 21 16:24:07 2013 +0800
+
+    pom.xml
+
+diff --git redspider/pom.xml redspider/pom.xml
+index b09c509..6aef913 100644
+--- redspider/pom.xml
++++ redspider/pom.xml
+@@ -1,36 +1,37 @@
+ <project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>redspider</groupId>
+  <artifactId>redspider</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+   <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.11</version>
+    <scope>test</scope>
+   </dependency>
+   <dependency>
+    <groupId>org.json</groupId>
+    <artifactId>org.json</artifactId>
+    <version>chargebee-1.0</version>
+    <scope>test</scope>
+   </dependency>
+  </dependencies>
+ 
+  <developers>
+   <developer>
+    <name>Say</name>
+    <email>120011676@qq.com</email>
+   </developer>
+  </developers>
+  <mailingLists>
++
+   <mailingList>
+    <name>Say</name>
+    <post>120011676@qq.com</post>
+   </mailingList>
+  </mailingLists>
+ </project>
+\ No newline at end of file
+
+commit fa499f4b596ccabff0649056c1640414acf17e70
+Author: Say <120011676@qq.com>
+Date:   Thu Mar 21 16:32:05 2013 +0800
+
+    clean
+
+diff --git redspider/pom.xml redspider/pom.xml
+index 6aef913..2ed607c 100644
+--- redspider/pom.xml
++++ redspider/pom.xml
+@@ -1,37 +1,37 @@
+ <project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>redspider</groupId>
+  <artifactId>redspider</artifactId>
+- <version>0.0.1-SNAPSHOT</version>
++ <version>0.0.1</version>
+  <dependencies>
+   <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.11</version>
+    <scope>test</scope>
+   </dependency>
+   <dependency>
+    <groupId>org.json</groupId>
+    <artifactId>org.json</artifactId>
+    <version>chargebee-1.0</version>
+    <scope>test</scope>
+   </dependency>
+  </dependencies>
+ 
+  <developers>
+   <developer>
+    <name>Say</name>
+    <email>120011676@qq.com</email>
+   </developer>
+  </developers>
+  <mailingLists>
+ 
+   <mailingList>
+    <name>Say</name>
+    <post>120011676@qq.com</post>
+   </mailingList>
+  </mailingLists>
+ </project>
+\ No newline at end of file

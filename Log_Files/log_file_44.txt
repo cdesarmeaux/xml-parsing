@@ -1,0 +1,652 @@
+commit d0f0224bf578090c293baa400eef8554e87140ae
+Author: Andrei Varanovich <dotnetby@gmail.com>
+Date:   Thu Jun 20 00:03:46 2013 +0200
+
+    Added linked data module
+
+diff --git modules/linked_data/pom.xml modules/linked_data/pom.xml
+new file mode 100644
+index 0000000..61facab
+--- /dev/null
++++ modules/linked_data/pom.xml
+@@ -0,0 +1,123 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>101companies</groupId>
++    <artifactId>demos</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++    <repositories>
++        <repository>
++            <id>aduna</id>
++            <name>Aduna Software</name>
++            <url>http://repo.aduna-software.org/maven2/releases/</url>
++        </repository>
++        <repository>
++            <id>thirdparty-releases</id>
++            <name>JBoss Thirdparty Releases</name>
++            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
++        </repository>
++    </repositories>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.codehaus.groovy</groupId>
++            <artifactId>groovy-all</artifactId>
++            <version>2.0.4</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.gremlin</groupId>
++            <artifactId>gremlin-groovy</artifactId>
++            <version>2.2.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.blueprints</groupId>
++            <artifactId>blueprints-sail-graph</artifactId>
++            <version>2.2.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.blueprints</groupId>
++            <artifactId>blueprints-graph-sail</artifactId>
++            <version>2.3.0</version>
++        </dependency>
++        <dependency>
++            <groupId>org.openrdf</groupId>
++            <artifactId>openrdf-model</artifactId>
++            <version>1.2.7</version>
++        </dependency>    
++        <dependency>
++            <groupId>org.openrdf.sesame</groupId>
++            <artifactId>sesame-runtime</artifactId>
++            <version>2.6.10</version>
++        </dependency>
++        <dependency>
++            <groupId>org.openrdf</groupId>
++            <artifactId>openrdf-sesame-onejar-osgi</artifactId>
++            <version>2.1.1</version>
++        </dependency>
++        <dependency>
++            <groupId>groovy</groupId>
++            <artifactId>groovy-all</artifactId>
++            <version>1.1-rc-1</version>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <!-- To define the plugin version in your parent POM -->
++        <pluginManagement>
++            <plugins>
++                <plugin>
++                    <groupId>org.apache.maven.plugins</groupId>
++                    <artifactId>maven-assembly-plugin</artifactId>
++                    <version>2.4</version>
++                </plugin>
++            </plugins>
++        </pluginManagement>
++
++        <plugins>
++        <plugin>
++            <artifactId>maven-compiler-plugin</artifactId>
++            <version>2.3.2</version>
++            <configuration>
++                <compilerId>groovy-eclipse-compiler</compilerId>
++                <!-- set verbose to be true if you want lots of uninteresting messages -->
++                <!-- <verbose>true</verbose> -->
++                <verbose>true</verbose>
++            </configuration>
++            <dependencies>
++                <dependency>
++                    <groupId>org.codehaus.groovy</groupId>
++                    <artifactId>groovy-eclipse-compiler</artifactId>
++                    <version>2.7.0-01</version>
++                </dependency>
++            </dependencies>
++        </plugin>
++
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-assembly-plugin</artifactId>
++                <version>2.4</version>
++                <configuration>
++                    <descriptorRefs>
++                        <descriptorRef>jar-with-dependencies</descriptorRef>
++                    </descriptorRefs>
++                </configuration>
++                <executions>
++                    <execution>
++                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
++                        <phase>package</phase> <!-- bind to the packaging phase -->
++                        <goals>
++                            <goal>single</goal>
++                        </goals>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
++    </build>
++</project>
+\ No newline at end of file
+
+commit e1605419d2cbc978d8396cf5a48f094f2582178c
+Author: Andrei Varanovich <dotnetby@gmail.com>
+Date:   Mon Oct 12 20:35:43 2015 +0200
+
+    Update
+
+diff --git modules/linked_data/pom.xml modules/linked_data/pom.xml
+index 61facab..7748c1a 100644
+--- modules/linked_data/pom.xml
++++ modules/linked_data/pom.xml
+@@ -1,123 +1,123 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0"
+-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-
+-    <groupId>101companies</groupId>
+-    <artifactId>demos</artifactId>
+-    <version>1.0-SNAPSHOT</version>
+-
+-    <properties>
+-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    </properties>
+-    <repositories>
+-        <repository>
+-            <id>aduna</id>
+-            <name>Aduna Software</name>
+-            <url>http://repo.aduna-software.org/maven2/releases/</url>
+-        </repository>
+-        <repository>
+-            <id>thirdparty-releases</id>
+-            <name>JBoss Thirdparty Releases</name>
+-            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+-        </repository>
+-    </repositories>
+-
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.codehaus.groovy</groupId>
+-            <artifactId>groovy-all</artifactId>
+-            <version>2.0.4</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.tinkerpop.gremlin</groupId>
+-            <artifactId>gremlin-groovy</artifactId>
+-            <version>2.2.0</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.tinkerpop.blueprints</groupId>
+-            <artifactId>blueprints-sail-graph</artifactId>
+-            <version>2.2.0</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.tinkerpop.blueprints</groupId>
+-            <artifactId>blueprints-graph-sail</artifactId>
+-            <version>2.3.0</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.openrdf</groupId>
+-            <artifactId>openrdf-model</artifactId>
+-            <version>1.2.7</version>
+-        </dependency>    
+-        <dependency>
+-            <groupId>org.openrdf.sesame</groupId>
+-            <artifactId>sesame-runtime</artifactId>
+-            <version>2.6.10</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.openrdf</groupId>
+-            <artifactId>openrdf-sesame-onejar-osgi</artifactId>
+-            <version>2.1.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>groovy</groupId>
+-            <artifactId>groovy-all</artifactId>
+-            <version>1.1-rc-1</version>
+-        </dependency>
+-    </dependencies>
+-
+-    <build>
+-        <!-- To define the plugin version in your parent POM -->
+-        <pluginManagement>
+-            <plugins>
+-                <plugin>
+-                    <groupId>org.apache.maven.plugins</groupId>
+-                    <artifactId>maven-assembly-plugin</artifactId>
+-                    <version>2.4</version>
+-                </plugin>
+-            </plugins>
+-        </pluginManagement>
+-
+-        <plugins>
+-        <plugin>
+-            <artifactId>maven-compiler-plugin</artifactId>
+-            <version>2.3.2</version>
+-            <configuration>
+-                <compilerId>groovy-eclipse-compiler</compilerId>
+-                <!-- set verbose to be true if you want lots of uninteresting messages -->
+-                <!-- <verbose>true</verbose> -->
+-                <verbose>true</verbose>
+-            </configuration>
+-            <dependencies>
+-                <dependency>
+-                    <groupId>org.codehaus.groovy</groupId>
+-                    <artifactId>groovy-eclipse-compiler</artifactId>
+-                    <version>2.7.0-01</version>
+-                </dependency>
+-            </dependencies>
+-        </plugin>
+-
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-assembly-plugin</artifactId>
+-                <version>2.4</version>
+-                <configuration>
+-                    <descriptorRefs>
+-                        <descriptorRef>jar-with-dependencies</descriptorRef>
+-                    </descriptorRefs>
+-                </configuration>
+-                <executions>
+-                    <execution>
+-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+-                        <phase>package</phase> <!-- bind to the packaging phase -->
+-                        <goals>
+-                            <goal>single</goal>
+-                        </goals>
+-                    </execution>
+-                </executions>
+-            </plugin>
+-        </plugins>
+-    </build>
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>101companies</groupId>
++    <artifactId>demos</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++    <repositories>
++        <repository>
++            <id>aduna</id>
++            <name>Aduna Software</name>
++            <url>http://repo.aduna-software.org/maven2/releases/</url>
++        </repository>
++        <repository>
++            <id>thirdparty-releases</id>
++            <name>JBoss Thirdparty Releases</name>
++            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
++        </repository>
++    </repositories>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.codehaus.groovy</groupId>
++            <artifactId>groovy-all</artifactId>
++            <version>2.0.4</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.gremlin</groupId>
++            <artifactId>gremlin-groovy</artifactId>
++            <version>2.2.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.blueprints</groupId>
++            <artifactId>blueprints-sail-graph</artifactId>
++            <version>2.2.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.blueprints</groupId>
++            <artifactId>blueprints-graph-sail</artifactId>
++            <version>2.3.0</version>
++        </dependency>
++        <dependency>
++            <groupId>org.openrdf</groupId>
++            <artifactId>openrdf-model</artifactId>
++            <version>1.2.7</version>
++        </dependency>    
++        <dependency>
++            <groupId>org.openrdf.sesame</groupId>
++            <artifactId>sesame-runtime</artifactId>
++            <version>2.6.10</version>
++        </dependency>
++        <dependency>
++            <groupId>org.openrdf</groupId>
++            <artifactId>openrdf-sesame-onejar-osgi</artifactId>
++            <version>2.1.1</version>
++        </dependency>
++        <dependency>
++            <groupId>groovy</groupId>
++            <artifactId>groovy-all</artifactId>
++            <version>1.1-rc-1</version>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <!-- To define the plugin version in your parent POM -->
++        <pluginManagement>
++            <plugins>
++                <plugin>
++                    <groupId>org.apache.maven.plugins</groupId>
++                    <artifactId>maven-assembly-plugin</artifactId>
++                    <version>2.4</version>
++                </plugin>
++            </plugins>
++        </pluginManagement>
++
++        <plugins>
++        <plugin>
++            <artifactId>maven-compiler-plugin</artifactId>
++            <version>2.3.2</version>
++            <configuration>
++                <compilerId>groovy-eclipse-compiler</compilerId>
++                <!-- set verbose to be true if you want lots of uninteresting messages -->
++                <!-- <verbose>true</verbose> -->
++                <verbose>true</verbose>
++            </configuration>
++            <dependencies>
++                <dependency>
++                    <groupId>org.codehaus.groovy</groupId>
++                    <artifactId>groovy-eclipse-compiler</artifactId>
++                    <version>2.7.0-01</version>
++                </dependency>
++            </dependencies>
++        </plugin>
++
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-assembly-plugin</artifactId>
++                <version>2.4</version>
++                <configuration>
++                    <descriptorRefs>
++                        <descriptorRef>jar-with-dependencies</descriptorRef>
++                    </descriptorRefs>
++                </configuration>
++                <executions>
++                    <execution>
++                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
++                        <phase>package</phase> <!-- bind to the packaging phase -->
++                        <goals>
++                            <goal>single</goal>
++                        </goals>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
++    </build>
+ </project>
+\ No newline at end of file
+
+commit 9c63e85ee4b46dd2440d09a6fb49550e4eb57034
+Author: Andrei Varanovich <dotnetby@gmail.com>
+Date:   Sun Oct 18 18:17:24 2015 +0200
+
+    Converted line endings to UNIX
+
+diff --git modules/linked_data/pom.xml modules/linked_data/pom.xml
+index 7748c1a..61facab 100644
+--- modules/linked_data/pom.xml
++++ modules/linked_data/pom.xml
+@@ -1,123 +1,123 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0"
+-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-
+-    <groupId>101companies</groupId>
+-    <artifactId>demos</artifactId>
+-    <version>1.0-SNAPSHOT</version>
+-
+-    <properties>
+-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    </properties>
+-    <repositories>
+-        <repository>
+-            <id>aduna</id>
+-            <name>Aduna Software</name>
+-            <url>http://repo.aduna-software.org/maven2/releases/</url>
+-        </repository>
+-        <repository>
+-            <id>thirdparty-releases</id>
+-            <name>JBoss Thirdparty Releases</name>
+-            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+-        </repository>
+-    </repositories>
+-
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.codehaus.groovy</groupId>
+-            <artifactId>groovy-all</artifactId>
+-            <version>2.0.4</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.tinkerpop.gremlin</groupId>
+-            <artifactId>gremlin-groovy</artifactId>
+-            <version>2.2.0</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.tinkerpop.blueprints</groupId>
+-            <artifactId>blueprints-sail-graph</artifactId>
+-            <version>2.2.0</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>com.tinkerpop.blueprints</groupId>
+-            <artifactId>blueprints-graph-sail</artifactId>
+-            <version>2.3.0</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.openrdf</groupId>
+-            <artifactId>openrdf-model</artifactId>
+-            <version>1.2.7</version>
+-        </dependency>    
+-        <dependency>
+-            <groupId>org.openrdf.sesame</groupId>
+-            <artifactId>sesame-runtime</artifactId>
+-            <version>2.6.10</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.openrdf</groupId>
+-            <artifactId>openrdf-sesame-onejar-osgi</artifactId>
+-            <version>2.1.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>groovy</groupId>
+-            <artifactId>groovy-all</artifactId>
+-            <version>1.1-rc-1</version>
+-        </dependency>
+-    </dependencies>
+-
+-    <build>
+-        <!-- To define the plugin version in your parent POM -->
+-        <pluginManagement>
+-            <plugins>
+-                <plugin>
+-                    <groupId>org.apache.maven.plugins</groupId>
+-                    <artifactId>maven-assembly-plugin</artifactId>
+-                    <version>2.4</version>
+-                </plugin>
+-            </plugins>
+-        </pluginManagement>
+-
+-        <plugins>
+-        <plugin>
+-            <artifactId>maven-compiler-plugin</artifactId>
+-            <version>2.3.2</version>
+-            <configuration>
+-                <compilerId>groovy-eclipse-compiler</compilerId>
+-                <!-- set verbose to be true if you want lots of uninteresting messages -->
+-                <!-- <verbose>true</verbose> -->
+-                <verbose>true</verbose>
+-            </configuration>
+-            <dependencies>
+-                <dependency>
+-                    <groupId>org.codehaus.groovy</groupId>
+-                    <artifactId>groovy-eclipse-compiler</artifactId>
+-                    <version>2.7.0-01</version>
+-                </dependency>
+-            </dependencies>
+-        </plugin>
+-
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-assembly-plugin</artifactId>
+-                <version>2.4</version>
+-                <configuration>
+-                    <descriptorRefs>
+-                        <descriptorRef>jar-with-dependencies</descriptorRef>
+-                    </descriptorRefs>
+-                </configuration>
+-                <executions>
+-                    <execution>
+-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+-                        <phase>package</phase> <!-- bind to the packaging phase -->
+-                        <goals>
+-                            <goal>single</goal>
+-                        </goals>
+-                    </execution>
+-                </executions>
+-            </plugin>
+-        </plugins>
+-    </build>
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>101companies</groupId>
++    <artifactId>demos</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++    <repositories>
++        <repository>
++            <id>aduna</id>
++            <name>Aduna Software</name>
++            <url>http://repo.aduna-software.org/maven2/releases/</url>
++        </repository>
++        <repository>
++            <id>thirdparty-releases</id>
++            <name>JBoss Thirdparty Releases</name>
++            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
++        </repository>
++    </repositories>
++
++    <dependencies>
++        <dependency>
++            <groupId>org.codehaus.groovy</groupId>
++            <artifactId>groovy-all</artifactId>
++            <version>2.0.4</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.gremlin</groupId>
++            <artifactId>gremlin-groovy</artifactId>
++            <version>2.2.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.blueprints</groupId>
++            <artifactId>blueprints-sail-graph</artifactId>
++            <version>2.2.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.tinkerpop.blueprints</groupId>
++            <artifactId>blueprints-graph-sail</artifactId>
++            <version>2.3.0</version>
++        </dependency>
++        <dependency>
++            <groupId>org.openrdf</groupId>
++            <artifactId>openrdf-model</artifactId>
++            <version>1.2.7</version>
++        </dependency>    
++        <dependency>
++            <groupId>org.openrdf.sesame</groupId>
++            <artifactId>sesame-runtime</artifactId>
++            <version>2.6.10</version>
++        </dependency>
++        <dependency>
++            <groupId>org.openrdf</groupId>
++            <artifactId>openrdf-sesame-onejar-osgi</artifactId>
++            <version>2.1.1</version>
++        </dependency>
++        <dependency>
++            <groupId>groovy</groupId>
++            <artifactId>groovy-all</artifactId>
++            <version>1.1-rc-1</version>
++        </dependency>
++    </dependencies>
++
++    <build>
++        <!-- To define the plugin version in your parent POM -->
++        <pluginManagement>
++            <plugins>
++                <plugin>
++                    <groupId>org.apache.maven.plugins</groupId>
++                    <artifactId>maven-assembly-plugin</artifactId>
++                    <version>2.4</version>
++                </plugin>
++            </plugins>
++        </pluginManagement>
++
++        <plugins>
++        <plugin>
++            <artifactId>maven-compiler-plugin</artifactId>
++            <version>2.3.2</version>
++            <configuration>
++                <compilerId>groovy-eclipse-compiler</compilerId>
++                <!-- set verbose to be true if you want lots of uninteresting messages -->
++                <!-- <verbose>true</verbose> -->
++                <verbose>true</verbose>
++            </configuration>
++            <dependencies>
++                <dependency>
++                    <groupId>org.codehaus.groovy</groupId>
++                    <artifactId>groovy-eclipse-compiler</artifactId>
++                    <version>2.7.0-01</version>
++                </dependency>
++            </dependencies>
++        </plugin>
++
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-assembly-plugin</artifactId>
++                <version>2.4</version>
++                <configuration>
++                    <descriptorRefs>
++                        <descriptorRef>jar-with-dependencies</descriptorRef>
++                    </descriptorRefs>
++                </configuration>
++                <executions>
++                    <execution>
++                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
++                        <phase>package</phase> <!-- bind to the packaging phase -->
++                        <goals>
++                            <goal>single</goal>
++                        </goals>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
++    </build>
+ </project>
+\ No newline at end of file

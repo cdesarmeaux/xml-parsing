@@ -1,0 +1,554 @@
+commit bdb09a7cff41c340dab5aa4950a528d66bced292
+Author: 0211hk <0211.hk@gmail.com>
+Date:   Thu Dec 16 00:54:58 2010 +0900
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..a690249
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,67 @@
++
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>org.hk</groupId>
++    <artifactId>JT</artifactId>
++    <packaging>jar</packaging>
++    <version>1.0-SNAPSHOT</version>
++    <name>JT</name>
++    <url>http://maven.apache.org</url>
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <configuration>
++                    <source>1.6</source>
++                    <target>1.6</target>
++                    <encoding>UTF-8</encoding>
++                </configuration>
++            </plugin>
++        </plugins>
++    </build>
++    <dependencies>
++        <dependency>
++            <groupId>junit</groupId>
++            <artifactId>junit</artifactId>
++            <version>3.8.1</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.httpcomponents</groupId>
++            <artifactId>httpclient</artifactId>
++            <version>4.0.1</version>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.httpcomponents</groupId>
++            <artifactId>httpmime</artifactId>
++            <version>4.0.1</version>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.james</groupId>
++            <artifactId>apache-mime4j</artifactId>
++            <version>0.6</version>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.httpcomponents</groupId>
++            <artifactId>httpcore</artifactId>
++            <version>4.0.1</version>
++        </dependency>
++        <dependency>
++            <groupId>org.apache.httpcomponents</groupId>
++            <artifactId>httpcore-nio</artifactId>
++            <version>4.0.1</version>
++        </dependency>
++        <dependency>
++            <groupId>commons-logging</groupId>
++            <artifactId>commons-logging</artifactId>
++            <version>1.1.1</version>
++        </dependency>
++        <dependency>
++            <groupId>log4j</groupId>
++            <artifactId>log4j</artifactId>
++            <version>1.2.16</version>
++        </dependency>
++    </dependencies>
++</project>
+
+commit fa3ba54679dba66fd6939ac539429200c40e479a
+Author: 0211hk <0211.hk@gmail.com>
+Date:   Fri Dec 17 00:47:06 2010 +0900
+
+diff --git pom.xml pom.xml
+index a690249..c45c2de 100644
+--- pom.xml
++++ pom.xml
+@@ -1,67 +1,67 @@
+ 
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.hk</groupId>
+     <artifactId>JT</artifactId>
+     <packaging>jar</packaging>
+     <version>1.0-SNAPSHOT</version>
+     <name>JT</name>
+     <url>http://maven.apache.org</url>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>UTF-8</encoding>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <dependencies>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+-            <version>3.8.1</version>
++            <version>4.8.1</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpclient</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpmime</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.james</groupId>
+             <artifactId>apache-mime4j</artifactId>
+             <version>0.6</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpcore</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpcore-nio</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>commons-logging</groupId>
+             <artifactId>commons-logging</artifactId>
+             <version>1.1.1</version>
+         </dependency>
+         <dependency>
+             <groupId>log4j</groupId>
+             <artifactId>log4j</artifactId>
+             <version>1.2.16</version>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit 82e59815cc5a55343ad95f0f563e0d93b840f465
+Author: 0211hk <0211.hk@gmail.com>
+Date:   Wed Dec 22 00:42:01 2010 +0900
+
+    add test case
+
+diff --git pom.xml pom.xml
+index c45c2de..2000fc8 100644
+--- pom.xml
++++ pom.xml
+@@ -1,67 +1,67 @@
+ 
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.hk</groupId>
+     <artifactId>JT</artifactId>
+     <packaging>jar</packaging>
+     <version>1.0-SNAPSHOT</version>
+     <name>JT</name>
+     <url>http://maven.apache.org</url>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>UTF-8</encoding>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <dependencies>
+         <dependency>
+-            <groupId>junit</groupId>
+-            <artifactId>junit</artifactId>
+-            <version>4.8.1</version>
++            <groupId>org.testng</groupId>
++            <artifactId>testng</artifactId>
++            <version>5.14</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpclient</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpmime</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.james</groupId>
+             <artifactId>apache-mime4j</artifactId>
+             <version>0.6</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpcore</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpcore-nio</artifactId>
+             <version>4.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>commons-logging</groupId>
+             <artifactId>commons-logging</artifactId>
+             <version>1.1.1</version>
+         </dependency>
+         <dependency>
+             <groupId>log4j</groupId>
+             <artifactId>log4j</artifactId>
+             <version>1.2.16</version>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit e888c9b6fff00d62c33d963bc6efd9afecab0992
+Author: administrator <0211.hk@gmail.com>
+Date:   Tue Dec 28 17:07:46 2010 +0900
+
+    create java doc
+
+diff --git pom.xml pom.xml
+index 2000fc8..f4e00ca 100644
+--- pom.xml
++++ pom.xml
+@@ -1,67 +1,67 @@
+ 
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-    <groupId>org.hk</groupId>
+-    <artifactId>JT</artifactId>
+-    <packaging>jar</packaging>
+-    <version>1.0-SNAPSHOT</version>
+-    <name>JT</name>
+-    <url>http://maven.apache.org</url>
+-    <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-compiler-plugin</artifactId>
+-                <configuration>
+-                    <source>1.6</source>
+-                    <target>1.6</target>
+-                    <encoding>UTF-8</encoding>
+-                </configuration>
+-            </plugin>
+-        </plugins>
+-    </build>
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.testng</groupId>
+-            <artifactId>testng</artifactId>
+-            <version>5.14</version>
+-            <scope>test</scope>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.httpcomponents</groupId>
+-            <artifactId>httpclient</artifactId>
+-            <version>4.0.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.httpcomponents</groupId>
+-            <artifactId>httpmime</artifactId>
+-            <version>4.0.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.james</groupId>
+-            <artifactId>apache-mime4j</artifactId>
+-            <version>0.6</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.httpcomponents</groupId>
+-            <artifactId>httpcore</artifactId>
+-            <version>4.0.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>org.apache.httpcomponents</groupId>
+-            <artifactId>httpcore-nio</artifactId>
+-            <version>4.0.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>commons-logging</groupId>
+-            <artifactId>commons-logging</artifactId>
+-            <version>1.1.1</version>
+-        </dependency>
+-        <dependency>
+-            <groupId>log4j</groupId>
+-            <artifactId>log4j</artifactId>
+-            <version>1.2.16</version>
+-        </dependency>
+-    </dependencies>
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++	<groupId>org.hk</groupId>
++	<artifactId>JT</artifactId>
++	<packaging>jar</packaging>
++	<version>1.0-SNAPSHOT</version>
++	<name>JT</name>
++	<url>http://maven.apache.org</url>
++	<build>
++		<plugins>
++			<plugin>
++				<groupId>org.apache.maven.plugins</groupId>
++				<artifactId>maven-compiler-plugin</artifactId>
++				<configuration>
++					<source>1.6</source>
++					<target>1.6</target>
++					<encoding>UTF-8</encoding>
++				</configuration>
++			</plugin>
++		</plugins>
++	</build>
++	<dependencies>
++		<dependency>
++			<groupId>org.testng</groupId>
++			<artifactId>testng</artifactId>
++			<version>5.14</version>
++			<scope>test</scope>
++		</dependency>
++		<dependency>
++			<groupId>org.apache.httpcomponents</groupId>
++			<artifactId>httpclient</artifactId>
++			<version>4.0.3</version>
++		</dependency>
++		<dependency>
++			<groupId>org.apache.httpcomponents</groupId>
++			<artifactId>httpmime</artifactId>
++			<version>4.0.3</version>
++		</dependency>
++		<dependency>
++			<groupId>org.apache.james</groupId>
++			<artifactId>apache-mime4j</artifactId>
++			<version>0.6</version>
++		</dependency>
++		<dependency>
++			<groupId>org.apache.httpcomponents</groupId>
++			<artifactId>httpcore</artifactId>
++			<version>4.0.1</version>
++		</dependency>
++		<dependency>
++			<groupId>org.apache.httpcomponents</groupId>
++			<artifactId>httpcore-nio</artifactId>
++			<version>4.0.1</version>
++		</dependency>
++		<dependency>
++			<groupId>commons-logging</groupId>
++			<artifactId>commons-logging</artifactId>
++			<version>1.1.1</version>
++		</dependency>
++		<dependency>
++			<groupId>log4j</groupId>
++			<artifactId>log4j</artifactId>
++			<version>1.2.16</version>
++		</dependency>
++	</dependencies>
+ </project>
+
+commit ff0a7ec8f3adfbbaef28690d8202dfd558afffda
+Author: 0211hk <0211.hk@gmail.com>
+Date:   Thu Dec 30 12:00:15 2010 +0900
+
+    refactoring
+
+diff --git pom.xml pom.xml
+index f4e00ca..1c14df4 100644
+--- pom.xml
++++ pom.xml
+@@ -1,67 +1,62 @@
+ 
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>org.hk</groupId>
+ 	<artifactId>JT</artifactId>
+ 	<packaging>jar</packaging>
+-	<version>1.0-SNAPSHOT</version>
++	<version>1.0</version>
+ 	<name>JT</name>
+ 	<url>http://maven.apache.org</url>
+ 	<build>
+ 		<plugins>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-compiler-plugin</artifactId>
+ 				<configuration>
+ 					<source>1.6</source>
+ 					<target>1.6</target>
+ 					<encoding>UTF-8</encoding>
+ 				</configuration>
+ 			</plugin>
+ 		</plugins>
+ 	</build>
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>org.testng</groupId>
+ 			<artifactId>testng</artifactId>
+ 			<version>5.14</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpclient</artifactId>
+ 			<version>4.0.3</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpmime</artifactId>
+ 			<version>4.0.3</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.james</groupId>
+ 			<artifactId>apache-mime4j</artifactId>
+ 			<version>0.6</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpcore</artifactId>
+ 			<version>4.0.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpcore-nio</artifactId>
+ 			<version>4.0.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>commons-logging</groupId>
+ 			<artifactId>commons-logging</artifactId>
+ 			<version>1.1.1</version>
+ 		</dependency>
+-		<dependency>
+-			<groupId>log4j</groupId>
+-			<artifactId>log4j</artifactId>
+-			<version>1.2.16</version>
+-		</dependency>
+ 	</dependencies>
+ </project>
+
+commit d700f173d8d6335e62d0f24a7886e6ee7b3c0504
+Author: 0211hk <0211.hk@gmail.com>
+Date:   Tue Jan 4 11:15:29 2011 +0900
+
+    add license
+
+diff --git pom.xml pom.xml
+index 1c14df4..5519b79 100644
+--- pom.xml
++++ pom.xml
+@@ -1,62 +1,81 @@
+-
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>org.hk</groupId>
+ 	<artifactId>JT</artifactId>
+ 	<packaging>jar</packaging>
+ 	<version>1.0</version>
+ 	<name>JT</name>
+ 	<url>http://maven.apache.org</url>
+ 	<build>
+ 		<plugins>
+ 			<plugin>
++				<groupId>com.mycila.maven-license-plugin</groupId>
++				<artifactId>maven-license-plugin</artifactId>
++				<version>1.9.0</version>
++				<configuration>
++					<header>src/header.txt</header>
++					<includes>
++						<include>src/**/*.java</include>
++					</includes>
++					<excludes>
++						<exclude>src/**/Base64.java</exclude>
++					</excludes>
++					<encoding>UTF-8</encoding>
++				</configuration>
++			</plugin>
++			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-compiler-plugin</artifactId>
+ 				<configuration>
+ 					<source>1.6</source>
+ 					<target>1.6</target>
+ 					<encoding>UTF-8</encoding>
+ 				</configuration>
+ 			</plugin>
+ 		</plugins>
+ 	</build>
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>org.testng</groupId>
+ 			<artifactId>testng</artifactId>
+ 			<version>5.14</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpclient</artifactId>
+ 			<version>4.0.3</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpmime</artifactId>
+ 			<version>4.0.3</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.james</groupId>
+ 			<artifactId>apache-mime4j</artifactId>
+ 			<version>0.6</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpcore</artifactId>
+ 			<version>4.0.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.apache.httpcomponents</groupId>
+ 			<artifactId>httpcore-nio</artifactId>
+ 			<version>4.0.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>commons-logging</groupId>
+ 			<artifactId>commons-logging</artifactId>
+ 			<version>1.1.1</version>
+ 		</dependency>
++		<dependency>
++			<groupId>org.json</groupId>
++			<artifactId>json</artifactId>
++			<version>20090211</version>
++		</dependency>
+ 	</dependencies>
+ </project>

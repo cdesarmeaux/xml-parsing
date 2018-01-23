@@ -1,0 +1,38 @@
+commit bcfb9d2a8a2be38618a1e6ce2a547b7d204d4f95
+Author: Taylor Clifton <taylor.john.clifton@gmail.com>
+Date:   Sat Jan 19 00:02:23 2013 -0500
+
+    initial commit
+
+diff --git pom.xml pom.xml
+new file mode 100755
+index 0000000..0ff1e31
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,25 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>com.1337clan</groupId>
++  <artifactId>snoopy</artifactId>
++  <version>0.0.1-SNAPSHOT</version>
++  
++  <repositories>
++    <repository>
++      <id>bukkit-repo</id>
++      <url>http://repo.bukkit.org/content/groups/public</url>
++    </repository>
++  </repositories>
++  <dependencies>
++  	<dependency>
++  		<groupId>org.bukkit</groupId>
++  		<artifactId>bukkit</artifactId>
++  		<version>1.4.7-R0.1</version>
++  	</dependency>
++  	<dependency>
++  		<groupId>com.google.guava</groupId>
++  		<artifactId>guava</artifactId>
++  		<version>14.0-rc1</version>
++  	</dependency>
++  </dependencies>
++</project>
+\ No newline at end of file

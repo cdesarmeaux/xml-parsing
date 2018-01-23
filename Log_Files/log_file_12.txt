@@ -1,0 +1,2944 @@
+commit 76cdc40a498fa5b925ce5a8261ec4f8483dd1065
+Author: Simon E. Silva Lauinger <simonsilvalauinger@gmail.com>
+Date:   Mon Feb 11 13:26:50 2013 +0100
+
+    Primary commit without setting any advanced settings for the code generation.
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..d253f41
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,51 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>net.zeroinstall</groupId>
++    <artifactId>model</artifactId>
++    <version>1.14.2-SNAPSHOT</version>
++    <packaging>jar</packaging>
++
++    <name>Zero Install Model</name>
++
++    <properties>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <version>2.3.2</version>
++                <configuration>
++                    <source>1.7</source>
++                    <target>1.7</target>
++                    <encoding>${project.build.sourceEncoding}</encoding>
++                </configuration>
++            </plugin>
++            <plugin>
++                <groupId>org.codehaus.mojo</groupId>
++                <artifactId>xmlbeans-maven-plugin</artifactId>
++                <version>2.3.3</version>
++                <executions>
++                    <execution>
++                        <phase>generate-sources</phase>
++                        <goals>
++                            <goal>xmlbeans</goal>
++                        </goals>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
++    </build>
++    
++    <dependencies>
++        <dependency>
++            <groupId>org.apache.xmlbeans</groupId>
++            <artifactId>xmlbeans</artifactId>
++            <version>2.6.0</version>
++            <scope>compile</scope>
++        </dependency>
++    </dependencies>
++</project>
+
+commit f0700c07e584f05cfc08a889ce063bc9b7e2a671
+Author: Simon E. Silva Lauinger <simonsilvalauinger@gmail.com>
+Date:   Mon Feb 11 16:45:22 2013 +0100
+
+    Missing xsd used by included xsd's will now be downloaded at source-generation time.
+
+diff --git pom.xml pom.xml
+index d253f41..1496023 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,54 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>model</artifactId>
+     <version>1.14.2-SNAPSHOT</version>
+     <packaging>jar</packaging>
+ 
+     <name>Zero Install Model</name>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>2.3.2</version>
+                 <configuration>
+                     <source>1.7</source>
+                     <target>1.7</target>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>xmlbeans-maven-plugin</artifactId>
+                 <version>2.3.3</version>
+                 <executions>
+                     <execution>
+                         <phase>generate-sources</phase>
+                         <goals>
+                             <goal>xmlbeans</goal>
+                         </goals>
++                        <configuration>
++                            <download>true</download>
++                        </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+     
+     <dependencies>
+         <dependency>
+             <groupId>org.apache.xmlbeans</groupId>
+             <artifactId>xmlbeans</artifactId>
+             <version>2.6.0</version>
+             <scope>compile</scope>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit 91f6b2da3165db6fed59a26cfbf0b74a2d2d8c89
+Author: Bastian Eicher <bastian@eicher.net>
+Date:   Mon Feb 11 18:34:05 2013 +0100
+
+    Changed Java version to 1.7
+    
+    --HG--
+    extra : rebase_source : 4d1b49f814f8ee5be8fa858102386a7f2432ca06
+
+diff --git pom.xml pom.xml
+index 1496023..44cfbe0 100644
+--- pom.xml
++++ pom.xml
+@@ -1,54 +1,56 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
++
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>model</artifactId>
+-    <version>1.14.2-SNAPSHOT</version>
+     <packaging>jar</packaging>
++    <version>1.14.2-SNAPSHOT</version>
+ 
+     <name>Zero Install Model</name>
++    <url>http://code.google.com/p/zero-install-model/</url>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>2.3.2</version>
+                 <configuration>
+-                    <source>1.7</source>
+-                    <target>1.7</target>
++                    <source>1.6</source>
++                    <target>1.6</target>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>xmlbeans-maven-plugin</artifactId>
+                 <version>2.3.3</version>
+                 <executions>
+                     <execution>
+                         <phase>generate-sources</phase>
+                         <goals>
+                             <goal>xmlbeans</goal>
+                         </goals>
+                         <configuration>
+                             <download>true</download>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+     
+     <dependencies>
+         <dependency>
+             <groupId>org.apache.xmlbeans</groupId>
+             <artifactId>xmlbeans</artifactId>
+             <version>2.6.0</version>
+             <scope>compile</scope>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit 8dba6399569da4d615b341cc585cf2adc6276a64
+Author: simon@Desktop <simon@Desktop>
+Date:   Mon Feb 11 22:16:31 2013 +0100
+
+    Added some more common project information
+
+diff --git pom.xml pom.xml
+index 44cfbe0..9ec2579 100644
+--- pom.xml
++++ pom.xml
+@@ -1,56 +1,80 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>model</artifactId>
+-    <packaging>jar</packaging>
+     <version>1.14.2-SNAPSHOT</version>
++    <packaging>jar</packaging>
+ 
+     <name>Zero Install Model</name>
++    <description>
++	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
++    </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
++    <licenses>
++	<license>
++	    <name>GNU Lesser General Public License, Version 3.0</name>
++	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
++	</license>
++    </licenses>
++    <scm>
++	<url>https://code.google.com/p/zero-install-model/</url>
++	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
++	<tag>HEAD</tag>
++    </scm>
++    <developers>
++	<developer>
++	    <name>Bastian Eicher</name>
++	    <email>bastian@eicher.net</email>
++	</developer>
++	<developer>
++	    <name>Simon E. Silva Lauinger</name>
++	    <email>simon@silvalauinger.de</email>
++	</developer>
++    </developers>
+ 
+     <properties>
+-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+-        <plugins>
+-            <plugin>
+-                <groupId>org.apache.maven.plugins</groupId>
+-                <artifactId>maven-compiler-plugin</artifactId>
+-                <version>2.3.2</version>
+-                <configuration>
+-                    <source>1.6</source>
+-                    <target>1.6</target>
+-                    <encoding>${project.build.sourceEncoding}</encoding>
+-                </configuration>
+-            </plugin>
+-            <plugin>
+-                <groupId>org.codehaus.mojo</groupId>
+-                <artifactId>xmlbeans-maven-plugin</artifactId>
+-                <version>2.3.3</version>
+-                <executions>
+-                    <execution>
+-                        <phase>generate-sources</phase>
+-                        <goals>
+-                            <goal>xmlbeans</goal>
+-                        </goals>
+-                        <configuration>
+-                            <download>true</download>
+-                        </configuration>
+-                    </execution>
+-                </executions>
+-            </plugin>
+-        </plugins>
++	<plugins>
++	    <plugin>
++		<groupId>org.apache.maven.plugins</groupId>
++		<artifactId>maven-compiler-plugin</artifactId>
++		<version>2.3.2</version>
++		<configuration>
++		    <source>1.6</source>
++		    <target>1.6</target>
++		    <encoding>${project.build.sourceEncoding}</encoding>
++		</configuration>
++	    </plugin>
++	    <plugin>
++		<groupId>org.codehaus.mojo</groupId>
++		<artifactId>xmlbeans-maven-plugin</artifactId>
++		<version>2.3.3</version>
++		<executions>
++		    <execution>
++			<phase>generate-sources</phase>
++			<goals>
++			    <goal>xmlbeans</goal>
++			</goals>
++			<configuration>
++			    <download>true</download>
++			</configuration>
++		    </execution>
++		</executions>
++	    </plugin>
++	</plugins>
+     </build>
+-    
++
+     <dependencies>
+-        <dependency>
+-            <groupId>org.apache.xmlbeans</groupId>
+-            <artifactId>xmlbeans</artifactId>
+-            <version>2.6.0</version>
+-            <scope>compile</scope>
+-        </dependency>
++	<dependency>
++	    <groupId>org.apache.xmlbeans</groupId>
++	    <artifactId>xmlbeans</artifactId>
++	    <version>2.6.0</version>
++	    <scope>compile</scope>
++	</dependency>
+     </dependencies>
+ </project>
+
+commit 003778da81a4099a495f90b27ef1b5fa240d6176
+Author: simon@Desktop <simon@Desktop>
+Date:   Mon Feb 11 22:40:27 2013 +0100
+
+    Prepared project to release it to sonatype nexus.
+
+diff --git pom.xml pom.xml
+index 9ec2579..ecb364e 100644
+--- pom.xml
++++ pom.xml
+@@ -1,80 +1,85 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+ 
++    <parent>
++	<groupId>org.sonatype.oss</groupId>
++	<artifactId>oss-parent</artifactId>
++	<version>7</version>
++    </parent>
++
++    <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>model</artifactId>
+     <version>1.14.2-SNAPSHOT</version>
+     <packaging>jar</packaging>
+-
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+-	<tag>HEAD</tag>
++	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>2.3.2</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+     </dependencies>
+ </project>
+
+commit 335873b5566b4e6e9a7fc73168123ad4c9a10f3b
+Author: Simon E. Silva Lauinger <simonsilvalauinger@gmail.com>
+Date:   Tue Feb 12 00:36:36 2013 +0100
+
+    Changed artifactId from "model" to "zeroinstall-model", so that the bare artifact can be detected easier.
+
+diff --git pom.xml pom.xml
+index ecb364e..b79814e 100644
+--- pom.xml
++++ pom.xml
+@@ -1,85 +1,85 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+-    <artifactId>model</artifactId>
++    <artifactId>zeroinstall-model</artifactId>
+     <version>1.14.2-SNAPSHOT</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>2.3.2</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+     </dependencies>
+ </project>
+
+commit 1e6fbd2ade3856341961ab326618b2228dba864f
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Tue Feb 12 18:00:34 2013 +0100
+
+    [maven-release-plugin] prepare release zeroinstall-model-1.14.2
+
+diff --git pom.xml pom.xml
+index b79814e..92de948 100644
+--- pom.xml
++++ pom.xml
+@@ -1,85 +1,84 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-
+-    <parent>
+-	<groupId>org.sonatype.oss</groupId>
+-	<artifactId>oss-parent</artifactId>
+-	<version>7</version>
+-    </parent>
+-
+-    <modelVersion>4.0.0</modelVersion>
+-    <groupId>net.zeroinstall</groupId>
+-    <artifactId>zeroinstall-model</artifactId>
+-    <version>1.14.2-SNAPSHOT</version>
+-    <packaging>jar</packaging>
+-    <name>Zero Install Model</name>
+-    <description>
+-	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+-    </description>
+-    <url>http://code.google.com/p/zero-install-model/</url>
+-    <licenses>
+-	<license>
+-	    <name>GNU Lesser General Public License, Version 3.0</name>
+-	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+-	</license>
+-    </licenses>
+-    <scm>
+-	<url>https://code.google.com/p/zero-install-model/</url>
+-	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+-	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+-    </scm>
+-    <developers>
+-	<developer>
+-	    <name>Bastian Eicher</name>
+-	    <email>bastian@eicher.net</email>
+-	</developer>
+-	<developer>
+-	    <name>Simon E. Silva Lauinger</name>
+-	    <email>simon@silvalauinger.de</email>
+-	</developer>
+-    </developers>
+-
+-    <properties>
+-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    </properties>
+-
+-    <build>
+-	<plugins>
+-	    <plugin>
+-		<groupId>org.apache.maven.plugins</groupId>
+-		<artifactId>maven-compiler-plugin</artifactId>
+-		<version>2.3.2</version>
+-		<configuration>
+-		    <source>1.6</source>
+-		    <target>1.6</target>
+-		    <encoding>${project.build.sourceEncoding}</encoding>
+-		</configuration>
+-	    </plugin>
+-	    <plugin>
+-		<groupId>org.codehaus.mojo</groupId>
+-		<artifactId>xmlbeans-maven-plugin</artifactId>
+-		<version>2.3.3</version>
+-		<executions>
+-		    <execution>
+-			<phase>generate-sources</phase>
+-			<goals>
+-			    <goal>xmlbeans</goal>
+-			</goals>
+-			<configuration>
+-			    <download>true</download>
+-			</configuration>
+-		    </execution>
+-		</executions>
+-	    </plugin>
+-	</plugins>
+-    </build>
+-
+-    <dependencies>
+-	<dependency>
+-	    <groupId>org.apache.xmlbeans</groupId>
+-	    <artifactId>xmlbeans</artifactId>
+-	    <version>2.6.0</version>
+-	    <scope>compile</scope>
+-	</dependency>
+-    </dependencies>
+-</project>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++
++    <parent>
++	<groupId>org.sonatype.oss</groupId>
++	<artifactId>oss-parent</artifactId>
++	<version>7</version>
++    </parent>
++
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>net.zeroinstall</groupId>
++    <artifactId>zeroinstall-model</artifactId>
++    <version>1.14.2</version>
++    <packaging>jar</packaging>
++    <name>Zero Install Model</name>
++    <description>
++	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
++    </description>
++    <url>http://code.google.com/p/zero-install-model/</url>
++    <licenses>
++	<license>
++	    <name>GNU Lesser General Public License, Version 3.0</name>
++	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
++	</license>
++    </licenses>
++    <scm>
++	<url>https://code.google.com/p/zero-install-model/</url>
++	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
++	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
++    </scm>
++    <developers>
++	<developer>
++	    <name>Bastian Eicher</name>
++	    <email>bastian@eicher.net</email>
++	</developer>
++	<developer>
++	    <name>Simon E. Silva Lauinger</name>
++	    <email>simon@silvalauinger.de</email>
++	</developer>
++    </developers>
++
++    <properties>
++	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
++    <build>
++	<plugins>
++	    <plugin>
++		<groupId>org.apache.maven.plugins</groupId>
++		<artifactId>maven-compiler-plugin</artifactId>
++		<version>2.3.2</version>
++		<configuration>
++		    <source>1.6</source>
++		    <target>1.6</target>
++		    <encoding>${project.build.sourceEncoding}</encoding>
++		</configuration>
++	    </plugin>
++	    <plugin>
++		<groupId>org.codehaus.mojo</groupId>
++		<artifactId>xmlbeans-maven-plugin</artifactId>
++		<version>2.3.3</version>
++		<executions>
++		    <execution>
++			<phase>generate-sources</phase>
++			<goals>
++			    <goal>xmlbeans</goal>
++			</goals>
++			<configuration>
++			    <download>true</download>
++			</configuration>
++		    </execution>
++		</executions>
++	    </plugin>
++	</plugins>
++    </build>
++
++    <dependencies>
++	<dependency>
++	    <groupId>org.apache.xmlbeans</groupId>
++	    <artifactId>xmlbeans</artifactId>
++	    <version>2.6.0</version>
++	    <scope>compile</scope>
++	</dependency>
++    </dependencies>
++</project>
+
+commit dc393e260546ae4210d2f458820fb50de29bd836
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Tue Feb 12 18:00:42 2013 +0100
+
+    [maven-release-plugin] prepare for next development iteration
+
+diff --git pom.xml pom.xml
+index 92de948..117073d 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,84 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+-    <version>1.14.2</version>
++    <version>1.14.3-SNAPSHOT</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>2.3.2</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+     </dependencies>
+ </project>
+
+commit 15934c2585476116f0e5f7fe1dc4a3004d7414bd
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Wed Feb 13 00:46:27 2013 +0100
+
+    Changed version from 1.14.3-SNAPSHOT to 1.15-SNAPSHOT .
+
+diff --git pom.xml pom.xml
+index 117073d..aab1ca5 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,84 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-
+-    <parent>
+-	<groupId>org.sonatype.oss</groupId>
+-	<artifactId>oss-parent</artifactId>
+-	<version>7</version>
+-    </parent>
+-
+-    <modelVersion>4.0.0</modelVersion>
+-    <groupId>net.zeroinstall</groupId>
+-    <artifactId>zeroinstall-model</artifactId>
+-    <version>1.14.3-SNAPSHOT</version>
+-    <packaging>jar</packaging>
+-    <name>Zero Install Model</name>
+-    <description>
+-	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+-    </description>
+-    <url>http://code.google.com/p/zero-install-model/</url>
+-    <licenses>
+-	<license>
+-	    <name>GNU Lesser General Public License, Version 3.0</name>
+-	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+-	</license>
+-    </licenses>
+-    <scm>
+-	<url>https://code.google.com/p/zero-install-model/</url>
+-	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+-	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+-    </scm>
+-    <developers>
+-	<developer>
+-	    <name>Bastian Eicher</name>
+-	    <email>bastian@eicher.net</email>
+-	</developer>
+-	<developer>
+-	    <name>Simon E. Silva Lauinger</name>
+-	    <email>simon@silvalauinger.de</email>
+-	</developer>
+-    </developers>
+-
+-    <properties>
+-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    </properties>
+-
+-    <build>
+-	<plugins>
+-	    <plugin>
+-		<groupId>org.apache.maven.plugins</groupId>
+-		<artifactId>maven-compiler-plugin</artifactId>
+-		<version>2.3.2</version>
+-		<configuration>
+-		    <source>1.6</source>
+-		    <target>1.6</target>
+-		    <encoding>${project.build.sourceEncoding}</encoding>
+-		</configuration>
+-	    </plugin>
+-	    <plugin>
+-		<groupId>org.codehaus.mojo</groupId>
+-		<artifactId>xmlbeans-maven-plugin</artifactId>
+-		<version>2.3.3</version>
+-		<executions>
+-		    <execution>
+-			<phase>generate-sources</phase>
+-			<goals>
+-			    <goal>xmlbeans</goal>
+-			</goals>
+-			<configuration>
+-			    <download>true</download>
+-			</configuration>
+-		    </execution>
+-		</executions>
+-	    </plugin>
+-	</plugins>
+-    </build>
+-
+-    <dependencies>
+-	<dependency>
+-	    <groupId>org.apache.xmlbeans</groupId>
+-	    <artifactId>xmlbeans</artifactId>
+-	    <version>2.6.0</version>
+-	    <scope>compile</scope>
+-	</dependency>
+-    </dependencies>
+-</project>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++
++    <parent>
++	<groupId>org.sonatype.oss</groupId>
++	<artifactId>oss-parent</artifactId>
++	<version>7</version>
++    </parent>
++
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>net.zeroinstall</groupId>
++    <artifactId>zeroinstall-model</artifactId>
++    <version>1.15-SNAPSHOT</version>
++    <packaging>jar</packaging>
++    <name>Zero Install Model</name>
++    <description>
++	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
++    </description>
++    <url>http://code.google.com/p/zero-install-model/</url>
++    <licenses>
++	<license>
++	    <name>GNU Lesser General Public License, Version 3.0</name>
++	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
++	</license>
++    </licenses>
++    <scm>
++	<url>https://code.google.com/p/zero-install-model/</url>
++	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
++	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
++    </scm>
++    <developers>
++	<developer>
++	    <name>Bastian Eicher</name>
++	    <email>bastian@eicher.net</email>
++	</developer>
++	<developer>
++	    <name>Simon E. Silva Lauinger</name>
++	    <email>simon@silvalauinger.de</email>
++	</developer>
++    </developers>
++
++    <properties>
++	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
++    <build>
++	<plugins>
++	    <plugin>
++		<groupId>org.apache.maven.plugins</groupId>
++		<artifactId>maven-compiler-plugin</artifactId>
++		<version>2.3.2</version>
++		<configuration>
++		    <source>1.6</source>
++		    <target>1.6</target>
++		    <encoding>${project.build.sourceEncoding}</encoding>
++		</configuration>
++	    </plugin>
++	    <plugin>
++		<groupId>org.codehaus.mojo</groupId>
++		<artifactId>xmlbeans-maven-plugin</artifactId>
++		<version>2.3.3</version>
++		<executions>
++		    <execution>
++			<phase>generate-sources</phase>
++			<goals>
++			    <goal>xmlbeans</goal>
++			</goals>
++			<configuration>
++			    <download>true</download>
++			</configuration>
++		    </execution>
++		</executions>
++	    </plugin>
++	</plugins>
++    </build>
++
++    <dependencies>
++	<dependency>
++	    <groupId>org.apache.xmlbeans</groupId>
++	    <artifactId>xmlbeans</artifactId>
++	    <version>2.6.0</version>
++	    <scope>compile</scope>
++	</dependency>
++    </dependencies>
++</project>
+
+commit 92f01540963b3704cb1b3bc66c0489d1c711671b
+Author: Bastian Eicher <bastian@eicher.net>
+Date:   Fri Apr 5 22:38:20 2013 +0200
+
+    Updated XSD to version 2.1.0
+
+diff --git pom.xml pom.xml
+index aab1ca5..7f5cc06 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,84 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+-    <version>1.15-SNAPSHOT</version>
++    <version>2.1.0</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>2.3.2</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+     </dependencies>
+ </project>
+
+commit c5d9e8d3025ed81ffc00c55e540decce1dee41cf
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Thu Apr 11 17:12:21 2013 +0200
+
+    Set version from 2.1.0 to 2.1.0-SNAPSHOT , because last commit was not a release.
+
+diff --git pom.xml pom.xml
+index 7f5cc06..605b839 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,84 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+-    <version>2.1.0</version>
++    <version>2.1.0-SNAPSHOT</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>2.3.2</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+     </dependencies>
+ </project>
+
+commit 5e27b6cc80b13964bef7b2d3db32785057abd1b1
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Thu Apr 11 17:15:06 2013 +0200
+
+    Updated maven-compiler-plugin [2.3.2 --> 3.0]
+
+diff --git pom.xml pom.xml
+index 605b839..3ed3f80 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,84 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+     <version>2.1.0-SNAPSHOT</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+-		<version>2.3.2</version>
++		<version>3.0</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+     </dependencies>
+ </project>
+
+commit 954c29260ae8100b576daf655373f151b748f9ba
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Sat Apr 13 13:15:49 2013 +0200
+
+    [maven-release-plugin] prepare release zeroinstall-model-2.1.0
+
+diff --git pom.xml pom.xml
+index 3ed3f80..b0bff04 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,84 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-
+-    <parent>
+-	<groupId>org.sonatype.oss</groupId>
+-	<artifactId>oss-parent</artifactId>
+-	<version>7</version>
+-    </parent>
+-
+-    <modelVersion>4.0.0</modelVersion>
+-    <groupId>net.zeroinstall</groupId>
+-    <artifactId>zeroinstall-model</artifactId>
+-    <version>2.1.0-SNAPSHOT</version>
+-    <packaging>jar</packaging>
+-    <name>Zero Install Model</name>
+-    <description>
+-	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+-    </description>
+-    <url>http://code.google.com/p/zero-install-model/</url>
+-    <licenses>
+-	<license>
+-	    <name>GNU Lesser General Public License, Version 3.0</name>
+-	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+-	</license>
+-    </licenses>
+-    <scm>
+-	<url>https://code.google.com/p/zero-install-model/</url>
+-	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+-	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+-    </scm>
+-    <developers>
+-	<developer>
+-	    <name>Bastian Eicher</name>
+-	    <email>bastian@eicher.net</email>
+-	</developer>
+-	<developer>
+-	    <name>Simon E. Silva Lauinger</name>
+-	    <email>simon@silvalauinger.de</email>
+-	</developer>
+-    </developers>
+-
+-    <properties>
+-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    </properties>
+-
+-    <build>
+-	<plugins>
+-	    <plugin>
+-		<groupId>org.apache.maven.plugins</groupId>
+-		<artifactId>maven-compiler-plugin</artifactId>
+-		<version>3.0</version>
+-		<configuration>
+-		    <source>1.6</source>
+-		    <target>1.6</target>
+-		    <encoding>${project.build.sourceEncoding}</encoding>
+-		</configuration>
+-	    </plugin>
+-	    <plugin>
+-		<groupId>org.codehaus.mojo</groupId>
+-		<artifactId>xmlbeans-maven-plugin</artifactId>
+-		<version>2.3.3</version>
+-		<executions>
+-		    <execution>
+-			<phase>generate-sources</phase>
+-			<goals>
+-			    <goal>xmlbeans</goal>
+-			</goals>
+-			<configuration>
+-			    <download>true</download>
+-			</configuration>
+-		    </execution>
+-		</executions>
+-	    </plugin>
+-	</plugins>
+-    </build>
+-
+-    <dependencies>
+-	<dependency>
+-	    <groupId>org.apache.xmlbeans</groupId>
+-	    <artifactId>xmlbeans</artifactId>
+-	    <version>2.6.0</version>
+-	    <scope>compile</scope>
+-	</dependency>
+-    </dependencies>
+-</project>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++
++    <parent>
++	<groupId>org.sonatype.oss</groupId>
++	<artifactId>oss-parent</artifactId>
++	<version>7</version>
++    </parent>
++
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>net.zeroinstall</groupId>
++    <artifactId>zeroinstall-model</artifactId>
++    <version>2.1.0</version>
++    <packaging>jar</packaging>
++    <name>Zero Install Model</name>
++    <description>
++	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
++    </description>
++    <url>http://code.google.com/p/zero-install-model/</url>
++    <licenses>
++	<license>
++	    <name>GNU Lesser General Public License, Version 3.0</name>
++	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
++	</license>
++    </licenses>
++    <scm>
++	<url>https://code.google.com/p/zero-install-model/</url>
++	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
++	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
++    </scm>
++    <developers>
++	<developer>
++	    <name>Bastian Eicher</name>
++	    <email>bastian@eicher.net</email>
++	</developer>
++	<developer>
++	    <name>Simon E. Silva Lauinger</name>
++	    <email>simon@silvalauinger.de</email>
++	</developer>
++    </developers>
++
++    <properties>
++	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
++    <build>
++	<plugins>
++	    <plugin>
++		<groupId>org.apache.maven.plugins</groupId>
++		<artifactId>maven-compiler-plugin</artifactId>
++		<version>3.0</version>
++		<configuration>
++		    <source>1.6</source>
++		    <target>1.6</target>
++		    <encoding>${project.build.sourceEncoding}</encoding>
++		</configuration>
++	    </plugin>
++	    <plugin>
++		<groupId>org.codehaus.mojo</groupId>
++		<artifactId>xmlbeans-maven-plugin</artifactId>
++		<version>2.3.3</version>
++		<executions>
++		    <execution>
++			<phase>generate-sources</phase>
++			<goals>
++			    <goal>xmlbeans</goal>
++			</goals>
++			<configuration>
++			    <download>true</download>
++			</configuration>
++		    </execution>
++		</executions>
++	    </plugin>
++	</plugins>
++    </build>
++
++    <dependencies>
++	<dependency>
++	    <groupId>org.apache.xmlbeans</groupId>
++	    <artifactId>xmlbeans</artifactId>
++	    <version>2.6.0</version>
++	    <scope>compile</scope>
++	</dependency>
++    </dependencies>
++</project>
+
+commit f9a020dfb81915d4a25f720b12b4a152edad674c
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Sat Apr 13 13:15:54 2013 +0200
+
+    [maven-release-plugin] prepare for next development iteration
+
+diff --git pom.xml pom.xml
+index b0bff04..3c58058 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,84 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+-    <version>2.1.0</version>
++    <version>2.1.0-post-SNAPSHOT</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>3.0</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+     </dependencies>
+ </project>
+
+commit a6d685bbe3b5cab97d2a45457164a543c9b404d5
+Author: Bastian Eicher <bastian@eicher.net>
+Date:   Mon May 13 17:10:16 2013 +0200
+
+    Added FeedUtils and GnuPG with unit test
+    
+    --HG--
+    extra : amend_source : 60833b8abf99f7a2fd993d74c7495ac631916f93
+
+diff --git pom.xml pom.xml
+index 3c58058..73a7ac2 100644
+--- pom.xml
++++ pom.xml
+@@ -1,84 +1,108 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+     <version>2.1.0-post-SNAPSHOT</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>3.0</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
++        <dependency>
++            <groupId>com.google.guava</groupId>
++            <artifactId>guava</artifactId>
++            <version>14.0.1</version>
++        </dependency>
++        <!-- test dependencies -->
++        <dependency>
++            <groupId>junit</groupId>
++            <artifactId>junit</artifactId>
++            <version>4.11</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>org.hamcrest</groupId>
++            <artifactId>hamcrest-all</artifactId>
++            <version>1.3</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>com.github.tomakehurst</groupId>
++            <artifactId>wiremock</artifactId>
++            <version>1.32</version>
++            <scope>test</scope>
++        </dependency>
+     </dependencies>
+ </project>
+
+commit 2d72242daf9eca2b4a0d07d47d8875bc6893de0d
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Tue Jun 18 15:31:14 2013 +0200
+
+    [maven-release-plugin] prepare release zeroinstall-model-2.2.0
+
+diff --git pom.xml pom.xml
+index 73a7ac2..7137409 100644
+--- pom.xml
++++ pom.xml
+@@ -1,108 +1,108 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+-    <version>2.1.0-post-SNAPSHOT</version>
++    <version>2.2.0</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>3.0</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>14.0.1</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+             <version>1.32</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit eee261f64b711f477a1e43d64d227325c423804e
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Tue Jun 18 15:31:23 2013 +0200
+
+    [maven-release-plugin] prepare for next development iteration
+
+diff --git pom.xml pom.xml
+index 7137409..dd04fc6 100644
+--- pom.xml
++++ pom.xml
+@@ -1,108 +1,108 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+     <parent>
+ 	<groupId>org.sonatype.oss</groupId>
+ 	<artifactId>oss-parent</artifactId>
+ 	<version>7</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+-    <version>2.2.0</version>
++    <version>2.2.1-SNAPSHOT</version>
+     <packaging>jar</packaging>
+     <name>Zero Install Model</name>
+     <description>
+ 	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+     </description>
+     <url>http://code.google.com/p/zero-install-model/</url>
+     <licenses>
+ 	<license>
+ 	    <name>GNU Lesser General Public License, Version 3.0</name>
+ 	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+ 	</license>
+     </licenses>
+     <scm>
+ 	<url>https://code.google.com/p/zero-install-model/</url>
+ 	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+ 	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
+     </scm>
+     <developers>
+ 	<developer>
+ 	    <name>Bastian Eicher</name>
+ 	    <email>bastian@eicher.net</email>
+ 	</developer>
+ 	<developer>
+ 	    <name>Simon E. Silva Lauinger</name>
+ 	    <email>simon@silvalauinger.de</email>
+ 	</developer>
+     </developers>
+ 
+     <properties>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+ 	<plugins>
+ 	    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-compiler-plugin</artifactId>
+ 		<version>3.0</version>
+ 		<configuration>
+ 		    <source>1.6</source>
+ 		    <target>1.6</target>
+ 		    <encoding>${project.build.sourceEncoding}</encoding>
+ 		</configuration>
+ 	    </plugin>
+ 	    <plugin>
+ 		<groupId>org.codehaus.mojo</groupId>
+ 		<artifactId>xmlbeans-maven-plugin</artifactId>
+ 		<version>2.3.3</version>
+ 		<executions>
+ 		    <execution>
+ 			<phase>generate-sources</phase>
+ 			<goals>
+ 			    <goal>xmlbeans</goal>
+ 			</goals>
+ 			<configuration>
+ 			    <download>true</download>
+ 			</configuration>
+ 		    </execution>
+ 		</executions>
+ 	    </plugin>
+ 	</plugins>
+     </build>
+ 
+     <dependencies>
+ 	<dependency>
+ 	    <groupId>org.apache.xmlbeans</groupId>
+ 	    <artifactId>xmlbeans</artifactId>
+ 	    <version>2.6.0</version>
+ 	    <scope>compile</scope>
+ 	</dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>14.0.1</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+             <version>1.32</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit c6dfaba92c0d0b2f0738a6fae42ba09c24b6c2ff
+Author: Bastian Eicher <bastian@eicher.net>
+Date:   Sat Aug 3 12:08:44 2013 +0200
+
+    Perpared for GitHub
+    
+    --HG--
+    rename : .hgignore => .gitignore
+
+diff --git pom.xml pom.xml
+index dd04fc6..2d77c7d 100644
+--- pom.xml
++++ pom.xml
+@@ -1,108 +1,108 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-	<groupId>org.sonatype.oss</groupId>
+-	<artifactId>oss-parent</artifactId>
+-	<version>7</version>
++        <groupId>org.sonatype.oss</groupId>
++        <artifactId>oss-parent</artifactId>
++        <version>7</version>
+     </parent>
+ 
+-    <modelVersion>4.0.0</modelVersion>
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+-    <version>2.2.1-SNAPSHOT</version>
+     <packaging>jar</packaging>
++    <version>2.2.1-SNAPSHOT</version>
++
+     <name>Zero Install Model</name>
+-    <description>
+-	The Zero Install XSD model transformed by Apache XMLBeans to Java source code.
+-    </description>
+-    <url>http://code.google.com/p/zero-install-model/</url>
++    <description>The Zero Install XSD model transformed by Apache XMLBeans to Java source code.</description>
++    <url>https://github.com/0install/java-model</url>
+     <licenses>
+-	<license>
+-	    <name>GNU Lesser General Public License, Version 3.0</name>
+-	    <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+-	</license>
++        <license>
++            <name>GNU Lesser General Public License, Version 3.0</name>
++            <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
++        </license>
+     </licenses>
++
+     <scm>
+-	<url>https://code.google.com/p/zero-install-model/</url>
+-	<connection>scm:hg:https://code.google.com/p/zero-install-model/</connection>
+-	<developerConnection>scm:hg:https://code.google.com/p/zero-install-model/</developerConnection>
++        <connection>scm:git:https://github.com/0install/java-model.git</connection>
++        <developerConnection>scm:git:git@github.com:0install/java-model.git</developerConnection>
++        <url>https://github.com/0install/java-model</url>
+     </scm>
+     <developers>
+-	<developer>
+-	    <name>Bastian Eicher</name>
+-	    <email>bastian@eicher.net</email>
+-	</developer>
+-	<developer>
+-	    <name>Simon E. Silva Lauinger</name>
+-	    <email>simon@silvalauinger.de</email>
+-	</developer>
++        <developer>
++            <name>Bastian Eicher</name>
++            <email>bastian@eicher.net</email>
++        </developer>
++        <developer>
++            <name>Simon E. Silva Lauinger</name>
++            <email>simon@silvalauinger.de</email>
++        </developer>
+     </developers>
+ 
+     <properties>
+-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+-	<plugins>
+-	    <plugin>
+-		<groupId>org.apache.maven.plugins</groupId>
+-		<artifactId>maven-compiler-plugin</artifactId>
+-		<version>3.0</version>
+-		<configuration>
+-		    <source>1.6</source>
+-		    <target>1.6</target>
+-		    <encoding>${project.build.sourceEncoding}</encoding>
+-		</configuration>
+-	    </plugin>
+-	    <plugin>
+-		<groupId>org.codehaus.mojo</groupId>
+-		<artifactId>xmlbeans-maven-plugin</artifactId>
+-		<version>2.3.3</version>
+-		<executions>
+-		    <execution>
+-			<phase>generate-sources</phase>
+-			<goals>
+-			    <goal>xmlbeans</goal>
+-			</goals>
+-			<configuration>
+-			    <download>true</download>
+-			</configuration>
+-		    </execution>
+-		</executions>
+-	    </plugin>
+-	</plugins>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <version>3.0</version>
++                <configuration>
++                    <source>1.6</source>
++                    <target>1.6</target>
++                    <encoding>${project.build.sourceEncoding}</encoding>
++                </configuration>
++            </plugin>
++            <plugin>
++                <groupId>org.codehaus.mojo</groupId>
++                <artifactId>xmlbeans-maven-plugin</artifactId>
++                <version>2.3.3</version>
++                <executions>
++                    <execution>
++                    <phase>generate-sources</phase>
++                    <goals>
++                        <goal>xmlbeans</goal>
++                    </goals>
++                    <configuration>
++                        <download>true</download>
++                    </configuration>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
+     </build>
+ 
+     <dependencies>
+-	<dependency>
+-	    <groupId>org.apache.xmlbeans</groupId>
+-	    <artifactId>xmlbeans</artifactId>
+-	    <version>2.6.0</version>
+-	    <scope>compile</scope>
+-	</dependency>
++    <dependency>
++        <groupId>org.apache.xmlbeans</groupId>
++        <artifactId>xmlbeans</artifactId>
++        <version>2.6.0</version>
++        <scope>compile</scope>
++    </dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>14.0.1</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+             <version>1.32</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit 80dca8d0056b4074a43f2a0874002fd587d266bb
+Author: Bastian Eicher <bastian@eicher.net>
+Date:   Tue Sep 16 13:03:36 2014 +0200
+
+    Updated external dependencies
+
+diff --git pom.xml pom.xml
+index 2d77c7d..aec47c1 100644
+--- pom.xml
++++ pom.xml
+@@ -1,108 +1,108 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+         <groupId>org.sonatype.oss</groupId>
+         <artifactId>oss-parent</artifactId>
+         <version>7</version>
+     </parent>
+ 
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+     <packaging>jar</packaging>
+     <version>2.2.1-SNAPSHOT</version>
+ 
+     <name>Zero Install Model</name>
+     <description>The Zero Install XSD model transformed by Apache XMLBeans to Java source code.</description>
+     <url>https://github.com/0install/java-model</url>
+     <licenses>
+         <license>
+             <name>GNU Lesser General Public License, Version 3.0</name>
+             <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+         </license>
+     </licenses>
+ 
+     <scm>
+         <connection>scm:git:https://github.com/0install/java-model.git</connection>
+         <developerConnection>scm:git:git@github.com:0install/java-model.git</developerConnection>
+         <url>https://github.com/0install/java-model</url>
+     </scm>
+     <developers>
+         <developer>
+             <name>Bastian Eicher</name>
+             <email>bastian@eicher.net</email>
+         </developer>
+         <developer>
+             <name>Simon E. Silva Lauinger</name>
+             <email>simon@silvalauinger.de</email>
+         </developer>
+     </developers>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+-                <version>3.0</version>
++                <version>3.1</version>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>xmlbeans-maven-plugin</artifactId>
+                 <version>2.3.3</version>
+                 <executions>
+                     <execution>
+                     <phase>generate-sources</phase>
+                     <goals>
+                         <goal>xmlbeans</goal>
+                     </goals>
+                     <configuration>
+                         <download>true</download>
+                     </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+ 
+     <dependencies>
+     <dependency>
+         <groupId>org.apache.xmlbeans</groupId>
+         <artifactId>xmlbeans</artifactId>
+         <version>2.6.0</version>
+         <scope>compile</scope>
+     </dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+-            <version>14.0.1</version>
++            <version>18.0</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+-            <version>1.32</version>
++            <version>1.47</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ </project>
+
+commit 7156b557528c3f238c569be3667e49353b50703d
+Author: simon <simon@192.168.1.101>
+Date:   Thu Dec 18 22:27:39 2014 +0100
+
+    Prepared for releasing new version on sonatype.
+
+diff --git pom.xml pom.xml
+index aec47c1..4a9b4cf 100644
+--- pom.xml
++++ pom.xml
+@@ -1,108 +1,160 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+-    <parent>
+-        <groupId>org.sonatype.oss</groupId>
+-        <artifactId>oss-parent</artifactId>
+-        <version>7</version>
+-    </parent>
+-
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+     <packaging>jar</packaging>
+     <version>2.2.1-SNAPSHOT</version>
+ 
+     <name>Zero Install Model</name>
+     <description>The Zero Install XSD model transformed by Apache XMLBeans to Java source code.</description>
+     <url>https://github.com/0install/java-model</url>
+     <licenses>
+         <license>
+             <name>GNU Lesser General Public License, Version 3.0</name>
+             <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+         </license>
+     </licenses>
+ 
+     <scm>
+         <connection>scm:git:https://github.com/0install/java-model.git</connection>
+         <developerConnection>scm:git:git@github.com:0install/java-model.git</developerConnection>
+         <url>https://github.com/0install/java-model</url>
+     </scm>
+     <developers>
+         <developer>
+             <name>Bastian Eicher</name>
+             <email>bastian@eicher.net</email>
+         </developer>
+         <developer>
+             <name>Simon E. Silva Lauinger</name>
+             <email>simon@silvalauinger.de</email>
+         </developer>
+     </developers>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>3.1</version>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>xmlbeans-maven-plugin</artifactId>
+                 <version>2.3.3</version>
+                 <executions>
+                     <execution>
+-                    <phase>generate-sources</phase>
+-                    <goals>
+-                        <goal>xmlbeans</goal>
+-                    </goals>
+-                    <configuration>
+-                        <download>true</download>
+-                    </configuration>
++                        <phase>generate-sources</phase>
++                        <goals>
++                            <goal>xmlbeans</goal>
++                        </goals>
++                        <configuration>
++                            <download>true</download>
++                        </configuration>
++                    </execution>
++                </executions>
++            </plugin>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-source-plugin</artifactId>
++                <version>2.4</version>
++                <executions>
++                    <execution>
++                        <id>attach-sources</id>
++                        <goals>
++                            <goal>jar-no-fork</goal>
++                        </goals>
++                    </execution>
++                </executions>
++            </plugin>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-javadoc-plugin</artifactId>
++                <version>2.10.1</version>
++                <executions>
++                    <execution>
++                        <id>attach-javadocs</id>
++                        <goals>
++                            <goal>jar</goal>
++                        </goals>
++                    </execution>
++                </executions>
++            </plugin>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-gpg-plugin</artifactId>
++                <version>1.5</version>
++                <executions>
++                    <execution>
++                        <id>sign-artifacts</id>
++                        <phase>deploy</phase>
++                        <goals>
++                            <goal>sign</goal>
++                        </goals>
+                     </execution>
+                 </executions>
+             </plugin>
++            <plugin>
++                <groupId>org.sonatype.plugins</groupId>
++                <artifactId>nexus-staging-maven-plugin</artifactId>
++                <version>1.6.5</version>
++                <extensions>true</extensions>
++                <configuration>
++                    <serverId>ossrh</serverId>
++                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
++                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
++                </configuration>
++            </plugin>
+         </plugins>
+     </build>
+ 
+     <dependencies>
+-    <dependency>
+-        <groupId>org.apache.xmlbeans</groupId>
+-        <artifactId>xmlbeans</artifactId>
+-        <version>2.6.0</version>
+-        <scope>compile</scope>
+-    </dependency>
++        <dependency>
++            <groupId>org.apache.xmlbeans</groupId>
++            <artifactId>xmlbeans</artifactId>
++            <version>2.6.0</version>
++            <scope>compile</scope>
++        </dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>18.0</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+             <version>1.47</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
++    
++    <distributionManagement>
++        <snapshotRepository>
++            <id>ossrh</id>
++            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
++        </snapshotRepository>
++    </distributionManagement>
+ </project>
+
+commit ae5dbec3028771f061f2c96077a249e0eef2ce6d
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Thu Dec 18 22:29:16 2014 +0100
+
+    [maven-release-plugin] prepare release zeroinstall-model-2.2.1
+
+diff --git pom.xml pom.xml
+index 4a9b4cf..b042677 100644
+--- pom.xml
++++ pom.xml
+@@ -1,160 +1,161 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+     <packaging>jar</packaging>
+-    <version>2.2.1-SNAPSHOT</version>
++    <version>2.2.1</version>
+ 
+     <name>Zero Install Model</name>
+     <description>The Zero Install XSD model transformed by Apache XMLBeans to Java source code.</description>
+     <url>https://github.com/0install/java-model</url>
+     <licenses>
+         <license>
+             <name>GNU Lesser General Public License, Version 3.0</name>
+             <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+         </license>
+     </licenses>
+ 
+     <scm>
+         <connection>scm:git:https://github.com/0install/java-model.git</connection>
+         <developerConnection>scm:git:git@github.com:0install/java-model.git</developerConnection>
+         <url>https://github.com/0install/java-model</url>
+-    </scm>
++      <tag>zeroinstall-model-2.2.1</tag>
++  </scm>
+     <developers>
+         <developer>
+             <name>Bastian Eicher</name>
+             <email>bastian@eicher.net</email>
+         </developer>
+         <developer>
+             <name>Simon E. Silva Lauinger</name>
+             <email>simon@silvalauinger.de</email>
+         </developer>
+     </developers>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>3.1</version>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>xmlbeans-maven-plugin</artifactId>
+                 <version>2.3.3</version>
+                 <executions>
+                     <execution>
+                         <phase>generate-sources</phase>
+                         <goals>
+                             <goal>xmlbeans</goal>
+                         </goals>
+                         <configuration>
+                             <download>true</download>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-source-plugin</artifactId>
+                 <version>2.4</version>
+                 <executions>
+                     <execution>
+                         <id>attach-sources</id>
+                         <goals>
+                             <goal>jar-no-fork</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-javadoc-plugin</artifactId>
+                 <version>2.10.1</version>
+                 <executions>
+                     <execution>
+                         <id>attach-javadocs</id>
+                         <goals>
+                             <goal>jar</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-gpg-plugin</artifactId>
+                 <version>1.5</version>
+                 <executions>
+                     <execution>
+                         <id>sign-artifacts</id>
+                         <phase>deploy</phase>
+                         <goals>
+                             <goal>sign</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.sonatype.plugins</groupId>
+                 <artifactId>nexus-staging-maven-plugin</artifactId>
+                 <version>1.6.5</version>
+                 <extensions>true</extensions>
+                 <configuration>
+                     <serverId>ossrh</serverId>
+                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>org.apache.xmlbeans</groupId>
+             <artifactId>xmlbeans</artifactId>
+             <version>2.6.0</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>18.0</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+             <version>1.47</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+     
+     <distributionManagement>
+         <snapshotRepository>
+             <id>ossrh</id>
+             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+         </snapshotRepository>
+     </distributionManagement>
+ </project>
+
+commit 7311adc1b6cf318002c04bfd26d457ff7de6ea69
+Author: Simon E. Silva Lauinger <simon@silvalauinger.de>
+Date:   Thu Dec 18 22:29:20 2014 +0100
+
+    [maven-release-plugin] prepare for next development iteration
+
+diff --git pom.xml pom.xml
+index b042677..145b558 100644
+--- pom.xml
++++ pom.xml
+@@ -1,161 +1,161 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+     <packaging>jar</packaging>
+-    <version>2.2.1</version>
++    <version>2.2.2-SNAPSHOT</version>
+ 
+     <name>Zero Install Model</name>
+     <description>The Zero Install XSD model transformed by Apache XMLBeans to Java source code.</description>
+     <url>https://github.com/0install/java-model</url>
+     <licenses>
+         <license>
+             <name>GNU Lesser General Public License, Version 3.0</name>
+             <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+         </license>
+     </licenses>
+ 
+     <scm>
+         <connection>scm:git:https://github.com/0install/java-model.git</connection>
+         <developerConnection>scm:git:git@github.com:0install/java-model.git</developerConnection>
+         <url>https://github.com/0install/java-model</url>
+-      <tag>zeroinstall-model-2.2.1</tag>
++      <tag>HEAD</tag>
+   </scm>
+     <developers>
+         <developer>
+             <name>Bastian Eicher</name>
+             <email>bastian@eicher.net</email>
+         </developer>
+         <developer>
+             <name>Simon E. Silva Lauinger</name>
+             <email>simon@silvalauinger.de</email>
+         </developer>
+     </developers>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>3.1</version>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>xmlbeans-maven-plugin</artifactId>
+                 <version>2.3.3</version>
+                 <executions>
+                     <execution>
+                         <phase>generate-sources</phase>
+                         <goals>
+                             <goal>xmlbeans</goal>
+                         </goals>
+                         <configuration>
+                             <download>true</download>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-source-plugin</artifactId>
+                 <version>2.4</version>
+                 <executions>
+                     <execution>
+                         <id>attach-sources</id>
+                         <goals>
+                             <goal>jar-no-fork</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-javadoc-plugin</artifactId>
+                 <version>2.10.1</version>
+                 <executions>
+                     <execution>
+                         <id>attach-javadocs</id>
+                         <goals>
+                             <goal>jar</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-gpg-plugin</artifactId>
+                 <version>1.5</version>
+                 <executions>
+                     <execution>
+                         <id>sign-artifacts</id>
+                         <phase>deploy</phase>
+                         <goals>
+                             <goal>sign</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.sonatype.plugins</groupId>
+                 <artifactId>nexus-staging-maven-plugin</artifactId>
+                 <version>1.6.5</version>
+                 <extensions>true</extensions>
+                 <configuration>
+                     <serverId>ossrh</serverId>
+                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>org.apache.xmlbeans</groupId>
+             <artifactId>xmlbeans</artifactId>
+             <version>2.6.0</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>18.0</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+             <version>1.47</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+     
+     <distributionManagement>
+         <snapshotRepository>
+             <id>ossrh</id>
+             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+         </snapshotRepository>
+     </distributionManagement>
+ </project>
+
+commit 59d2983b7f08930a1198d3dc3d9ae40ae32f513c
+Author: Bastian Eicher <bastian@eicher.net>
+Date:   Tue Feb 16 17:31:54 2016 +0100
+
+    Improved POM, incremented version number
+
+diff --git pom.xml pom.xml
+index 145b558..b287def 100644
+--- pom.xml
++++ pom.xml
+@@ -1,161 +1,143 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>net.zeroinstall</groupId>
+     <artifactId>zeroinstall-model</artifactId>
+     <packaging>jar</packaging>
+-    <version>2.2.2-SNAPSHOT</version>
+-
+-    <name>Zero Install Model</name>
++    <version>2.3-SNAPSHOT</version>
+     <description>The Zero Install XSD model transformed by Apache XMLBeans to Java source code.</description>
++
+     <url>https://github.com/0install/java-model</url>
+     <licenses>
+         <license>
+             <name>GNU Lesser General Public License, Version 3.0</name>
+             <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+         </license>
+     </licenses>
+ 
+-    <scm>
+-        <connection>scm:git:https://github.com/0install/java-model.git</connection>
+-        <developerConnection>scm:git:git@github.com:0install/java-model.git</developerConnection>
+-        <url>https://github.com/0install/java-model</url>
+-      <tag>HEAD</tag>
+-  </scm>
+-    <developers>
+-        <developer>
+-            <name>Bastian Eicher</name>
+-            <email>bastian@eicher.net</email>
+-        </developer>
+-        <developer>
+-            <name>Simon E. Silva Lauinger</name>
+-            <email>simon@silvalauinger.de</email>
+-        </developer>
+-    </developers>
+-
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <version>3.1</version>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                     <encoding>${project.build.sourceEncoding}</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>xmlbeans-maven-plugin</artifactId>
+                 <version>2.3.3</version>
+                 <executions>
+                     <execution>
+                         <phase>generate-sources</phase>
+                         <goals>
+                             <goal>xmlbeans</goal>
+                         </goals>
+                         <configuration>
+                             <download>true</download>
+                         </configuration>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-source-plugin</artifactId>
+                 <version>2.4</version>
+                 <executions>
+                     <execution>
+                         <id>attach-sources</id>
+                         <goals>
+                             <goal>jar-no-fork</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-javadoc-plugin</artifactId>
+                 <version>2.10.1</version>
+                 <executions>
+                     <execution>
+                         <id>attach-javadocs</id>
+                         <goals>
+                             <goal>jar</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-gpg-plugin</artifactId>
+-                <version>1.5</version>
++                <version>1.4</version>
+                 <executions>
+                     <execution>
+                         <id>sign-artifacts</id>
+                         <phase>deploy</phase>
+                         <goals>
+                             <goal>sign</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.sonatype.plugins</groupId>
+                 <artifactId>nexus-staging-maven-plugin</artifactId>
+                 <version>1.6.5</version>
+                 <extensions>true</extensions>
+                 <configuration>
+                     <serverId>ossrh</serverId>
+                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>org.apache.xmlbeans</groupId>
+             <artifactId>xmlbeans</artifactId>
+             <version>2.6.0</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>18.0</version>
+         </dependency>
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.11</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.hamcrest</groupId>
+             <artifactId>hamcrest-all</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.github.tomakehurst</groupId>
+             <artifactId>wiremock</artifactId>
+             <version>1.47</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+     
+     <distributionManagement>
+         <snapshotRepository>
+             <id>ossrh</id>
+             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+         </snapshotRepository>
+     </distributionManagement>
+ </project>

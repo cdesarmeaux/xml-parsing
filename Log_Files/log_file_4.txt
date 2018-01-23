@@ -1,0 +1,20 @@
+commit 9c8beca14680c0260e4a00b1199a84a0c0223f57
+Author: 010011110100110101000111 <homme1986@gmail.com>
+Date:   Wed Oct 16 13:47:00 2013 +1300
+
+    maven+junit v0.1
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..ccc192d
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,7 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>com.yellow.app</groupId>
++  <artifactId>eric-app</artifactId>
++  <version>0.0.1-SNAPSHOT</version>
++  <name>triangle</name>
++</project>
+\ No newline at end of file

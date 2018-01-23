@@ -1,0 +1,1894 @@
+commit 545418ce7b125e8e29679b3e041de943e5e6bc5a
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sat Jun 22 20:51:31 2013 -0400
+
+    init commit
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..9c3a679
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,51 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>com.rogue</groupId>
++  <artifactId>Playtime</artifactId>
++  <version>0.1-DEV</version>
++  <name>Playtime</name>
++  
++  <repositories>
++        <repository>
++            <id>bukkit-repo</id>
++            <url>http://repo.bukkit.org/content/repositories/releases/</url>
++        </repository>
++    </repositories>
++    <licenses>
++        <license>
++            <name>General Public License, Version 3.0</name>
++            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
++            <distribution>repo</distribution>
++        </license>
++    </licenses>
++  <packaging>jar</packaging>
++  
++  <build>
++        <resources>
++            <resource>
++                <directory>src/main/resources</directory>
++                <filtering>true</filtering>
++                <includes>
++                    <include>plugin.yml</include>
++                    <include>config.yml</include>
++                </includes>
++            </resource>
++        </resources>
++        <finalName>${project.artifactId}-${project.version}</finalName>
++  </build>
++  
++  <dependencies>
++        <dependency>
++            <groupId>org.bukkit</groupId>
++            <artifactId>bukkit</artifactId>
++            <version>1.5.2-R1.0</version>
++            <type>jar</type>
++        </dependency>
++    </dependencies>
++
++  <properties>
++    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++  </properties>
++  
++</project>
+
+commit b3eb058fe0f559f83ff702965f2867733e276a90
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sat Jun 22 21:09:30 2013 -0400
+
+    Updated to playtime 1.1
+
+diff --git pom.xml pom.xml
+index 9c3a679..45fd334 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>0.1-DEV</version>
++  <version>1.1</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/releases/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.5.2-R1.0</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit a7fff1e3d658cade2e96546605202fce82c741a6
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sat Jul 20 16:05:33 2013 -0400
+
+    Fixed stupid bug from not using safety variable
+
+diff --git pom.xml pom.xml
+index 45fd334..f816e0d 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.1</version>
++  <version>1.1.1</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/releases/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.5.2-R1.0</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 7ee3124d1081f7db9e671af3e96b25b3a6f28335
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Tue Jul 23 23:47:26 2013 -0400
+
+    Update 1.1.2, using bukkit 1.6.2 dev snapshot
+
+diff --git pom.xml pom.xml
+index f816e0d..bc384df 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.1.1</version>
++  <version>1.1.2</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+-            <id>bukkit-repo</id>
+-            <url>http://repo.bukkit.org/content/repositories/releases/</url>
++            <id>bukkit-repos</id>
++            <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+-            <version>1.5.2-R1.0</version>
++            <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit dceacbf34b16a22107f3f673109972f8dd18c3f7
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Wed Jul 24 14:20:08 2013 -0400
+
+    Move to 1.2.0, added death timer
+
+diff --git pom.xml pom.xml
+index bc384df..87d7f86 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.1.2</version>
++  <version>1.2.0</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repos</id>
+             <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 3392bec4c68b159816f7ad4b1d3ab1ad57db4a99
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Thu Jul 25 00:07:16 2013 -0400
+
+    Move to 1.3.0-DEV
+
+diff --git pom.xml pom.xml
+index 87d7f86..dae4ffb 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.2.0</version>
++  <version>1.3.0-DEV</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repos</id>
+             <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 6b5a21988e99abb7df6812bc924986f39a2ffbad
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sat Jul 27 13:28:45 2013 -0400
+
+    New configuration system
+
+diff --git pom.xml pom.xml
+index dae4ffb..61b618b 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+   <version>1.3.0-DEV</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+-            <id>bukkit-repos</id>
++            <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 6621ccbade72819492d1557a9346f5442a72d34d
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sat Jul 27 13:42:40 2013 -0400
+
+    Move to 1.3.0 stable
+
+diff --git pom.xml pom.xml
+index 61b618b..5788e18 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.3.0-DEV</version>
++  <version>1.3.0</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 21f2e887b4a841fe99f6d8274dda2d1effe5246a
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sat Jul 27 20:06:22 2013 -0400
+
+    Move to 1.4.0-DEV
+
+diff --git pom.xml pom.xml
+index 5788e18..5bfa734 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.3.0</version>
++  <version>1.4.0-DEV</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 3f48ddc20d7cdc7c3780f15b916cd64892f4adbd
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Thu Aug 1 08:31:08 2013 -0400
+
+    Move to 1.4.0
+
+diff --git pom.xml pom.xml
+index 5bfa734..f846eba 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,51 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.4.0-DEV</version>
++  <version>1.4.0</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit f2e9cfc01cc13f5402d66730921821f1b034b6a3
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Thu Aug 1 09:17:31 2013 -0400
+
+    More bug fixes!
+
+diff --git pom.xml pom.xml
+index f846eba..2b218e0 100644
+--- pom.xml
++++ pom.xml
+@@ -1,51 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+   <version>1.4.0</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
++                    <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
++                    <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 81e1e8309b135e3a81ade5e71d3de55d760b88f6
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sun Aug 4 00:09:05 2013 -0400
+
+    Build against new beta bukkit
+
+diff --git pom.xml pom.xml
+index 2b218e0..c79d26c 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+   <version>1.4.0</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+-            <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
++            <url>http://repo.bukkit.org/content/repositories/releases/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+-            <version>1.6.2-R0.1-SNAPSHOT</version>
++            <version>1.6.2-R0.1</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 4b44e1c085855fb0274dbed2154c7282d317ddb8
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sun Aug 11 14:55:57 2013 -0400
+
+    change dependency URL
+
+diff --git pom.xml pom.xml
+index c79d26c..f7c38a9 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+   <version>1.4.0</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+-            <url>http://repo.bukkit.org/content/repositories/releases/</url>
++            <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 25bd4c08bffb924e60e9ef8f60d916510d4f02f3
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sun Aug 11 15:01:17 2013 -0400
+
+    Move to 1.4.1
+
+diff --git pom.xml pom.xml
+index f7c38a9..8205ce6 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.4.0</version>
++  <version>1.4.1</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 098e23ec8eb6dbfee81c2457199699c9c601b557
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sun Aug 18 16:49:36 2013 -0400
+
+    Move to 1.4.2
+
+diff --git pom.xml pom.xml
+index 8205ce6..af88da7 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.4.1</version>
++  <version>1.4.2</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 5615ff9dc6b9e17fb658c99e5720608d79c60202
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Tue Aug 27 16:28:19 2013 -0400
+
+    Numerous bugfixes
+
+diff --git pom.xml pom.xml
+index af88da7..74472c1 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+-  <artifactId>Playtime</artifactId>
++  <artifactId>playtime</artifactId>
+   <version>1.4.2</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+-        <finalName>${project.artifactId}-${project.version}</finalName>
++        <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.2-R0.1</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 7fcf7790afa431d323725ea0c0f29100461569e2
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Tue Oct 8 12:00:12 2013 -0400
+
+    Move to 1.6.4
+
+diff --git pom.xml pom.xml
+index 74472c1..306eb03 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>playtime</artifactId>
+   <version>1.4.2</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+-            <version>1.6.2-R0.1</version>
++            <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 4d7852b13fad3b1a3616576d15c88c9c6ed73c0a
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Tue Oct 8 12:01:07 2013 -0400
+
+    Move to playtime 1.4.3
+
+diff --git pom.xml pom.xml
+index 306eb03..e953ad3 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>playtime</artifactId>
+-  <version>1.4.2</version>
++  <version>1.4.3</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 3568d2e2dbd7c86d3c864656a6a3e2136496fb20
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Tue Oct 8 13:17:46 2013 -0400
+
+    fix update listener bug
+
+diff --git pom.xml pom.xml
+index e953ad3..6de524d 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+-  <artifactId>playtime</artifactId>
++  <artifactId>Playtime</artifactId>
+   <version>1.4.3</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 3df0909f71e08ca86e29dbcc811ac380894c14d7
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Wed Oct 16 08:59:20 2013 -0400
+
+    Move to 1.4.4
+
+diff --git pom.xml pom.xml
+index 6de524d..837208e 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.4.3</version>
++  <version>1.4.4</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 792e259718574e599ae68849836f8a319230a187
+Author: Spencer <Spencer@192.168.1.123>
+Date:   Wed Nov 27 11:55:42 2013 -0500
+
+    Clean up random function. Fixes Playtime-32
+
+diff --git pom.xml pom.xml
+index 837208e..b446ce5 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+-  <artifactId>Playtime</artifactId>
++  <artifactId>playtime</artifactId>
+   <version>1.4.4</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit fa3f424077f49ca8f489e62afcc471330e4ef137
+Author: Spencer Alderman <spencer@1rogue.com>
+Date:   Tue Jan 21 07:40:36 2014 -0500
+
+    Bug fixes for the auto-updater
+
+diff --git pom.xml pom.xml
+index b446ce5..e0f1e27 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+-  <artifactId>playtime</artifactId>
+-  <version>1.4.4</version>
++  <artifactId>Playtime</artifactId>
++  <version>1.4.2</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 37edaa44f821831604e97d927259b24315eefeed
+Author: Spencer Alderman <spencer@1rogue.com>
+Date:   Tue Jan 21 07:40:54 2014 -0500
+
+    We're not 1.4.2
+
+diff --git pom.xml pom.xml
+index e0f1e27..837208e 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.4.2</version>
++  <version>1.4.4</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 08d1c69c01a4bb0c1cefac7c34e3602e84fcb3d2
+Author: Spencer Alderman <spencer@1rogue.com>
+Date:   Tue Jan 21 07:41:43 2014 -0500
+
+    Set release for 1.4.5
+
+diff --git pom.xml pom.xml
+index 837208e..565222c 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,53 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>Playtime</artifactId>
+-  <version>1.4.4</version>
++  <version>1.4.5</version>
+   <name>Playtime</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 97bd66af453239e59ac398b1c54b1ce43bc6ead7
+Author: Spencer Alderman <spencer@1rogue.com>
+Date:   Tue Jul 29 16:26:27 2014 -0400
+
+    Move to 1.5.0-SNAPSHOT, refactor packages
+
+diff --git pom.xml pom.xml
+index 565222c..d128f04 100644
+--- pom.xml
++++ pom.xml
+@@ -1,53 +1,66 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-  <modelVersion>4.0.0</modelVersion>
+-  <groupId>com.rogue</groupId>
+-  <artifactId>Playtime</artifactId>
+-  <version>1.4.5</version>
+-  <name>Playtime</name>
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>com.rogue</groupId>
++    <artifactId>Playtime</artifactId>
++    <version>1.5.0-SNAPSHOT</version>
++    <name>Playtime</name>
+   
+-  <repositories>
++    <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+-  <packaging>jar</packaging>
+-  
+-  <build>
++    <packaging>jar</packaging>
++    <distributionManagement>
++        <repository>
++            <id>cl-deployment</id>
++            <name>Internal Releases</name>
++            <url>http://repo.codelanx.com/content/repositories/releases/</url>
++            <uniqueVersion>false</uniqueVersion>
++        </repository>
++        <snapshotRepository>
++            <id>cl-deployment</id>
++            <name>Internal Releases</name>
++            <url>http://repo.codelanx.com/content/repositories/snapshots/</url>
++            <uniqueVersion>false</uniqueVersion>
++        </snapshotRepository>
++    </distributionManagement>
++    <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+-  </build>
++    </build>
+   
+-  <dependencies>
++    <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+-  <properties>
+-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-  </properties>
++    <properties>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
+   
+ </project>
+
+commit 78ff4918d0b8706b2b37a8b4a4cdb4645f39c683
+Author: Spencer Alderman <spencer@1rogue.com>
+Date:   Sun Aug 3 14:33:04 2014 -0400
+
+    Update dependency to latest dev build and add UUID support
+
+diff --git pom.xml pom.xml
+index d128f04..32bc657 100644
+--- pom.xml
++++ pom.xml
+@@ -1,66 +1,66 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>com.rogue</groupId>
+     <artifactId>Playtime</artifactId>
+     <version>1.5.0-SNAPSHOT</version>
+     <name>Playtime</name>
+   
+     <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/groups/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+     <packaging>jar</packaging>
+     <distributionManagement>
+         <repository>
+             <id>cl-deployment</id>
+             <name>Internal Releases</name>
+             <url>http://repo.codelanx.com/content/repositories/releases/</url>
+             <uniqueVersion>false</uniqueVersion>
+         </repository>
+         <snapshotRepository>
+             <id>cl-deployment</id>
+             <name>Internal Releases</name>
+             <url>http://repo.codelanx.com/content/repositories/snapshots/</url>
+             <uniqueVersion>false</uniqueVersion>
+         </snapshotRepository>
+     </distributionManagement>
+     <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>events.yml</include>
+                     <include>plugin.yml</include>
+                     <include>config.yml</include>
+                     <include>en_US.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.name}-${project.version}</finalName>
+     </build>
+   
+     <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+-            <version>1.6.4-R0.1-SNAPSHOT</version>
++            <version>LATEST</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+   
+ </project>
+
+commit 110765b0b0a0438f97a1969e8e2a1860753450bf
+Author: Spencer Alderman <spencer@1rogue.com>
+Date:   Mon Mar 16 17:24:14 2015 -0400
+
+    Move to 2.0.0 snapshot, add CodelanxLib to pom
+
+diff --git pom.xml pom.xml
+index 32bc657..3533dd4 100644
+--- pom.xml
++++ pom.xml
+@@ -1,66 +1,76 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-    <modelVersion>4.0.0</modelVersion>
+-    <groupId>com.rogue</groupId>
+-    <artifactId>Playtime</artifactId>
+-    <version>1.5.0-SNAPSHOT</version>
+-    <name>Playtime</name>
+-  
+-    <repositories>
+-        <repository>
+-            <id>bukkit-repo</id>
+-            <url>http://repo.bukkit.org/content/groups/public/</url>
+-        </repository>
+-    </repositories>
+-    <licenses>
+-        <license>
+-            <name>General Public License, Version 3.0</name>
+-            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+-            <distribution>repo</distribution>
+-        </license>
+-    </licenses>
+-    <packaging>jar</packaging>
+-    <distributionManagement>
+-        <repository>
+-            <id>cl-deployment</id>
+-            <name>Internal Releases</name>
+-            <url>http://repo.codelanx.com/content/repositories/releases/</url>
+-            <uniqueVersion>false</uniqueVersion>
+-        </repository>
+-        <snapshotRepository>
+-            <id>cl-deployment</id>
+-            <name>Internal Releases</name>
+-            <url>http://repo.codelanx.com/content/repositories/snapshots/</url>
+-            <uniqueVersion>false</uniqueVersion>
+-        </snapshotRepository>
+-    </distributionManagement>
+-    <build>
+-        <resources>
+-            <resource>
+-                <directory>src/main/resources</directory>
+-                <filtering>true</filtering>
+-                <includes>
+-                    <include>events.yml</include>
+-                    <include>plugin.yml</include>
+-                    <include>config.yml</include>
+-                    <include>en_US.yml</include>
+-                </includes>
+-            </resource>
+-        </resources>
+-        <finalName>${project.name}-${project.version}</finalName>
+-    </build>
+-  
+-    <dependencies>
+-        <dependency>
+-            <groupId>org.bukkit</groupId>
+-            <artifactId>bukkit</artifactId>
+-            <version>LATEST</version>
+-            <type>jar</type>
+-        </dependency>
+-    </dependencies>
+-
+-    <properties>
+-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    </properties>
+-  
+-</project>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>com.rogue</groupId>
++    <artifactId>Playtime</artifactId>
++    <version>2.0.0-SNAPSHOT</version>
++    <name>Playtime</name>
++  
++    <repositories>
++        <repository>
++            <id>spigot-repo</id>
++            <url>http://repo.md-5.net/content/repositories/public/</url>
++        </repository>
++        <repository>
++            <id>codelanx-repo</id>
++            <url>http://repo.codelanx.com/content/repositories/public/</url>
++        </repository>
++    </repositories>
++    <licenses>
++        <license>
++            <name>General Public License, Version 3.0</name>
++            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
++            <distribution>repo</distribution>
++        </license>
++    </licenses>
++    <packaging>jar</packaging>
++    <distributionManagement>
++        <repository>
++            <id>cl-deployment</id>
++            <name>Internal Releases</name>
++            <url>http://repo.codelanx.com/content/repositories/releases/</url>
++            <uniqueVersion>false</uniqueVersion>
++        </repository>
++        <snapshotRepository>
++            <id>cl-deployment</id>
++            <name>Internal Releases</name>
++            <url>http://repo.codelanx.com/content/repositories/snapshots/</url>
++            <uniqueVersion>false</uniqueVersion>
++        </snapshotRepository>
++    </distributionManagement>
++    <build>
++        <resources>
++            <resource>
++                <directory>src/main/resources</directory>
++                <filtering>true</filtering>
++                <includes>
++                    <include>events.yml</include>
++                    <include>plugin.yml</include>
++                    <include>config.yml</include>
++                    <include>en_US.yml</include>
++                </includes>
++            </resource>
++        </resources>
++        <finalName>${project.name}-${project.version}</finalName>
++    </build>
++  
++    <dependencies>
++        <dependency>
++            <groupId>org.bukkit</groupId>
++            <artifactId>bukkit</artifactId>
++            <version>LATEST</version>
++            <type>jar</type>
++        </dependency>
++        <dependency>
++            <groupId>com.codelanx</groupId>
++            <artifactId>codelanxlib</artifactId>
++            <version>0.1.0-SNAPSHOT</version>
++            <type>jar</type>
++        </dependency>
++    </dependencies>
++
++    <properties>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++  
++</project>

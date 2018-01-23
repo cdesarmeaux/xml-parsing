@@ -1,0 +1,698 @@
+commit 28dc32865953e8049d4e5474eb184e4d3f319515
+Author: Peter <peter@17sprints.de>
+Date:   Fri Jul 15 20:57:09 2011 +0200
+
+    initial commit
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..caf2e01
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,126 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++  
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>org.webguitoolkit.ui</groupId>
++  <artifactId>wgt-ui-addons</artifactId>
++  <packaging>jar</packaging>
++  <name>wgt-ui-addons</name>
++  <version>01.00.00-SNAPSHOT</version> 
++
++  <description>WGT project created with maven webguitoolkit-archetype</description>
++  
++    <properties>
++        <prop.project.root.dir>${basedir}</prop.project.root.dir>
++        <prop.project.group>Commons</prop.project.group>
++        <prop.project.name>${project.name}</prop.project.name>
++        <prop.site.generateReports>true</prop.site.generateReports>
++        <prop.javadoc.attach-javadocs>true</prop.javadoc.attach-javadocs>
++        <prop.source.generateSourceJar>true</prop.source.generateSourceJar>
++        <prop.jar.skipTestjar>false</prop.jar.skipTestjar>
++        <prop.test.skip>false</prop.test.skip>
++        <prop.java.sourceversion>1.6</prop.java.sourceversion>
++        <prop.java.targetversion>1.6</prop.java.targetversion>
++        <prop.aspectj.excludes>**/*</prop.aspectj.excludes>
++    </properties>
++  
++  <developers>
++    <developer>
++      <id>PZ</id>
++      <name>Peter Zaretzke</name>
++      <email>peter@17sprints.de</email>
++      <roles>
++        <role>Developer</role>
++      </roles>
++      <organization>org</organization>
++    </developer>
++  </developers>
++  
++  <dependencies>
++  	<dependency>
++  		<groupId>com.endress.infoserve.ui</groupId>
++  		<artifactId>webguitoolkit-ui-eh</artifactId>
++  		<version>01.03.11</version>
++  		<optional>false</optional>
++  		<scope>compile</scope>
++  	</dependency>
++  </dependencies> 
++  
++  <reporting>
++    <plugins>
++      <plugin>
++        <artifactId>maven-changes-plugin</artifactId>
++        <configuration>
++          <toAddresses>
++            <toAddress implementation="java.lang.String">me@somecompany.com</toAddress>
++          </toAddresses>  
++        </configuration>
++        <reportSets>
++          <reportSet>
++            <reports>
++              <report>changes-report</report>
++            </reports>
++          </reportSet>
++        </reportSets>
++      </plugin>
++      <plugin>
++        <artifactId>maven-project-info-reports-plugin</artifactId>
++        <configuration>
++          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
++          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
++        </configuration>
++        <reportSets>
++          <reportSet>
++            <reports>
++              <report>index</report>
++              <report>project-team</report>
++              <report>issue-tracking</report>
++              <report>scm</report>
++              <report>dependencies</report>
++              <report>cim</report>
++              <report>summary</report>
++            </reports>
++          </reportSet>
++        </reportSets>
++      </plugin>
++      <plugin>
++        <artifactId>maven-changelog-plugin</artifactId>
++        <reportSets>
++          <reportSet>
++            <id>dual-report</id>
++            <configuration>
++              <type>range</type>
++              <range>180</range>
++              <displayFileDetailUrl>http://isw600.infoserve.endress.com/svn/%FILE%</displayFileDetailUrl>
++            </configuration>
++            <reports>
++              <report>dev-activity</report>
++              <report>file-activity</report>
++            </reports>
++          </reportSet>
++        </reportSets>
++      </plugin>
++      <!-- 
++      <plugin>
++        <groupId>org.codehaus.mojo</groupId>
++        <artifactId>clirr-maven-plugin</artifactId>
++        <configuration>
++          <comparisonVersion>1.0.11</comparisonVersion>
++        </configuration>
++      </plugin>
++      -->
++      <plugin>
++        <groupId>org.codehaus.mojo</groupId>
++        <artifactId>taglist-maven-plugin</artifactId>
++      </plugin>
++      <plugin>
++        <artifactId>maven-surefire-report-plugin</artifactId>
++      </plugin>
++      <plugin>
++        <groupId>org.codehaus.mojo</groupId>
++        <artifactId>cobertura-maven-plugin</artifactId>
++      </plugin>
++    </plugins>
++  </reporting>
++  
++</project>
+
+commit ca55330046e5da4de4ed8b7fc4be16b545dd2826
+Author: Peter <peter@17sprints.de>
+Date:   Tue Jul 19 15:05:03 2011 +0200
+
+    some enhancements in editors
+
+diff --git pom.xml pom.xml
+index caf2e01..1379f30 100644
+--- pom.xml
++++ pom.xml
+@@ -1,126 +1,82 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+-  
+-  <modelVersion>4.0.0</modelVersion>
+-  <groupId>org.webguitoolkit.ui</groupId>
+-  <artifactId>wgt-ui-addons</artifactId>
+-  <packaging>jar</packaging>
+-  <name>wgt-ui-addons</name>
+-  <version>01.00.00-SNAPSHOT</version> 
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++
++	<modelVersion>4.0.0</modelVersion>
++	<groupId>org.webguitoolkit.ui</groupId>
++	<artifactId>wgt-ui-addons</artifactId>
++	<packaging>jar</packaging>
++	<name>wgt-ui-addons</name>
++	<url>http://webguitoolkit.org</url>
++	<version>01.00.00-SNAPSHOT</version>
++
++	<description>WGT project created with maven webguitoolkit-archetype</description>
++
++	<properties>
++		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++		<prop.java.sourceversion>1.6</prop.java.sourceversion>
++		<prop.java.targetversion>1.6</prop.java.targetversion>
++		<prop.source.generateSourceJar>true</prop.source.generateSourceJar>
++	</properties>
++
++	<developers>
++		<developer>
++			<id>PZ</id>
++			<name>Peter Zaretzke</name>
++			<email>peter@17sprints.de</email>
++			<roles>
++				<role>Developer</role>
++			</roles>
++			<organization>org</organization>
++		</developer>
++	</developers>
++
++	<dependencies>
++		<dependency>
++			<groupId>com.endress.infoserve.ui</groupId>
++			<artifactId>webguitoolkit-ui-eh</artifactId>
++			<version>01.03.11</version>
++			<optional>false</optional>
++			<scope>compile</scope>
++		</dependency>
++	</dependencies>
++
++	<build>
++		<plugins>
++			<plugin>
++				<groupId>org.apache.maven.plugins</groupId>
++				<artifactId>maven-compiler-plugin</artifactId>
++				<version>2.3.2</version>
++
++				<configuration>
++					<source>${prop.java.sourceversion}</source>
++					<target>${prop.java.targetversion}</target>
++				</configuration>
++
++				<dependencies>
++					<dependency>
++						<groupId>org.codehaus.plexus</groupId>
++						<artifactId>plexus-compiler-eclipse</artifactId>
++						<version>1.5.1</version>
++					</dependency>
++				</dependencies>
++
++			</plugin>
++			<plugin>
++				<groupId>org.apache.maven.plugins</groupId>
++				<artifactId>maven-source-plugin</artifactId>
++				<version>2.1.2</version>
++				<executions>
++					<execution>
++						<id>attach-sources</id>
++						<phase>verify</phase>
++						<goals>
++							<goal>jar-no-fork</goal>
++						</goals>
++					</execution>
++				</executions>
++			</plugin>
++		</plugins>
++	</build>
+ 
+-  <description>WGT project created with maven webguitoolkit-archetype</description>
+-  
+-    <properties>
+-        <prop.project.root.dir>${basedir}</prop.project.root.dir>
+-        <prop.project.group>Commons</prop.project.group>
+-        <prop.project.name>${project.name}</prop.project.name>
+-        <prop.site.generateReports>true</prop.site.generateReports>
+-        <prop.javadoc.attach-javadocs>true</prop.javadoc.attach-javadocs>
+-        <prop.source.generateSourceJar>true</prop.source.generateSourceJar>
+-        <prop.jar.skipTestjar>false</prop.jar.skipTestjar>
+-        <prop.test.skip>false</prop.test.skip>
+-        <prop.java.sourceversion>1.6</prop.java.sourceversion>
+-        <prop.java.targetversion>1.6</prop.java.targetversion>
+-        <prop.aspectj.excludes>**/*</prop.aspectj.excludes>
+-    </properties>
+-  
+-  <developers>
+-    <developer>
+-      <id>PZ</id>
+-      <name>Peter Zaretzke</name>
+-      <email>peter@17sprints.de</email>
+-      <roles>
+-        <role>Developer</role>
+-      </roles>
+-      <organization>org</organization>
+-    </developer>
+-  </developers>
+-  
+-  <dependencies>
+-  	<dependency>
+-  		<groupId>com.endress.infoserve.ui</groupId>
+-  		<artifactId>webguitoolkit-ui-eh</artifactId>
+-  		<version>01.03.11</version>
+-  		<optional>false</optional>
+-  		<scope>compile</scope>
+-  	</dependency>
+-  </dependencies> 
+-  
+-  <reporting>
+-    <plugins>
+-      <plugin>
+-        <artifactId>maven-changes-plugin</artifactId>
+-        <configuration>
+-          <toAddresses>
+-            <toAddress implementation="java.lang.String">me@somecompany.com</toAddress>
+-          </toAddresses>  
+-        </configuration>
+-        <reportSets>
+-          <reportSet>
+-            <reports>
+-              <report>changes-report</report>
+-            </reports>
+-          </reportSet>
+-        </reportSets>
+-      </plugin>
+-      <plugin>
+-        <artifactId>maven-project-info-reports-plugin</artifactId>
+-        <configuration>
+-          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+-          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+-        </configuration>
+-        <reportSets>
+-          <reportSet>
+-            <reports>
+-              <report>index</report>
+-              <report>project-team</report>
+-              <report>issue-tracking</report>
+-              <report>scm</report>
+-              <report>dependencies</report>
+-              <report>cim</report>
+-              <report>summary</report>
+-            </reports>
+-          </reportSet>
+-        </reportSets>
+-      </plugin>
+-      <plugin>
+-        <artifactId>maven-changelog-plugin</artifactId>
+-        <reportSets>
+-          <reportSet>
+-            <id>dual-report</id>
+-            <configuration>
+-              <type>range</type>
+-              <range>180</range>
+-              <displayFileDetailUrl>http://isw600.infoserve.endress.com/svn/%FILE%</displayFileDetailUrl>
+-            </configuration>
+-            <reports>
+-              <report>dev-activity</report>
+-              <report>file-activity</report>
+-            </reports>
+-          </reportSet>
+-        </reportSets>
+-      </plugin>
+-      <!-- 
+-      <plugin>
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>clirr-maven-plugin</artifactId>
+-        <configuration>
+-          <comparisonVersion>1.0.11</comparisonVersion>
+-        </configuration>
+-      </plugin>
+-      -->
+-      <plugin>
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>taglist-maven-plugin</artifactId>
+-      </plugin>
+-      <plugin>
+-        <artifactId>maven-surefire-report-plugin</artifactId>
+-      </plugin>
+-      <plugin>
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>cobertura-maven-plugin</artifactId>
+-      </plugin>
+-    </plugins>
+-  </reporting>
+-  
+ </project>
+
+commit ddb4e876ceae2a7a2265b5f3fb36ad789915d710
+Author: Peter <peter@17sprints.de>
+Date:   Wed Aug 17 20:00:40 2011 +0200
+
+    - new version of eh wgt
+    - changed master detail controller BB.delete()
+    - changed table creation from class using name instead of id
+
+diff --git pom.xml pom.xml
+index 1379f30..279cf3e 100644
+--- pom.xml
++++ pom.xml
+@@ -1,82 +1,82 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>org.webguitoolkit.ui</groupId>
+ 	<artifactId>wgt-ui-addons</artifactId>
+ 	<packaging>jar</packaging>
+ 	<name>wgt-ui-addons</name>
+ 	<url>http://webguitoolkit.org</url>
+ 	<version>01.00.00-SNAPSHOT</version>
+ 
+ 	<description>WGT project created with maven webguitoolkit-archetype</description>
+ 
+ 	<properties>
+ 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 		<prop.java.sourceversion>1.6</prop.java.sourceversion>
+ 		<prop.java.targetversion>1.6</prop.java.targetversion>
+ 		<prop.source.generateSourceJar>true</prop.source.generateSourceJar>
+ 	</properties>
+ 
+ 	<developers>
+ 		<developer>
+ 			<id>PZ</id>
+ 			<name>Peter Zaretzke</name>
+ 			<email>peter@17sprints.de</email>
+ 			<roles>
+ 				<role>Developer</role>
+ 			</roles>
+ 			<organization>org</organization>
+ 		</developer>
+ 	</developers>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.endress.infoserve.ui</groupId>
+ 			<artifactId>webguitoolkit-ui-eh</artifactId>
+-			<version>01.03.11</version>
++			<version>01.03.12</version>
+ 			<optional>false</optional>
+ 			<scope>compile</scope>
+ 		</dependency>
+ 	</dependencies>
+ 
+ 	<build>
+ 		<plugins>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-compiler-plugin</artifactId>
+ 				<version>2.3.2</version>
+ 
+ 				<configuration>
+ 					<source>${prop.java.sourceversion}</source>
+ 					<target>${prop.java.targetversion}</target>
+ 				</configuration>
+ 
+ 				<dependencies>
+ 					<dependency>
+ 						<groupId>org.codehaus.plexus</groupId>
+ 						<artifactId>plexus-compiler-eclipse</artifactId>
+ 						<version>1.5.1</version>
+ 					</dependency>
+ 				</dependencies>
+ 
+ 			</plugin>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-source-plugin</artifactId>
+ 				<version>2.1.2</version>
+ 				<executions>
+ 					<execution>
+ 						<id>attach-sources</id>
+ 						<phase>verify</phase>
+ 						<goals>
+ 							<goal>jar-no-fork</goal>
+ 						</goals>
+ 					</execution>
+ 				</executions>
+ 			</plugin>
+ 		</plugins>
+ 	</build>
+ 
+ </project>
+
+commit 87a1e90133143200c7666fb61dc5a001dc77e427
+Author: Peter <peter@17sprints.de>
+Date:   Wed Oct 26 10:14:48 2011 +0200
+
+    Release
+
+diff --git pom.xml pom.xml
+old mode 100644
+new mode 100755
+index 279cf3e..09c487e
+--- pom.xml
++++ pom.xml
+@@ -1,82 +1,108 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>org.webguitoolkit.ui</groupId>
+ 	<artifactId>wgt-ui-addons</artifactId>
+ 	<packaging>jar</packaging>
+ 	<name>wgt-ui-addons</name>
+ 	<url>http://webguitoolkit.org</url>
+-	<version>01.00.00-SNAPSHOT</version>
++
++	<version>01.00.01-SNAPSHOT</version>
+ 
+ 	<description>WGT project created with maven webguitoolkit-archetype</description>
+ 
+ 	<properties>
+ 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 		<prop.java.sourceversion>1.6</prop.java.sourceversion>
+ 		<prop.java.targetversion>1.6</prop.java.targetversion>
+ 		<prop.source.generateSourceJar>true</prop.source.generateSourceJar>
+ 	</properties>
+ 
++	<scm>
++		<connection>scm:svn:http://isw600.infoserve.endress.com/svn/Utils/wgt-ui-addons/trunk/wgt-ui-addons</connection>
++		<developerConnection>scm:svn:http://isw600.infoserve.endress.com/svn/Utils/wgt-ui-addons/trunk/wgt-ui-addons</developerConnection>
++		<url>http://isw600.infoserve.endress.com/svn/Utils/wgt-ui-addons/trunk/wgt-ui-addons</url>
++	</scm>
++
++
+ 	<developers>
+ 		<developer>
+ 			<id>PZ</id>
+ 			<name>Peter Zaretzke</name>
+ 			<email>peter@17sprints.de</email>
+ 			<roles>
+ 				<role>Developer</role>
+ 			</roles>
+ 			<organization>org</organization>
+ 		</developer>
+ 	</developers>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.endress.infoserve.ui</groupId>
+ 			<artifactId>webguitoolkit-ui-eh</artifactId>
+ 			<version>01.03.12</version>
+ 			<optional>false</optional>
+ 			<scope>compile</scope>
+ 		</dependency>
+ 	</dependencies>
+ 
+ 	<build>
+ 		<plugins>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-compiler-plugin</artifactId>
+ 				<version>2.3.2</version>
+ 
+ 				<configuration>
+ 					<source>${prop.java.sourceversion}</source>
+ 					<target>${prop.java.targetversion}</target>
+ 				</configuration>
+ 
+ 				<dependencies>
+ 					<dependency>
+ 						<groupId>org.codehaus.plexus</groupId>
+ 						<artifactId>plexus-compiler-eclipse</artifactId>
+ 						<version>1.5.1</version>
+ 					</dependency>
+ 				</dependencies>
+ 
+ 			</plugin>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-source-plugin</artifactId>
+ 				<version>2.1.2</version>
+ 				<executions>
+ 					<execution>
+ 						<id>attach-sources</id>
+ 						<phase>verify</phase>
+ 						<goals>
+ 							<goal>jar-no-fork</goal>
+ 						</goals>
+ 					</execution>
+ 				</executions>
+ 			</plugin>
+ 		</plugins>
+ 	</build>
+ 
++	<distributionManagement>
++		<repository>
++			<id>archiva.internal</id>
++			<name>Local Archiva repository</name>
++			<url>dav:http://isw600.infoserve.endress.com:8080/archiva/repository/internal</url>
++		</repository>
++		<snapshotRepository>
++			<id>archiva.internal.snapshots</id>
++			<name>Local Archiva repository for snapshots</name>
++			<url>dav:http://isw600.infoserve.endress.com:8080/archiva/repository/snapshots</url>
++			<uniqueVersion>false</uniqueVersion>
++		</snapshotRepository>
++		<site>
++			<id>tomcat-isw600</id>
++			<name>site</name>
++			<url>file://D:/Apps/xampp/htdocs/projectsites/${prop.project.group}</url>
++		</site>
++	</distributionManagement>
++
+ </project>
+
+commit f741cdf7f1c9a1dcd61299ae56b66d401b055164
+Author: Peter <peter@17sprints.de>
+Date:   Mon Oct 31 17:39:32 2011 +0100
+
+    bugfix
+
+diff --git pom.xml pom.xml
+index 09c487e..2f27a16 100755
+--- pom.xml
++++ pom.xml
+@@ -1,108 +1,108 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+ 	<modelVersion>4.0.0</modelVersion>
+ 	<groupId>org.webguitoolkit.ui</groupId>
+ 	<artifactId>wgt-ui-addons</artifactId>
+ 	<packaging>jar</packaging>
+ 	<name>wgt-ui-addons</name>
+ 	<url>http://webguitoolkit.org</url>
+ 
+ 	<version>01.00.01-SNAPSHOT</version>
+ 
+ 	<description>WGT project created with maven webguitoolkit-archetype</description>
+ 
+ 	<properties>
+ 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 		<prop.java.sourceversion>1.6</prop.java.sourceversion>
+ 		<prop.java.targetversion>1.6</prop.java.targetversion>
+ 		<prop.source.generateSourceJar>true</prop.source.generateSourceJar>
+ 	</properties>
+ 
+ 	<scm>
+ 		<connection>scm:svn:http://isw600.infoserve.endress.com/svn/Utils/wgt-ui-addons/trunk/wgt-ui-addons</connection>
+ 		<developerConnection>scm:svn:http://isw600.infoserve.endress.com/svn/Utils/wgt-ui-addons/trunk/wgt-ui-addons</developerConnection>
+ 		<url>http://isw600.infoserve.endress.com/svn/Utils/wgt-ui-addons/trunk/wgt-ui-addons</url>
+ 	</scm>
+ 
+ 
+ 	<developers>
+ 		<developer>
+ 			<id>PZ</id>
+ 			<name>Peter Zaretzke</name>
+ 			<email>peter@17sprints.de</email>
+ 			<roles>
+ 				<role>Developer</role>
+ 			</roles>
+ 			<organization>org</organization>
+ 		</developer>
+ 	</developers>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.endress.infoserve.ui</groupId>
+ 			<artifactId>webguitoolkit-ui-eh</artifactId>
+-			<version>01.03.12</version>
++			<version>01.03.13</version>
+ 			<optional>false</optional>
+ 			<scope>compile</scope>
+ 		</dependency>
+ 	</dependencies>
+ 
+ 	<build>
+ 		<plugins>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-compiler-plugin</artifactId>
+ 				<version>2.3.2</version>
+ 
+ 				<configuration>
+ 					<source>${prop.java.sourceversion}</source>
+ 					<target>${prop.java.targetversion}</target>
+ 				</configuration>
+ 
+ 				<dependencies>
+ 					<dependency>
+ 						<groupId>org.codehaus.plexus</groupId>
+ 						<artifactId>plexus-compiler-eclipse</artifactId>
+ 						<version>1.5.1</version>
+ 					</dependency>
+ 				</dependencies>
+ 
+ 			</plugin>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-source-plugin</artifactId>
+ 				<version>2.1.2</version>
+ 				<executions>
+ 					<execution>
+ 						<id>attach-sources</id>
+ 						<phase>verify</phase>
+ 						<goals>
+ 							<goal>jar-no-fork</goal>
+ 						</goals>
+ 					</execution>
+ 				</executions>
+ 			</plugin>
+ 		</plugins>
+ 	</build>
+ 
+ 	<distributionManagement>
+ 		<repository>
+ 			<id>archiva.internal</id>
+ 			<name>Local Archiva repository</name>
+ 			<url>dav:http://isw600.infoserve.endress.com:8080/archiva/repository/internal</url>
+ 		</repository>
+ 		<snapshotRepository>
+ 			<id>archiva.internal.snapshots</id>
+ 			<name>Local Archiva repository for snapshots</name>
+ 			<url>dav:http://isw600.infoserve.endress.com:8080/archiva/repository/snapshots</url>
+ 			<uniqueVersion>false</uniqueVersion>
+ 		</snapshotRepository>
+ 		<site>
+ 			<id>tomcat-isw600</id>
+ 			<name>site</name>
+ 			<url>file://D:/Apps/xampp/htdocs/projectsites/${prop.project.group}</url>
+ 		</site>
+ 	</distributionManagement>
+ 
+ </project>

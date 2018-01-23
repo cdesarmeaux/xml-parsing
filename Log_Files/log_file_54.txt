@@ -1,0 +1,1657 @@
+commit fa4fd142d3c3335a2c08b4becf19607010e35434
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Wed Nov 21 00:37:58 2012 +0800
+
+    先签入一个支持restful api的hello world版本的程序.
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+new file mode 100644
+index 0000000..fc5def0
+--- /dev/null
++++ trunk/tpms/pom.xml
+@@ -0,0 +1,127 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++
++  <groupId>org.ng12306.tpms</groupId>
++  <artifactId>org.ng12306.tpms</artifactId>
++  <version>1.0-SNAPSHOT</version>
++  <packaging>jar</packaging>
++
++  <name>org.ng12306.tpms</name>
++  <url>http://maven.apache.org</url>
++
++  <properties>
++    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++  </properties>
++
++  <profiles>
++    <!-- To use this profile, must first build Jersey source with "mvn clean install -Dcobertura" -->
++    <profile>
++      <id>cobertura</id>
++      <activation>
++        <property>
++          <name>cobertura</name>
++        </property>
++      </activation>
++      <dependencies>
++        <dependency>
++          <groupId>com.sun.jersey</groupId>
++          <artifactId>jersey-grizzly2</artifactId>
++          <version>1.15</version>
++          <classifier>cobertura</classifier>
++        </dependency>
++        <dependency>
++          <groupId>com.sun.jersey.jersey-test-framework</groupId>
++          <artifactId>jersey-test-framework-grizzly2</artifactId>
++          <version>1.15</version>
++          <scope>test</scope>
++          <classifier>cobertura</classifier>
++        </dependency>
++      </dependencies>
++    </profile>
++    <profile>
++      <id>default</id>
++      <activation>
++        <activeByDefault>true</activeByDefault>
++      </activation>
++      <dependencies>
++        <dependency>
++          <groupId>com.sun.jersey</groupId>
++          <artifactId>jersey-grizzly2</artifactId>
++          <version>1.15</version>
++        </dependency>
++        <dependency>
++          <groupId>com.sun.jersey.jersey-test-framework</groupId>
++          <artifactId>jersey-test-framework-grizzly2</artifactId>
++          <version>1.15</version>
++          <scope>test</scope>
++        </dependency>
++      </dependencies>
++    </profile>
++    <profile>
++      <id>release</id>
++      <build>
++        <plugins>
++          <plugin>
++            <groupId>org.apache.maven.plugins</groupId>
++            <artifactId>maven-javadoc-plugin</artifactId>
++            <configuration>
++              <links>
++                <link>http://jsr311.java.net/nonav/releases/1.1</link>
++              </links>
++            </configuration>
++          </plugin>
++        </plugins>
++      </build>
++    </profile>
++  </profiles>
++  <build>
++    <plugins>
++      <!--  Maven Exec Plug-In: http://mojo.codehaus.org/exec-maven-plugin/  -->
++      <plugin>
++        <groupId>org.codehaus.mojo</groupId>
++        <artifactId>exec-maven-plugin</artifactId>
++        <version>1.1</version>
++        <executions>
++          <execution>
++            <goals>
++              <goal>java</goal>
++            </goals>
++          </execution>
++        </executions>
++        <configuration>
++          <mainClass>org.ng12306.tpms.App</mainClass>
++        </configuration>
++      </plugin>
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-compiler-plugin</artifactId>
++        <inherited>true</inherited>
++        <configuration>
++          <source>1.6</source>
++          <target>1.6</target>
++        </configuration>
++      </plugin>
++      <plugin>
++        <artifactId>maven-assembly-plugin</artifactId>
++        <configuration>
++          <descriptors>
++            <descriptor>src/main/assembly/src.xml</descriptor>
++          </descriptors>
++        </configuration>
++        <executions>
++          <execution>
++            <id>make-assembly</id>
++            <!-- this is used for inheritance merges -->
++            <phase>package</phase>
++            <!-- append to the packaging phase. -->
++            <goals>
++              <goal>attached</goal>
++              <!-- goals == mojos -->
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++    </plugins>
++  </build>
++</project>
+
+commit 6caef0e4cf48f112d2c48c4b72c1f544d6d2437f
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Fri Nov 23 20:15:17 2012 +0800
+
+    提交第一个可以输出json，而且可以正确被浏览器解析的restful api service版本。
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index fc5def0..e564f1e 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,127 +1,108 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-  <modelVersion>4.0.0</modelVersion>
+-
+-  <groupId>org.ng12306.tpms</groupId>
+-  <artifactId>org.ng12306.tpms</artifactId>
+-  <version>1.0-SNAPSHOT</version>
+-  <packaging>jar</packaging>
+-
+-  <name>org.ng12306.tpms</name>
+-  <url>http://maven.apache.org</url>
+-
+-  <properties>
+-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-  </properties>
+-
+-  <profiles>
+-    <!-- To use this profile, must first build Jersey source with "mvn clean install -Dcobertura" -->
+-    <profile>
+-      <id>cobertura</id>
+-      <activation>
+-        <property>
+-          <name>cobertura</name>
+-        </property>
+-      </activation>
+-      <dependencies>
+-        <dependency>
+-          <groupId>com.sun.jersey</groupId>
+-          <artifactId>jersey-grizzly2</artifactId>
+-          <version>1.15</version>
+-          <classifier>cobertura</classifier>
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>org.ng12306.tpms</groupId>
++    <artifactId>org.ng12306.tpms</artifactId>
++    <packaging>jar</packaging>
++    <version>0.1</version>
++    <name>org.ng12306.tpms</name>  
++    <dependencies>
++         <dependency>
++            <groupId>com.sun.jersey</groupId>
++            <artifactId>jersey-grizzly</artifactId>
++            <version>${jersey-version}</version>
+         </dependency>
+-        <dependency>
+-          <groupId>com.sun.jersey.jersey-test-framework</groupId>
+-          <artifactId>jersey-test-framework-grizzly2</artifactId>
+-          <version>1.15</version>
+-          <scope>test</scope>
+-          <classifier>cobertura</classifier>
++        <!-- uncomment this to get JSON support:
++        -->
++         <dependency>
++            <groupId>com.sun.jersey</groupId>
++            <artifactId>jersey-json</artifactId>
++            <version>${jersey-version}</version>
++        </dependency>
++        <!-- uncomment this to get Fastinfoset support:
++         <dependency>
++            <groupId>com.sun.jersey</groupId>
++            <artifactId>jersey-fastinfoset</artifactId>
++            <version>${jersey-version}</version>
++        </dependency>
++        -->
++        <!-- uncomment this to get ATOM support:
++         <dependency>
++            <groupId>com.sun.jersey</groupId>
++            <artifactId>jersey-atom</artifactId>
++            <version>${jersey-version}</version>
++        </dependency>
++        -->
++        <!-- uncomment this to get multipart MIME types support:
++         <dependency>
++            <groupId>com.sun.jersey.contribs</groupId>
++            <artifactId>jersey-multipart</artifactId>
++            <version>${jersey-version}</version>
++        </dependency>
++        -->
++           <dependency>
++            <groupId>com.sun.grizzly</groupId>
++            <artifactId>grizzly-servlet-webserver</artifactId>
++            <version>1.9.31</version>
+         </dependency>
+-      </dependencies>
+-    </profile>
+-    <profile>
+-      <id>default</id>
+-      <activation>
+-        <activeByDefault>true</activeByDefault>
+-      </activation>
+-      <dependencies>
+         <dependency>
+-          <groupId>com.sun.jersey</groupId>
+-          <artifactId>jersey-grizzly2</artifactId>
+-          <version>1.15</version>
++            <groupId>junit</groupId>
++            <artifactId>junit</artifactId>
++            <version>4.8.2</version>
++            <scope>test</scope>
+         </dependency>
+         <dependency>
+-          <groupId>com.sun.jersey.jersey-test-framework</groupId>
+-          <artifactId>jersey-test-framework-grizzly2</artifactId>
+-          <version>1.15</version>
+-          <scope>test</scope>
++            <groupId>com.sun.jersey</groupId>
++            <artifactId>jersey-client</artifactId>
++            <version>${jersey-version}</version>
++            <scope>test</scope>
+         </dependency>
+-      </dependencies>
+-    </profile>
+-    <profile>
+-      <id>release</id>
+-      <build>
++    </dependencies>
++    <build>
+         <plugins>
+-          <plugin>
+-            <groupId>org.apache.maven.plugins</groupId>
+-            <artifactId>maven-javadoc-plugin</artifactId>
+-            <configuration>
+-              <links>
+-                <link>http://jsr311.java.net/nonav/releases/1.1</link>
+-              </links>
+-            </configuration>
+-          </plugin>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <inherited>true</inherited>
++                <configuration>
++                    <source>1.6</source>
++                    <target>1.6</target>
++                </configuration>
++            </plugin>
++            <plugin>
++                <groupId>org.codehaus.mojo</groupId>
++                <artifactId>exec-maven-plugin</artifactId>
++                <version>1.1</version>
++                <executions>
++                    <execution>
++                        <goals>
++                            <goal>java</goal>
++                        </goals>
++                    </execution>
++                </executions>
++                <configuration>
++                    <mainClass>org.ng12306.tpms.Main</mainClass>
++                </configuration>
++            </plugin>
+         </plugins>
+-      </build>
+-    </profile>
+-  </profiles>
+-  <build>
+-    <plugins>
+-      <!--  Maven Exec Plug-In: http://mojo.codehaus.org/exec-maven-plugin/  -->
+-      <plugin>
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>exec-maven-plugin</artifactId>
+-        <version>1.1</version>
+-        <executions>
+-          <execution>
+-            <goals>
+-              <goal>java</goal>
+-            </goals>
+-          </execution>
+-        </executions>
+-        <configuration>
+-          <mainClass>org.ng12306.tpms.App</mainClass>
+-        </configuration>
+-      </plugin>
+-      <plugin>
+-        <groupId>org.apache.maven.plugins</groupId>
+-        <artifactId>maven-compiler-plugin</artifactId>
+-        <inherited>true</inherited>
+-        <configuration>
+-          <source>1.6</source>
+-          <target>1.6</target>
+-        </configuration>
+-      </plugin>
+-      <plugin>
+-        <artifactId>maven-assembly-plugin</artifactId>
+-        <configuration>
+-          <descriptors>
+-            <descriptor>src/main/assembly/src.xml</descriptor>
+-          </descriptors>
+-        </configuration>
+-        <executions>
+-          <execution>
+-            <id>make-assembly</id>
+-            <!-- this is used for inheritance merges -->
+-            <phase>package</phase>
+-            <!-- append to the packaging phase. -->
+-            <goals>
+-              <goal>attached</goal>
+-              <!-- goals == mojos -->
+-            </goals>
+-          </execution>
+-        </executions>
+-      </plugin>
+-    </plugins>
+-  </build>
++    </build>
++    <properties>
++        <jersey-version>1.8</jersey-version>
++        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
++        <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
++    </properties>
++    <repositories>
++        <repository>
++            <id>glassfish.java.net</id>
++            <name>GlassFish Maven Repository</name>
++            <url>http://download.java.net/maven/glassfish</url>
++            <layout>default</layout>
++        </repository>
++        <repository>
++            <id>m2.java.net</id>
++            <name>Java.net Maven 2 Repository</name>
++            <url>http://download.java.net/maven/2</url>
++            <layout>default</layout>
++        </repository>
++    </repositories>
+ </project>
+
+commit ebfe115aaf8f49eca35e772e2e6aa8977f269c25
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Fri Nov 23 23:47:47 2012 +0800
+
+    签入一个完整的可以从客户端使用ajax访问后台restful service的原型实现,可以根据车次号查询和简单的购票.
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index e564f1e..8fddb5b 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,108 +1,112 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>${jersey-version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
++      <!--
++      使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
++      这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
++      -->
+         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+         <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit c2d62803a8f8162eeb1aeef74b03be3656726a62
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Sun Dec 2 14:06:55 2012 +0800
+
+    添加使用disruptor的测试用例,尝试一下代码的写法.对disruptor的api还不是特别熟悉，因此这个代码就是一个实验性的代码。
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index 8fddb5b..221d802 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,112 +1,120 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
++	<!-- 
++	     add disruptor support: http://lmax-exchange.github.com/disruptor/
++	-->
++	<dependency>
++	  <groupId>com.googlecode.disruptor</groupId>
++	  <artifactId>disruptor</artifactId>
++	  <version>2.10.3</version>
++	</dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>${jersey-version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+       <!--
+       使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
+       这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
+       -->
+         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+         <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit 305924c1ec775b7183bcc8a0db4091b1eb17b6f8
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Sat Dec 8 19:01:29 2012 +0800
+
+    签入可以根据来源请求返回消息的代码,这个还没有跟前台的jersey代码整合,因此还有一个用例是失败的.
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index 221d802..ab7dcf8 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,120 +1,120 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>${jersey-version}</version>
+-        </dependency>
++        </dependency>            
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
+ 	<!-- 
+ 	     add disruptor support: http://lmax-exchange.github.com/disruptor/
+ 	-->
+ 	<dependency>
+ 	  <groupId>com.googlecode.disruptor</groupId>
+ 	  <artifactId>disruptor</artifactId>
+ 	  <version>2.10.3</version>
+ 	</dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>${jersey-version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+       <!--
+       使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
+       这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
+       -->
+         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+         <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit e7c6644ce1965dc56830fd6c41fed8b2015e43c6
+Author: woshizhangbin <woshizhangbin@hotmail.com>
+Date:   Sun Dec 9 18:56:32 2012 +1100
+
+    Added minimum prototype type definitions. Has not implemented
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index 8fddb5b..3c1d21a 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,112 +1,120 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>${jersey-version}</version>
+             <scope>test</scope>
+         </dependency>
++        <dependency>
++        	<artifactId></artifactId>
++        </dependency>
++        <dependency>
++        	<groupId>joda-time</groupId>
++        	<artifactId>joda-time</artifactId>
++        	<version>2.1</version>
++        </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+       <!--
+       使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
+       这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
+       -->
+         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+         <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit 2bd3d1ab954b2827df400a87e8933919ae9c4e16
+Merge: b0de67a ccdc134
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Thu Dec 20 01:43:27 2012 +0800
+
+    Merge branch 'master' of github.com:woshizhangbin/12306ngpm
+    
+    Conflicts:
+    	.gitignore
+
+commit 1d70a783662de336ddac7dd827e3a2b584ab78f3
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Thu Dec 20 02:13:38 2012 +0800
+
+    修复在代码主干里合并虫子的代码后,有些源件因为字符编码1法编译的问题;将org.diting源码直接合并到tpms里面方便编译；找回vagrantfile，否则就不能启动虚拟机。
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index c37be38..ebc778d 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,128 +1,125 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>            
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
+ 	<!-- 
+ 	     add disruptor support: http://lmax-exchange.github.com/disruptor/
+ 	-->
+ 	<dependency>
+ 	  <groupId>com.googlecode.disruptor</groupId>
+ 	  <artifactId>disruptor</artifactId>
+ 	  <version>2.10.3</version>
+ 	</dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>${jersey-version}</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+-        	<artifactId></artifactId>
+-        </dependency>
+-        <dependency>
+         	<groupId>joda-time</groupId>
+         	<artifactId>joda-time</artifactId>
+         	<version>2.1</version>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+       <!--
+       使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
+       这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
+       -->
+         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+         <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit fb83dae71d0717c29a11fc43c139ee1ad897a557
+Author: woshizhangbin <woshizhangbin@hotmail.com>
+Date:   Thu Dec 20 23:24:41 2012 +1100
+
+    Fixed bug with sold tickets have overlapped range in same seat.
+    http://bugzilla.12306ng.org/show_bug.cgi?id=3
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index ebc778d..c58f157 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,125 +1,125 @@
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+-            <version>${jersey-version}</version>
++            <version>1.8</version>
+         </dependency>            
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+-            <version>${jersey-version}</version>
++            <version>1.8</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+-            <version>${jersey-version}</version>
++            <version>1.8</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+-            <version>${jersey-version}</version>
++            <version>1.8</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+-            <version>${jersey-version}</version>
++            <version>1.8</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
+ 	<!-- 
+ 	     add disruptor support: http://lmax-exchange.github.com/disruptor/
+ 	-->
+ 	<dependency>
+ 	  <groupId>com.googlecode.disruptor</groupId>
+ 	  <artifactId>disruptor</artifactId>
+ 	  <version>2.10.3</version>
+ 	</dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+-            <version>${jersey-version}</version>
++            <version>1.8</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+         	<groupId>joda-time</groupId>
+         	<artifactId>joda-time</artifactId>
+         	<version>2.1</version>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+       <!--
+       使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
+       这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
+       -->
+         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+         <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit 1c254f4a63f856f8879cb46100f52e912797bc8e
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Sat Dec 29 15:50:12 2012 +0800
+
+    添加一个测试用例,试验netty的用法，并试验netty跟disruptor的整合方式。也添加了一些档和绘图。
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index ebc778d..eec73b3 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,125 +1,131 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>            
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>${jersey-version}</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
+ 	<!-- 
+ 	     add disruptor support: http://lmax-exchange.github.com/disruptor/
+ 	-->
+ 	<dependency>
+ 	  <groupId>com.googlecode.disruptor</groupId>
+ 	  <artifactId>disruptor</artifactId>
+ 	  <version>2.10.3</version>
+ 	</dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>${jersey-version}</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+-        	<groupId>joda-time</groupId>
+-        	<artifactId>joda-time</artifactId>
+-        	<version>2.1</version>
++          <groupId>joda-time</groupId>
++          <artifactId>joda-time</artifactId>
++          <version>2.1</version>
++        </dependency>
++        <dependency>
++          <groupId>io.netty</groupId>
++          <artifactId>netty</artifactId>
++          <version>3.6.0.Final</version>
++	  <scope>compile</scope>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+       <!--
+       使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
+       这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
+       -->
+         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+         <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit c1e8ed3a4323ad8a1dfac3221ee66786f5ebd0a1
+Merge: 1c254f4 69e22e8
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Sat Dec 29 15:51:52 2012 +0800
+
+    Merge branch 'master' of github.com:12306NgPM/12306ngpm
+
+commit 3e7da255864ff552ddc4a46cdd09ced64f1fe319
+Author: shiyimin <yimin_shi@hotmail.com>
+Date:   Fri Jan 18 18:28:46 2013 +0800
+
+    在使用iconv转换代码的字符编码格式之前，先保存我的代码。
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index 3c0a8ee..9d13ae3 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,131 +1,139 @@
+ ﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>1.8</version>
+         </dependency>            
+         <!-- uncomment this to get JSON support:
+         -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>1.8</version>
+         </dependency>
+         <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>1.8</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>1.8</version>
+         </dependency>
+         -->
+         <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>1.8</version>
+         </dependency>
+         -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
+ 	<!-- 
+ 	     add disruptor support: http://lmax-exchange.github.com/disruptor/
+ 	-->
+ 	<dependency>
+ 	  <groupId>com.googlecode.disruptor</groupId>
+ 	  <artifactId>disruptor</artifactId>
+ 	  <version>2.10.3</version>
+ 	</dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>1.8</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+           <groupId>joda-time</groupId>
+           <artifactId>joda-time</artifactId>
+           <version>2.1</version>
+         </dependency>
+         <dependency>
+           <groupId>io.netty</groupId>
+           <artifactId>netty</artifactId>
+           <version>3.6.0.Final</version>
+ 	  <scope>compile</scope>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+-      <!--
+-      使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，感觉cp936是兼容utf-8编码的
+-      这样在linux下写程序（默认是utf-8编码），和中文windows下写程序（默认是cp936编码）都能正常编译
+-      -->
+-        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+-        <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
++	<!--
++	    @在这里(634318705) 
++	    上传时最好把文件存为utf8格式，否则注释看不了，理解的比较慢
++	-->
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++	<!--
++	    使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，
++	    感觉cp936是兼容utf-8编码的
++	    这样在linux下写程序（默认是utf-8编码），和中文windows下写程序
++	    （默认是cp936编码）都能正常编译
++	-->
++        <!-- 
++	     <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
++	-->
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>
+
+commit bbdac39da312e86271c586523c2c6fda2a731da7
+Author: shiyimin <shiyimin@ubuntu.(none)>
+Date:   Thu Feb 21 23:57:13 2013 +0800
+
+    实现同时启动服务器和客户端两台虚拟机，并且去掉以前做的web原型以及一些无用的软件安装脚本和配置。
+
+diff --git trunk/tpms/pom.xml trunk/tpms/pom.xml
+index 9d13ae3..29e0582 100644
+--- trunk/tpms/pom.xml
++++ trunk/tpms/pom.xml
+@@ -1,139 +1,135 @@
+ ﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.ng12306.tpms</groupId>
+     <artifactId>org.ng12306.tpms</artifactId>
+     <packaging>jar</packaging>
+     <version>0.1</version>
+     <name>org.ng12306.tpms</name>  
+     <dependencies>
++        <!--
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-grizzly</artifactId>
+             <version>1.8</version>
+         </dependency>            
+-        <!-- uncomment this to get JSON support:
+-        -->
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-json</artifactId>
+             <version>1.8</version>
+         </dependency>
+-        <!-- uncomment this to get Fastinfoset support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-fastinfoset</artifactId>
+             <version>1.8</version>
+         </dependency>
+-        -->
+-        <!-- uncomment this to get ATOM support:
+          <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-atom</artifactId>
+             <version>1.8</version>
+         </dependency>
+-        -->
+-        <!-- uncomment this to get multipart MIME types support:
+          <dependency>
+             <groupId>com.sun.jersey.contribs</groupId>
+             <artifactId>jersey-multipart</artifactId>
+             <version>1.8</version>
+         </dependency>
+-        -->
+            <dependency>
+             <groupId>com.sun.grizzly</groupId>
+             <artifactId>grizzly-servlet-webserver</artifactId>
+             <version>1.9.31</version>
+         </dependency>
++	-->
+ 	<!-- 
+ 	     add disruptor support: http://lmax-exchange.github.com/disruptor/
+ 	-->
+ 	<dependency>
+ 	  <groupId>com.googlecode.disruptor</groupId>
+ 	  <artifactId>disruptor</artifactId>
+ 	  <version>2.10.3</version>
+ 	</dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>4.8.2</version>
+             <scope>test</scope>
+         </dependency>
++	<!--
+         <dependency>
+             <groupId>com.sun.jersey</groupId>
+             <artifactId>jersey-client</artifactId>
+             <version>1.8</version>
+             <scope>test</scope>
+         </dependency>
++	-->
+         <dependency>
+           <groupId>joda-time</groupId>
+           <artifactId>joda-time</artifactId>
+           <version>2.1</version>
+         </dependency>
+         <dependency>
+           <groupId>io.netty</groupId>
+           <artifactId>netty</artifactId>
+           <version>3.6.0.Final</version>
+ 	  <scope>compile</scope>
+         </dependency>
+     </dependencies>
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <inherited>true</inherited>
+                 <configuration>
+                     <source>1.6</source>
+                     <target>1.6</target>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>exec-maven-plugin</artifactId>
+                 <version>1.1</version>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>java</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+                 <configuration>
+                     <mainClass>org.ng12306.tpms.Main</mainClass>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
+     <properties>
+         <jersey-version>1.8</jersey-version>
+ 	<!--
+ 	    @在这里(634318705) 
+ 	    上传时最好把文件存为utf8格式，否则注释看不了，理解的比较慢
+ 	-->
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 	<!--
+ 	    使用cp936编码方式编译，以便处理中文windows和linux下的默认编码差异，
+ 	    感觉cp936是兼容utf-8编码的
+ 	    这样在linux下写程序（默认是utf-8编码），和中文windows下写程序
+ 	    （默认是cp936编码）都能正常编译
+ 	-->
+         <!-- 
+ 	     <project.build.sourceEncoding>cp936</project.build.sourceEncoding>
+ 	-->
+     </properties>
+     <repositories>
+         <repository>
+             <id>glassfish.java.net</id>
+             <name>GlassFish Maven Repository</name>
+             <url>http://download.java.net/maven/glassfish</url>
+             <layout>default</layout>
+         </repository>
+         <repository>
+             <id>m2.java.net</id>
+             <name>Java.net Maven 2 Repository</name>
+             <url>http://download.java.net/maven/2</url>
+             <layout>default</layout>
+         </repository>
+     </repositories>
+ </project>

@@ -1,0 +1,1073 @@
+commit 3367fd21a91247c89b66c2c449ebb0c072cde866
+Author: ben <ben@mrfussy.(none)>
+Date:   Thu Oct 15 14:54:28 2009 +0100
+
+    Just adding the interface to play with
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..9337a33
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,147 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>com.atlassian.jira.plugins</groupId>
++        <artifactId>jira-plugin-base</artifactId>
++        <version>15</version>
++    </parent>
++
++    <artifactId>atlassian-jira-timetracking-plugin</artifactId>
++    <version>4.0</version>
++
++    <organization>
++      <name>LShift</name>
++      <url>http://www.lshift.net</url>
++    </organization>
++
++    <name>JIRA Timetracking plugin</name>
++    <description>Provides time tracking</description>
++    <packaging>jar</packaging>
++
++    <profiles>
++        <profile>
++            <id>bootstrap</id>
++            <build>
++                <plugins>
++                    <plugin>
++                        <artifactId>maven-surefire-plugin</artifactId>
++                        <configuration>
++                            <skip>${maven.test.unit.skip}</skip>
++                            <excludes>
++                                <exclude>it/**/*</exclude>
++                                <exclude>**/Abstract*</exclude>
++                                <exclude>**/Mock*</exclude>
++                                <exclude>**/*$*</exclude>
++                            </excludes>
++                        </configuration>
++                        <executions>
++                            <execution>
++                                <id>acceptance_tests</id>
++                                <phase>integration-test</phase>
++                                <goals>
++                                    <goal>test</goal>
++                                </goals>
++                                <configuration>
++                                    <skip>${maven.test.it.skip}</skip>
++                                    <excludes>
++                                        <exclude>none</exclude>
++                                        <exclude>**/Abstract*</exclude>
++                                        <exclude>**/Mock*</exclude>
++                                        <exclude>**/*$*</exclude>
++                                    </excludes>
++                                    <includes>
++                                        <!-- only run the one test! -->
++                                        <include>it/**/Bootstrap*java</include>
++                                    </includes>
++                                </configuration>
++                            </execution>
++                        </executions>
++                    </plugin>
++                </plugins>
++            </build>
++        </profile>
++    </profiles>
++
++    <dependencies>
++
++      <dependency>
++        <groupId>com.atlassian.jira.plugins</groupId>
++        <artifactId>atlassian-jira-rpc-plugin</artifactId>
++        <version>4.0</version>
++      </dependency>
++
++        <!-- test dependencies -->
++        <dependency>
++            <groupId>junit</groupId>
++            <artifactId>junit</artifactId>
++            <version>3.8.1</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>jmock</groupId>
++            <artifactId>jmock</artifactId>
++            <version>1.2.0</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>org.easymock</groupId>
++            <artifactId>easymock</artifactId>
++            <version>2.4</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>cglib</groupId>
++            <artifactId>cglib-full</artifactId>
++            <version>2.0.1</version>
++        </dependency>
++        <dependency>
++            <groupId>org.easymock</groupId>
++            <artifactId>easymockclassextension</artifactId>
++            <version>2.4</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>mockobjects</groupId>
++            <artifactId>mockobjects-dev</artifactId>
++            <version>JIRA311-DEV</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>mockobjects</groupId>
++            <artifactId>mockobjects-jdk1.3</artifactId>
++            <version>0.07</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>mockobjects</groupId>
++            <artifactId>mockobjects-jdk1.3-j2ee1.3</artifactId>
++            <version>0.07</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>mockobjects</groupId>
++            <artifactId>alt-j1.3-j2ee1.3</artifactId>
++            <version>0.07</version>
++            <scope>test</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>${pom.groupId}</groupId>
++            <artifactId>jira-soapclient</artifactId>
++            <version>${pom.version}</version>
++            <scope>test</scope>
++        </dependency>
++    </dependencies>
++
++    <properties>
++        <jdkLevel>1.5</jdkLevel>
++
++        <atlassian.product.version>4.0</atlassian.product.version>
++        <atlassian.product.data.version>4.0</atlassian.product.data.version>
++        <atlassian.product.test-lib.version>4.0</atlassian.product.test-lib.version>
++
++        <atlassian.test.harness.version>0.11-SNAPSHOT</atlassian.test.harness.version>
++        <jvmargs>-XX:MaxPermSize=256m -Xms128m -Xmx564m -Djira.home=${project.build.directory}/jira-home</jvmargs>
++    </properties>
++</project>
+
+commit a3456d0316ab70ca4f6151fffdeed7af3f1d0ff3
+Author: ben <0x6e6562@gmail.com>
+Date:   Fri Oct 16 12:48:14 2009 +0100
+
+    First end to end test case
+
+diff --git pom.xml pom.xml
+index 9337a33..4352eed 100644
+--- pom.xml
++++ pom.xml
+@@ -1,147 +1,148 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>jira-plugin-base</artifactId>
+         <version>15</version>
+     </parent>
+ 
+     <artifactId>atlassian-jira-timetracking-plugin</artifactId>
+     <version>4.0</version>
+ 
+     <organization>
+       <name>LShift</name>
+       <url>http://www.lshift.net</url>
+     </organization>
+ 
+     <name>JIRA Timetracking plugin</name>
+     <description>Provides time tracking</description>
+     <packaging>jar</packaging>
+ 
+     <profiles>
+         <profile>
+             <id>bootstrap</id>
+             <build>
+                 <plugins>
+                     <plugin>
+                         <artifactId>maven-surefire-plugin</artifactId>
+                         <configuration>
+                             <skip>${maven.test.unit.skip}</skip>
+                             <excludes>
+                                 <exclude>it/**/*</exclude>
+                                 <exclude>**/Abstract*</exclude>
+                                 <exclude>**/Mock*</exclude>
+                                 <exclude>**/*$*</exclude>
+                             </excludes>
+                         </configuration>
+                         <executions>
+                             <execution>
+                                 <id>acceptance_tests</id>
+                                 <phase>integration-test</phase>
+                                 <goals>
+                                     <goal>test</goal>
+                                 </goals>
+                                 <configuration>
+                                     <skip>${maven.test.it.skip}</skip>
+                                     <excludes>
+                                         <exclude>none</exclude>
+                                         <exclude>**/Abstract*</exclude>
+                                         <exclude>**/Mock*</exclude>
+                                         <exclude>**/*$*</exclude>
+                                     </excludes>
+                                     <includes>
+                                         <!-- only run the one test! -->
+                                         <include>it/**/Bootstrap*java</include>
+                                     </includes>
+                                 </configuration>
+                             </execution>
+                         </executions>
+                     </plugin>
+                 </plugins>
+             </build>
+         </profile>
+     </profiles>
+ 
+     <dependencies>
+ 
+       <dependency>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>atlassian-jira-rpc-plugin</artifactId>
+         <version>4.0</version>
+       </dependency>
+ 
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>3.8.1</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>jmock</groupId>
+             <artifactId>jmock</artifactId>
+             <version>1.2.0</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymock</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>cglib</groupId>
+             <artifactId>cglib-full</artifactId>
+             <version>2.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymockclassextension</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-dev</artifactId>
+             <version>JIRA311-DEV</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>alt-j1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+ 
+         <dependency>
+             <groupId>${pom.groupId}</groupId>
+             <artifactId>jira-soapclient</artifactId>
+             <version>${pom.version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
+     <properties>
+         <jdkLevel>1.5</jdkLevel>
+ 
+         <atlassian.product.version>4.0</atlassian.product.version>
+         <atlassian.product.data.version>4.0</atlassian.product.data.version>
+         <atlassian.product.test-lib.version>4.0</atlassian.product.test-lib.version>
+ 
+         <atlassian.test.harness.version>0.11-SNAPSHOT</atlassian.test.harness.version>
+         <jvmargs>-XX:MaxPermSize=256m -Xms128m -Xmx564m -Djira.home=${project.build.directory}/jira-home</jvmargs>
+     </properties>
++
+ </project>
+
+commit 1cb0a0e1fd64cfc8f143d6aad3cfa3bf2c9647f6
+Author: ben <0x6e6562@gmail.com>
+Date:   Fri Oct 16 15:30:54 2009 +0100
+
+    Setting the version of this plugin to 0.1
+
+diff --git pom.xml pom.xml
+index 4352eed..6be0b7b 100644
+--- pom.xml
++++ pom.xml
+@@ -1,148 +1,148 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>jira-plugin-base</artifactId>
+         <version>15</version>
+     </parent>
+ 
+     <artifactId>atlassian-jira-timetracking-plugin</artifactId>
+-    <version>4.0</version>
++    <version>0.1</version>
+ 
+     <organization>
+       <name>LShift</name>
+       <url>http://www.lshift.net</url>
+     </organization>
+ 
+     <name>JIRA Timetracking plugin</name>
+     <description>Provides time tracking</description>
+     <packaging>jar</packaging>
+ 
+     <profiles>
+         <profile>
+             <id>bootstrap</id>
+             <build>
+                 <plugins>
+                     <plugin>
+                         <artifactId>maven-surefire-plugin</artifactId>
+                         <configuration>
+                             <skip>${maven.test.unit.skip}</skip>
+                             <excludes>
+                                 <exclude>it/**/*</exclude>
+                                 <exclude>**/Abstract*</exclude>
+                                 <exclude>**/Mock*</exclude>
+                                 <exclude>**/*$*</exclude>
+                             </excludes>
+                         </configuration>
+                         <executions>
+                             <execution>
+                                 <id>acceptance_tests</id>
+                                 <phase>integration-test</phase>
+                                 <goals>
+                                     <goal>test</goal>
+                                 </goals>
+                                 <configuration>
+                                     <skip>${maven.test.it.skip}</skip>
+                                     <excludes>
+                                         <exclude>none</exclude>
+                                         <exclude>**/Abstract*</exclude>
+                                         <exclude>**/Mock*</exclude>
+                                         <exclude>**/*$*</exclude>
+                                     </excludes>
+                                     <includes>
+                                         <!-- only run the one test! -->
+                                         <include>it/**/Bootstrap*java</include>
+                                     </includes>
+                                 </configuration>
+                             </execution>
+                         </executions>
+                     </plugin>
+                 </plugins>
+             </build>
+         </profile>
+     </profiles>
+ 
+     <dependencies>
+ 
+       <dependency>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>atlassian-jira-rpc-plugin</artifactId>
+-        <version>4.0</version>
++        <version>${atlassian.product.version}</version>
+       </dependency>
+ 
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>3.8.1</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>jmock</groupId>
+             <artifactId>jmock</artifactId>
+             <version>1.2.0</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymock</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>cglib</groupId>
+             <artifactId>cglib-full</artifactId>
+             <version>2.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymockclassextension</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-dev</artifactId>
+             <version>JIRA311-DEV</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>alt-j1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+ 
+         <dependency>
+             <groupId>${pom.groupId}</groupId>
+             <artifactId>jira-soapclient</artifactId>
+-            <version>${pom.version}</version>
++            <version>${atlassian.product.version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
+     <properties>
+         <jdkLevel>1.5</jdkLevel>
+ 
+         <atlassian.product.version>4.0</atlassian.product.version>
+         <atlassian.product.data.version>4.0</atlassian.product.data.version>
+         <atlassian.product.test-lib.version>4.0</atlassian.product.test-lib.version>
+ 
+         <atlassian.test.harness.version>0.11-SNAPSHOT</atlassian.test.harness.version>
+         <jvmargs>-XX:MaxPermSize=256m -Xms128m -Xmx564m -Djira.home=${project.build.directory}/jira-home</jvmargs>
+     </properties>
+ 
+ </project>
+
+commit 0d20c9983422aac52703009c01edb92a169f4be6
+Author: Ben Hood <ben@lshift.net>
+Date:   Wed Jan 27 14:37:47 2010 +0000
+
+    Added differentiation for entries on the same day for different users; also don't emit events for updates
+
+diff --git pom.xml pom.xml
+index 6be0b7b..79c3ec8 100644
+--- pom.xml
++++ pom.xml
+@@ -1,148 +1,148 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>jira-plugin-base</artifactId>
+         <version>15</version>
+     </parent>
+ 
+     <artifactId>atlassian-jira-timetracking-plugin</artifactId>
+-    <version>0.1</version>
++    <version>0.2</version>
+ 
+     <organization>
+       <name>LShift</name>
+       <url>http://www.lshift.net</url>
+     </organization>
+ 
+     <name>JIRA Timetracking plugin</name>
+     <description>Provides time tracking</description>
+     <packaging>jar</packaging>
+ 
+     <profiles>
+         <profile>
+             <id>bootstrap</id>
+             <build>
+                 <plugins>
+                     <plugin>
+                         <artifactId>maven-surefire-plugin</artifactId>
+                         <configuration>
+                             <skip>${maven.test.unit.skip}</skip>
+                             <excludes>
+                                 <exclude>it/**/*</exclude>
+                                 <exclude>**/Abstract*</exclude>
+                                 <exclude>**/Mock*</exclude>
+                                 <exclude>**/*$*</exclude>
+                             </excludes>
+                         </configuration>
+                         <executions>
+                             <execution>
+                                 <id>acceptance_tests</id>
+                                 <phase>integration-test</phase>
+                                 <goals>
+                                     <goal>test</goal>
+                                 </goals>
+                                 <configuration>
+                                     <skip>${maven.test.it.skip}</skip>
+                                     <excludes>
+                                         <exclude>none</exclude>
+                                         <exclude>**/Abstract*</exclude>
+                                         <exclude>**/Mock*</exclude>
+                                         <exclude>**/*$*</exclude>
+                                     </excludes>
+                                     <includes>
+                                         <!-- only run the one test! -->
+                                         <include>it/**/Bootstrap*java</include>
+                                     </includes>
+                                 </configuration>
+                             </execution>
+                         </executions>
+                     </plugin>
+                 </plugins>
+             </build>
+         </profile>
+     </profiles>
+ 
+     <dependencies>
+ 
+       <dependency>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>atlassian-jira-rpc-plugin</artifactId>
+         <version>${atlassian.product.version}</version>
+       </dependency>
+ 
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>3.8.1</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>jmock</groupId>
+             <artifactId>jmock</artifactId>
+             <version>1.2.0</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymock</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>cglib</groupId>
+             <artifactId>cglib-full</artifactId>
+             <version>2.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymockclassextension</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-dev</artifactId>
+             <version>JIRA311-DEV</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>alt-j1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+ 
+         <dependency>
+             <groupId>${pom.groupId}</groupId>
+             <artifactId>jira-soapclient</artifactId>
+             <version>${atlassian.product.version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
+     <properties>
+         <jdkLevel>1.5</jdkLevel>
+ 
+         <atlassian.product.version>4.0</atlassian.product.version>
+         <atlassian.product.data.version>4.0</atlassian.product.data.version>
+         <atlassian.product.test-lib.version>4.0</atlassian.product.test-lib.version>
+ 
+         <atlassian.test.harness.version>0.11-SNAPSHOT</atlassian.test.harness.version>
+         <jvmargs>-XX:MaxPermSize=256m -Xms128m -Xmx564m -Djira.home=${project.build.directory}/jira-home</jvmargs>
+     </properties>
+ 
+ </project>
+
+commit 04d4f9526e575d9f27f806ef0603c1b2b1b1bd52
+Author: Ben Hood <ben@lshift.net>
+Date:   Thu Jan 28 16:42:19 2010 +0000
+
+    Upgraded test data to add a second user
+
+diff --git pom.xml pom.xml
+index 79c3ec8..285ed5a 100644
+--- pom.xml
++++ pom.xml
+@@ -1,148 +1,202 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>jira-plugin-base</artifactId>
+-        <version>15</version>
++        <version>18</version>
+     </parent>
+ 
+     <artifactId>atlassian-jira-timetracking-plugin</artifactId>
+     <version>0.2</version>
+ 
+     <organization>
+       <name>LShift</name>
+       <url>http://www.lshift.net</url>
+     </organization>
+ 
+     <name>JIRA Timetracking plugin</name>
+     <description>Provides time tracking</description>
+     <packaging>jar</packaging>
+ 
+     <profiles>
++      <profile>
++        <id>defaultProfile</id>
++        <activation>
++          <activeByDefault>true</activeByDefault>
++        </activation>
++        <repositories>
++          <repository>
++            <id>central</id>
++            <url>https://maven.atlassian.com/repository/public</url>
++            <snapshots>
++              <enabled>true</enabled>
++              <updatePolicy>always</updatePolicy>
++              <checksumPolicy>fail</checksumPolicy>
++            </snapshots>
++            <releases>
++              <enabled>true</enabled>
++              <checksumPolicy>fail</checksumPolicy>
++            </releases>
++          </repository>
++
++          <!--
++          Since JIRA is still using Maven 1, this repository is used for
++          those Maven 1 artifacts that aren't available in Maven 2.
++          -->
++          <repository>
++            <id>atlassian-m1-repository</id>
++            <layout>legacy</layout>
++            <url>https://m2proxy.atlassian.com/repository/m1/</url>
++            <releases>
++              <checksumPolicy>warn</checksumPolicy>
++            </releases>
++            <snapshots>
++              <enabled>false</enabled>
++            </snapshots>
++          </repository>
++        </repositories>
++        <pluginRepositories>
++          <pluginRepository>
++            <id>central</id>
++            <url>https://maven.atlassian.com/repository/public</url>
++            <releases>
++              <enabled>true</enabled>
++              <checksumPolicy>fail</checksumPolicy>
++            </releases>
++            <snapshots>
++              <checksumPolicy>fail</checksumPolicy>
++            </snapshots>
++          </pluginRepository>
++        </pluginRepositories>
++        <properties>
++          <downloadSources>true</downloadSources>
++          <downloadJavadocs>true</downloadJavadocs>
++        </properties>
++      </profile>
+         <profile>
+             <id>bootstrap</id>
+             <build>
+                 <plugins>
+                     <plugin>
+                         <artifactId>maven-surefire-plugin</artifactId>
+                         <configuration>
+                             <skip>${maven.test.unit.skip}</skip>
+                             <excludes>
+                                 <exclude>it/**/*</exclude>
+                                 <exclude>**/Abstract*</exclude>
+                                 <exclude>**/Mock*</exclude>
+                                 <exclude>**/*$*</exclude>
+                             </excludes>
+                         </configuration>
+                         <executions>
+                             <execution>
+                                 <id>acceptance_tests</id>
+                                 <phase>integration-test</phase>
+                                 <goals>
+                                     <goal>test</goal>
+                                 </goals>
+                                 <configuration>
+                                     <skip>${maven.test.it.skip}</skip>
+                                     <excludes>
+                                         <exclude>none</exclude>
+                                         <exclude>**/Abstract*</exclude>
+                                         <exclude>**/Mock*</exclude>
+                                         <exclude>**/*$*</exclude>
+                                     </excludes>
+                                     <includes>
+                                         <!-- only run the one test! -->
+                                         <include>it/**/Bootstrap*java</include>
+                                     </includes>
+                                 </configuration>
+                             </execution>
+                         </executions>
+                     </plugin>
+                 </plugins>
+             </build>
+         </profile>
+     </profiles>
+ 
+     <dependencies>
+ 
+       <dependency>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>atlassian-jira-rpc-plugin</artifactId>
+         <version>${atlassian.product.version}</version>
+       </dependency>
+ 
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>3.8.1</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>jmock</groupId>
+             <artifactId>jmock</artifactId>
+             <version>1.2.0</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymock</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>cglib</groupId>
+             <artifactId>cglib-full</artifactId>
+             <version>2.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymockclassextension</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-dev</artifactId>
+             <version>JIRA311-DEV</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>alt-j1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+ 
+         <dependency>
+             <groupId>${pom.groupId}</groupId>
+             <artifactId>jira-soapclient</artifactId>
+             <version>${atlassian.product.version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
+     <properties>
+         <jdkLevel>1.5</jdkLevel>
+ 
+         <atlassian.product.version>4.0</atlassian.product.version>
+         <atlassian.product.data.version>4.0</atlassian.product.data.version>
+         <atlassian.product.test-lib.version>4.0</atlassian.product.test-lib.version>
+ 
+         <atlassian.test.harness.version>0.11-SNAPSHOT</atlassian.test.harness.version>
+         <jvmargs>-XX:MaxPermSize=256m -Xms128m -Xmx564m -Djira.home=${project.build.directory}/jira-home</jvmargs>
+     </properties>
+ 
+ </project>
+
+commit e2b298e59b3f37bee825204263c1d9dc5fc805d4
+Author: Ben Hood <ben@lshift.net>
+Date:   Thu Jan 28 16:52:30 2010 +0000
+
+    Updated the release version for the next release
+
+diff --git pom.xml pom.xml
+index 285ed5a..129e9dd 100644
+--- pom.xml
++++ pom.xml
+@@ -1,202 +1,202 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>jira-plugin-base</artifactId>
+         <version>18</version>
+     </parent>
+ 
+     <artifactId>atlassian-jira-timetracking-plugin</artifactId>
+-    <version>0.2</version>
++    <version>0.3</version>
+ 
+     <organization>
+       <name>LShift</name>
+       <url>http://www.lshift.net</url>
+     </organization>
+ 
+     <name>JIRA Timetracking plugin</name>
+     <description>Provides time tracking</description>
+     <packaging>jar</packaging>
+ 
+     <profiles>
+       <profile>
+         <id>defaultProfile</id>
+         <activation>
+           <activeByDefault>true</activeByDefault>
+         </activation>
+         <repositories>
+           <repository>
+             <id>central</id>
+             <url>https://maven.atlassian.com/repository/public</url>
+             <snapshots>
+               <enabled>true</enabled>
+               <updatePolicy>always</updatePolicy>
+               <checksumPolicy>fail</checksumPolicy>
+             </snapshots>
+             <releases>
+               <enabled>true</enabled>
+               <checksumPolicy>fail</checksumPolicy>
+             </releases>
+           </repository>
+ 
+           <!--
+           Since JIRA is still using Maven 1, this repository is used for
+           those Maven 1 artifacts that aren't available in Maven 2.
+           -->
+           <repository>
+             <id>atlassian-m1-repository</id>
+             <layout>legacy</layout>
+             <url>https://m2proxy.atlassian.com/repository/m1/</url>
+             <releases>
+               <checksumPolicy>warn</checksumPolicy>
+             </releases>
+             <snapshots>
+               <enabled>false</enabled>
+             </snapshots>
+           </repository>
+         </repositories>
+         <pluginRepositories>
+           <pluginRepository>
+             <id>central</id>
+             <url>https://maven.atlassian.com/repository/public</url>
+             <releases>
+               <enabled>true</enabled>
+               <checksumPolicy>fail</checksumPolicy>
+             </releases>
+             <snapshots>
+               <checksumPolicy>fail</checksumPolicy>
+             </snapshots>
+           </pluginRepository>
+         </pluginRepositories>
+         <properties>
+           <downloadSources>true</downloadSources>
+           <downloadJavadocs>true</downloadJavadocs>
+         </properties>
+       </profile>
+         <profile>
+             <id>bootstrap</id>
+             <build>
+                 <plugins>
+                     <plugin>
+                         <artifactId>maven-surefire-plugin</artifactId>
+                         <configuration>
+                             <skip>${maven.test.unit.skip}</skip>
+                             <excludes>
+                                 <exclude>it/**/*</exclude>
+                                 <exclude>**/Abstract*</exclude>
+                                 <exclude>**/Mock*</exclude>
+                                 <exclude>**/*$*</exclude>
+                             </excludes>
+                         </configuration>
+                         <executions>
+                             <execution>
+                                 <id>acceptance_tests</id>
+                                 <phase>integration-test</phase>
+                                 <goals>
+                                     <goal>test</goal>
+                                 </goals>
+                                 <configuration>
+                                     <skip>${maven.test.it.skip}</skip>
+                                     <excludes>
+                                         <exclude>none</exclude>
+                                         <exclude>**/Abstract*</exclude>
+                                         <exclude>**/Mock*</exclude>
+                                         <exclude>**/*$*</exclude>
+                                     </excludes>
+                                     <includes>
+                                         <!-- only run the one test! -->
+                                         <include>it/**/Bootstrap*java</include>
+                                     </includes>
+                                 </configuration>
+                             </execution>
+                         </executions>
+                     </plugin>
+                 </plugins>
+             </build>
+         </profile>
+     </profiles>
+ 
+     <dependencies>
+ 
+       <dependency>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>atlassian-jira-rpc-plugin</artifactId>
+         <version>${atlassian.product.version}</version>
+       </dependency>
+ 
+         <!-- test dependencies -->
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+             <version>3.8.1</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>jmock</groupId>
+             <artifactId>jmock</artifactId>
+             <version>1.2.0</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymock</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>cglib</groupId>
+             <artifactId>cglib-full</artifactId>
+             <version>2.0.1</version>
+         </dependency>
+         <dependency>
+             <groupId>org.easymock</groupId>
+             <artifactId>easymockclassextension</artifactId>
+             <version>2.4</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-dev</artifactId>
+             <version>JIRA311-DEV</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>mockobjects-jdk1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>mockobjects</groupId>
+             <artifactId>alt-j1.3-j2ee1.3</artifactId>
+             <version>0.07</version>
+             <scope>test</scope>
+         </dependency>
+ 
+         <dependency>
+             <groupId>${pom.groupId}</groupId>
+             <artifactId>jira-soapclient</artifactId>
+             <version>${atlassian.product.version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
+     <properties>
+         <jdkLevel>1.5</jdkLevel>
+ 
+         <atlassian.product.version>4.0</atlassian.product.version>
+         <atlassian.product.data.version>4.0</atlassian.product.data.version>
+         <atlassian.product.test-lib.version>4.0</atlassian.product.test-lib.version>
+ 
+         <atlassian.test.harness.version>0.11-SNAPSHOT</atlassian.test.harness.version>
+         <jvmargs>-XX:MaxPermSize=256m -Xms128m -Xmx564m -Djira.home=${project.build.directory}/jira-home</jvmargs>
+     </properties>
+ 
+ </project>

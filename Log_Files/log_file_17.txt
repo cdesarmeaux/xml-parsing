@@ -1,0 +1,145 @@
+commit 964408d9207f89d04641cdd049dfe982ea0b8bf7
+Author: Dmitriy Balakin <dmitriy.balakin@nicneiron.ru>
+Date:   Sun Sep 2 15:05:49 2012 +0400
+
+    Cleanup and migrate to maven
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..3fff594
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,60 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++
++	<groupId>nl.captcha</groupId>
++	<artifactId>simplecaptcha</artifactId>
++	<packaging>jar</packaging>
++	<version>1.2.1</version>
++
++	<name>SimpleCaptcha</name>
++	<description>SimpleCaptcha - A Java library for creating CAPTCHAs for J2EE applications, including Spring MVC, Struts, and Grails.</description>
++	<url>http://simplecaptcha.sourceforge.net/</url>
++
++	<properties>
++		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++	</properties>
++
++	<build>
++		<plugins>
++			<plugin>
++				<groupId>org.apache.maven.plugins</groupId>
++				<artifactId>maven-compiler-plugin</artifactId>
++				<version>2.5.1</version>
++				<configuration>
++					<source>1.6</source>
++					<target>1.6</target>
++				</configuration>
++			</plugin>
++			<plugin>
++				<artifactId>maven-assembly-plugin</artifactId>
++				<configuration>
++					<descriptorRefs>
++						<descriptorRef>jar-with-dependencies</descriptorRef>
++					</descriptorRefs>
++				</configuration>
++			</plugin>
++		</plugins>
++	</build>
++
++	<dependencies>
++		<dependency>
++			<groupId>com.jhlabs</groupId>
++			<artifactId>filters</artifactId>
++			<version>2.0.235</version>
++		</dependency>
++		<dependency>
++			<groupId>javax.servlet</groupId>
++			<artifactId>javax.servlet-api</artifactId>
++			<version>3.0.1</version>
++			<scope>provided</scope>
++		</dependency>
++		<dependency>
++			<groupId>junit</groupId>
++			<artifactId>junit</artifactId>
++			<version>4.10</version>
++			<scope>test</scope>
++		</dependency>
++	</dependencies>
++</project>
+
+commit 47311942a88c11d06b7f5b8bb2f68fde3484df6d
+Author: Dmitriy Balakin <dmitriy.balakin@nicneiron.ru>
+Date:   Tue Sep 4 12:15:50 2012 +0400
+
+    Add release repository
+
+diff --git pom.xml pom.xml
+index 3fff594..580c64c 100644
+--- pom.xml
++++ pom.xml
+@@ -1,60 +1,60 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 
+ 	<groupId>nl.captcha</groupId>
+ 	<artifactId>simplecaptcha</artifactId>
+ 	<packaging>jar</packaging>
+-	<version>1.2.1</version>
++	<version>1.2.1-mvn</version>
+ 
+ 	<name>SimpleCaptcha</name>
+ 	<description>SimpleCaptcha - A Java library for creating CAPTCHAs for J2EE applications, including Spring MVC, Struts, and Grails.</description>
+ 	<url>http://simplecaptcha.sourceforge.net/</url>
+ 
+ 	<properties>
+ 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 	</properties>
+ 
+ 	<build>
+ 		<plugins>
+ 			<plugin>
+ 				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-compiler-plugin</artifactId>
+ 				<version>2.5.1</version>
+ 				<configuration>
+ 					<source>1.6</source>
+ 					<target>1.6</target>
+ 				</configuration>
+ 			</plugin>
+ 			<plugin>
+ 				<artifactId>maven-assembly-plugin</artifactId>
+ 				<configuration>
+ 					<descriptorRefs>
+ 						<descriptorRef>jar-with-dependencies</descriptorRef>
+ 					</descriptorRefs>
+ 				</configuration>
+ 			</plugin>
+ 		</plugins>
+ 	</build>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>com.jhlabs</groupId>
+ 			<artifactId>filters</artifactId>
+ 			<version>2.0.235</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>javax.servlet</groupId>
+ 			<artifactId>javax.servlet-api</artifactId>
+ 			<version>3.0.1</version>
+ 			<scope>provided</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>junit</groupId>
+ 			<artifactId>junit</artifactId>
+ 			<version>4.10</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 	</dependencies>
+ </project>

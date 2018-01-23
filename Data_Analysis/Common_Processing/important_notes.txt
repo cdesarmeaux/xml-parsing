@@ -1,0 +1,2 @@
+-> in raw output.csv, make sure to delete every end of line character + space and replace with nothing
+-> once the r ready csv is done, make sur to name the columns 'proj, name, month, phase'

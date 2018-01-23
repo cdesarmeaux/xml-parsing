@@ -1,0 +1,37 @@
+commit 94723a8c36d031cc793e9624214291035565facc
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Sun Sep 1 21:17:14 2013 -0400
+
+    init commit
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..a2c4c94
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,25 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++
++  <groupId>com.rogue</groupId>
++  <artifactId>SimpleProject</artifactId>
++  <version>1.0</version>
++  <packaging>jar</packaging>
++
++  <name>SimpleProject</name>
++  <url>http://maven.apache.org</url>
++
++  <properties>
++    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++  </properties>
++
++  <dependencies>
++    <dependency>
++      <groupId>junit</groupId>
++      <artifactId>junit</artifactId>
++      <version>3.8.1</version>
++      <scope>test</scope>
++    </dependency>
++  </dependencies>
++</project>

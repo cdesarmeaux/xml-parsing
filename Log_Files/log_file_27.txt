@@ -1,0 +1,334 @@
+commit f63ea2cdb82d2dc4e2f095aeee29b69d61ad98f3
+Author: Ben Hood <0x6e6562@gmail.com>
+Date:   Thu May 7 23:54:01 2009 +0100
+
+    Applied JHG-5 patch
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..b23b1f0
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,74 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
++
++    <parent>
++        <groupId>com.atlassian.jira.plugins</groupId>
++        <artifactId>jira-plugin-base</artifactId>
++        <version>12</version>
++    </parent>
++
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>com.xensource.jira.plugin.ext.mercurial</groupId>
++    <artifactId>mercurial-jira-plugin</artifactId>
++    <version>0.2</version>
++
++    <name>JIRA Mercurial plugin</name>
++    <packaging>atlassian-plugin</packaging>
++
++    <properties>
++        <atlassian.plugin.key>com.xensource.jira.plugin.ext.mercurial.mercurial-jira-plugin</atlassian.plugin.key>
++
++        <!-- JIRA version -->
++        <atlassian.product.version>3.13</atlassian.product.version>
++        <!-- JIRA functional test library version -->
++        <atlassian.product.test-lib.version>3.13</atlassian.product.test-lib.version>
++        <!-- JIRA data version -->
++        <atlassian.product.data.version>3.13</atlassian.product.data.version>
++    </properties>
++
++    <description>JIRA plugin for the Mercurial distributed version control system</description>
++	<url>http://confluence.atlassian.com/display/JIRAEXT/Mercurial+Plugin</url>
++
++	<developers>
++        <developer>
++            <name>Matthew Doar</name>
++            <id>mdoar</id>
++            <email>matt@xensource.com</email>
++            <organization>XenSource</organization>
++            <roles>
++                <role>Toolsmith</role>
++            </roles>
++        </developer>
++        <developer>
++            <name>Chad Loder</name>
++            <id>cloder</id>
++            <organization>Rapid7, LLC</organization>
++            <roles>
++                <role>Toolsmith</role>
++            </roles>
++        </developer>
++	</developers>
++
++    <scm>
++		<connection>scm:svn:https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</connection>
++		<developerConnection>scm:svn:https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</developerConnection>
++		<url>https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</url>
++	</scm>
++
++   <build>
++      <plugins>
++         <plugin>
++             <groupId>org.apache.maven.plugins</groupId>
++             <artifactId>maven-compiler-plugin</artifactId>
++             <version>2.0.2</version>
++             <configuration>
++                 <source>1.5</source>
++                 <target>1.5</target>
++             </configuration>
++         </plugin>
++      </plugins>
++   </build>
++</project>
+
+commit ea51a264f86bd29e3bafa417af5c0396431c0898
+Author: vuderacha <pauljones23@gmail.com>
+Date:   Fri May 8 07:34:46 2009 +0100
+
+    Updated pom.xml to include necessary Atlassian repos. Added some details to README.txt for building
+
+diff --git pom.xml pom.xml
+index b23b1f0..3fe0ad1 100644
+--- pom.xml
++++ pom.xml
+@@ -1,74 +1,110 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+     <parent>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>jira-plugin-base</artifactId>
+         <version>12</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>com.xensource.jira.plugin.ext.mercurial</groupId>
+     <artifactId>mercurial-jira-plugin</artifactId>
+     <version>0.2</version>
+ 
+     <name>JIRA Mercurial plugin</name>
+     <packaging>atlassian-plugin</packaging>
+ 
+     <properties>
+         <atlassian.plugin.key>com.xensource.jira.plugin.ext.mercurial.mercurial-jira-plugin</atlassian.plugin.key>
+ 
+         <!-- JIRA version -->
+         <atlassian.product.version>3.13</atlassian.product.version>
+         <!-- JIRA functional test library version -->
+         <atlassian.product.test-lib.version>3.13</atlassian.product.test-lib.version>
+         <!-- JIRA data version -->
+         <atlassian.product.data.version>3.13</atlassian.product.data.version>
+     </properties>
+ 
+     <description>JIRA plugin for the Mercurial distributed version control system</description>
+ 	<url>http://confluence.atlassian.com/display/JIRAEXT/Mercurial+Plugin</url>
+ 
+ 	<developers>
+         <developer>
+             <name>Matthew Doar</name>
+             <id>mdoar</id>
+             <email>matt@xensource.com</email>
+             <organization>XenSource</organization>
+             <roles>
+                 <role>Toolsmith</role>
+             </roles>
+         </developer>
+         <developer>
+             <name>Chad Loder</name>
+             <id>cloder</id>
+             <organization>Rapid7, LLC</organization>
+             <roles>
+                 <role>Toolsmith</role>
+             </roles>
+         </developer>
+ 	</developers>
+ 
+     <scm>
+ 		<connection>scm:svn:https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</connection>
+ 		<developerConnection>scm:svn:https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</developerConnection>
+ 		<url>https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</url>
+ 	</scm>
+ 
+    <build>
+       <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>2.0.2</version>
+              <configuration>
+                  <source>1.5</source>
+                  <target>1.5</target>
+              </configuration>
+          </plugin>
+       </plugins>
+    </build>
++
++   <repositories>
++     <repository>
++         <id>atlassian-public</id>
++         <url>https://maven.atlassian.com/repository/public</url>
++         <snapshots>
++                 <enabled>true</enabled>
++         </snapshots>
++         <releases>
++                 <enabled>true</enabled>
++         </releases>
++      </repository> 
++      <repository>
++        <id>atlassian-m1-repository</id>
++        <url>https://maven.atlassian.com/maven1</url>
++        <layout>legacy</layout>
++      </repository>
++      <repository>
++        <id>maven2-repository.dev.java.net</id>
++        <name>Java.net Repository for Maven</name>
++        <url>http://download.java.net/maven/2/</url>
++        <layout>default</layout>
++      </repository>
++   </repositories>
++   <pluginRepositories>
++     <pluginRepository>
++         <id>atlassian-public</id>
++         <url>https://maven.atlassian.com/repository/public</url>
++         <snapshots>
++                 <enabled>true</enabled>
++         </snapshots>
++         <releases>
++                 <enabled>true</enabled>
++         </releases>
++      </pluginRepository> 
++   </pluginRepositories>
+ </project>
+
+commit 4bcd78bf0e377bbd9c8cd31f9336db403eabfe25
+Author: Ben Hood <0x6e6562@gmail.com>
+Date:   Sat May 9 16:53:29 2009 +0100
+
+    Upgraded the version of JIRA that this plugin depends on
+
+diff --git pom.xml pom.xml
+index 3fe0ad1..9e1b75b 100644
+--- pom.xml
++++ pom.xml
+@@ -1,110 +1,110 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+     <parent>
+         <groupId>com.atlassian.jira.plugins</groupId>
+         <artifactId>jira-plugin-base</artifactId>
+-        <version>12</version>
++        <version>15</version>
+     </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>com.xensource.jira.plugin.ext.mercurial</groupId>
+     <artifactId>mercurial-jira-plugin</artifactId>
+     <version>0.2</version>
+ 
+     <name>JIRA Mercurial plugin</name>
+     <packaging>atlassian-plugin</packaging>
+ 
+     <properties>
+         <atlassian.plugin.key>com.xensource.jira.plugin.ext.mercurial.mercurial-jira-plugin</atlassian.plugin.key>
+ 
+         <!-- JIRA version -->
+-        <atlassian.product.version>3.13</atlassian.product.version>
++        <atlassian.product.version>3.13.4</atlassian.product.version>
+         <!-- JIRA functional test library version -->
+-        <atlassian.product.test-lib.version>3.13</atlassian.product.test-lib.version>
++        <atlassian.product.test-lib.version>3.13.4</atlassian.product.test-lib.version>
+         <!-- JIRA data version -->
+-        <atlassian.product.data.version>3.13</atlassian.product.data.version>
++        <atlassian.product.data.version>3.13.4</atlassian.product.data.version>
+     </properties>
+ 
+     <description>JIRA plugin for the Mercurial distributed version control system</description>
+ 	<url>http://confluence.atlassian.com/display/JIRAEXT/Mercurial+Plugin</url>
+ 
+ 	<developers>
+         <developer>
+             <name>Matthew Doar</name>
+             <id>mdoar</id>
+             <email>matt@xensource.com</email>
+             <organization>XenSource</organization>
+             <roles>
+                 <role>Toolsmith</role>
+             </roles>
+         </developer>
+         <developer>
+             <name>Chad Loder</name>
+             <id>cloder</id>
+             <organization>Rapid7, LLC</organization>
+             <roles>
+                 <role>Toolsmith</role>
+             </roles>
+         </developer>
+ 	</developers>
+ 
+     <scm>
+ 		<connection>scm:svn:https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</connection>
+ 		<developerConnection>scm:svn:https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</developerConnection>
+ 		<url>https://svn.atlassian.com/svn/public/contrib/jira/mercurial-jira-plugin/</url>
+ 	</scm>
+ 
+    <build>
+       <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>2.0.2</version>
+              <configuration>
+                  <source>1.5</source>
+                  <target>1.5</target>
+              </configuration>
+          </plugin>
+       </plugins>
+    </build>
+ 
+    <repositories>
+      <repository>
+          <id>atlassian-public</id>
+          <url>https://maven.atlassian.com/repository/public</url>
+          <snapshots>
+                  <enabled>true</enabled>
+          </snapshots>
+          <releases>
+                  <enabled>true</enabled>
+          </releases>
+       </repository> 
+       <repository>
+         <id>atlassian-m1-repository</id>
+         <url>https://maven.atlassian.com/maven1</url>
+         <layout>legacy</layout>
+       </repository>
+       <repository>
+         <id>maven2-repository.dev.java.net</id>
+         <name>Java.net Repository for Maven</name>
+         <url>http://download.java.net/maven/2/</url>
+         <layout>default</layout>
+       </repository>
+    </repositories>
+    <pluginRepositories>
+      <pluginRepository>
+          <id>atlassian-public</id>
+          <url>https://maven.atlassian.com/repository/public</url>
+          <snapshots>
+                  <enabled>true</enabled>
+          </snapshots>
+          <releases>
+                  <enabled>true</enabled>
+          </releases>
+       </pluginRepository> 
+    </pluginRepositories>
+ </project>

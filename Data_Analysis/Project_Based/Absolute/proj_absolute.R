@@ -1,0 +1,8 @@
+require(sqldf)
+pom = read.csv("rq.csv")
+rf = sqldf("select proj, phase from pom")
+rf2 = sqldf("select proj, phase, count(phase) as count from rf group by proj,phase")
+rf3 = sqldf("select proj, phase, count, sum(count) as sums from rf2 group by proj")
+rf4 = sqldf("select rf2.proj, rf2.phase, rf2.count, rf3.sums from rf2, rf3 where rf2.proj = rf3.proj")
+rf5 = sqldf("select proj, phase, (CAST(count AS float)/CAST(sums AS float))*100 as perc from rf4")
+boxplot(rf5$perc ~ rf5$phase, ylim=c(0,100), xlab="phase", ylab="percentage of work done")

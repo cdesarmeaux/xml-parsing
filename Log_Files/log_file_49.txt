@@ -1,0 +1,95 @@
+commit a84882bdf33755aef97db174c5f913330b69a43a
+Author: Benedikt Linse <benedikt.linse@holidayinsider.com>
+Date:   Tue Feb 12 15:50:36 2013 +0100
+
+    first implementation of Tarjan strongly connected components algorithm
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..d8a3e74
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,35 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++	<modelVersion>4.0.0</modelVersion>
++
++	<groupId>net.sf.graphalgorithms</groupId>
++	<artifactId>johnson</artifactId>
++	<version>0.0.1-SNAPSHOT</version>
++	<packaging>jar</packaging>
++
++	<name>johnson</name>
++	<url>http://maven.apache.org</url>
++
++	<properties>
++		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++	</properties>
++
++	<dependencies>
++		<dependency>
++			<groupId>junit</groupId>
++			<artifactId>junit</artifactId>
++			<version>3.8.1</version>
++			<scope>test</scope>
++		</dependency>
++		<dependency>
++			<groupId>net.sf.jung</groupId>
++			<artifactId>jung-api</artifactId>
++			<version>2.0.1</version>
++		</dependency>
++		<dependency>
++			<groupId>net.sf.jung</groupId>
++			<artifactId>jung-graph-impl</artifactId>
++			<version>2.0.1</version>
++		</dependency>
++	</dependencies>
++</project>
+
+commit 1a9c57eba98308ee6c9f7c9eed3176bd61597bd7
+Author: Benedikt Linse <benedikt.linse@holidayinsider.com>
+Date:   Tue Feb 12 16:29:28 2013 +0100
+
+    adding first test case
+
+diff --git pom.xml pom.xml
+index d8a3e74..daab187 100644
+--- pom.xml
++++ pom.xml
+@@ -1,35 +1,35 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 	<modelVersion>4.0.0</modelVersion>
+ 
+ 	<groupId>net.sf.graphalgorithms</groupId>
+ 	<artifactId>johnson</artifactId>
+ 	<version>0.0.1-SNAPSHOT</version>
+ 	<packaging>jar</packaging>
+ 
+ 	<name>johnson</name>
+ 	<url>http://maven.apache.org</url>
+ 
+ 	<properties>
+ 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 	</properties>
+ 
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>junit</groupId>
+ 			<artifactId>junit</artifactId>
+-			<version>3.8.1</version>
++			<version>4.11</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>net.sf.jung</groupId>
+ 			<artifactId>jung-api</artifactId>
+ 			<version>2.0.1</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>net.sf.jung</groupId>
+ 			<artifactId>jung-graph-impl</artifactId>
+ 			<version>2.0.1</version>
+ 		</dependency>
+ 	</dependencies>
+ </project>

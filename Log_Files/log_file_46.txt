@@ -1,0 +1,75 @@
+commit 2e5366d6e95a14744916e3a3e33d859f57ee4269
+Author: 1048576 <fake1048576@fake.com>
+Date:   Fri May 31 21:23:35 2013 +0100
+
+    Initial project
+
+diff --git 1048576-kata-examples/pom.xml 1048576-kata-examples/pom.xml
+new file mode 100644
+index 0000000..0b5e41c
+--- /dev/null
++++ 1048576-kata-examples/pom.xml
+@@ -0,0 +1,25 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++
++  <groupId>1048576</groupId>
++  <artifactId>1048576-kata-examples</artifactId>
++  <version>0.0.1-SNAPSHOT</version>
++  <packaging>jar</packaging>
++
++  <name>1048576-kata-examples</name>
++  <url>http://maven.apache.org</url>
++
++  <properties>
++    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++  </properties>
++
++  <dependencies>
++    <dependency>
++      <groupId>junit</groupId>
++      <artifactId>junit</artifactId>
++      <version>3.8.1</version>
++      <scope>test</scope>
++    </dependency>
++  </dependencies>
++</project>
+
+commit e36ac5e1302fd0ba9f6e65d53e3668731fee3780
+Author: 1048576 <fake1048576@fake.com>
+Date:   Fri May 31 21:53:20 2013 +0100
+
+    Fix the failing test.
+
+diff --git 1048576-kata-examples/pom.xml 1048576-kata-examples/pom.xml
+index 0b5e41c..9b9b87c 100644
+--- 1048576-kata-examples/pom.xml
++++ 1048576-kata-examples/pom.xml
+@@ -1,25 +1,25 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+ 
+   <groupId>1048576</groupId>
+   <artifactId>1048576-kata-examples</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   <packaging>jar</packaging>
+ 
+   <name>1048576-kata-examples</name>
+   <url>http://maven.apache.org</url>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+ 
+   <dependencies>
+     <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+-      <version>3.8.1</version>
++      <version>4.11</version>
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
+ </project>

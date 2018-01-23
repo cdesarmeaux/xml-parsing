@@ -1,0 +1,32 @@
+commit bf8be23b105c587676f1fde03685d14c613ace80
+Author: Jesus Alberto Paz Jimenez <alberto.pazjimenez@gmail.com>
+Date:   Sun May 8 23:39:25 2011 +0800
+
+    First version. Needs a big refactoring
+
+diff --git japaz/pom.xml japaz/pom.xml
+new file mode 100644
+index 0000000..55aceef
+--- /dev/null
++++ japaz/pom.xml
+@@ -0,0 +1,19 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>com.japaz.katas</groupId>
++  <artifactId>Abril-Bowling</artifactId>
++  <version>0.0.1-SNAPSHOT</version>
++  <dependencies>
++  	<dependency>
++  		<groupId>junit</groupId>
++  		<artifactId>junit</artifactId>
++  		<version>4.8.2</version>
++  		<type>jar</type>
++  		<scope>test</scope>
++  	</dependency>
++  </dependencies>
++  <dependencyManagement>
++  	<dependencies>
++  	</dependencies>
++  </dependencyManagement>
++</project>
+\ No newline at end of file

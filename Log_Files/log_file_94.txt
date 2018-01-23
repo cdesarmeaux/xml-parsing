@@ -1,0 +1,190 @@
+commit 8ef92e4f1491978b2c714d5923040ee78144431a
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Wed Jun 26 06:04:28 2013 -0400
+
+    init commit
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..8a86d19
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,50 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>com.rogue</groupId>
++  <artifactId>RegexBlock</artifactId>
++  <version>1.0</version>
++  <name>RegexBlock</name>
++  
++  <repositories>
++        <repository>
++            <id>bukkit-repo</id>
++            <url>http://repo.bukkit.org/content/repositories/releases/</url>
++        </repository>
++    </repositories>
++    <licenses>
++        <license>
++            <name>General Public License, Version 3.0</name>
++            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
++            <distribution>repo</distribution>
++        </license>
++    </licenses>
++  <packaging>jar</packaging>
++  
++  <build>
++        <resources>
++            <resource>
++                <directory>src/main/resources</directory>
++                <filtering>true</filtering>
++                <includes>
++                    <include>plugin.yml</include>
++                </includes>
++            </resource>
++        </resources>
++        <finalName>${project.artifactId}-${project.version}</finalName>
++  </build>
++  
++  <dependencies>
++        <dependency>
++            <groupId>org.bukkit</groupId>
++            <artifactId>bukkit</artifactId>
++            <version>1.5.2-R1.0</version>
++            <type>jar</type>
++        </dependency>
++    </dependencies>
++
++  <properties>
++    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++  </properties>
++  
++</project>
+
+commit de21c02e7c54543609b537bf092d654bb718aaeb
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Thu Jun 27 01:16:24 2013 -0400
+
+    Update version for release: 1.0.0
+
+diff --git pom.xml pom.xml
+index 8a86d19..d125686 100644
+--- pom.xml
++++ pom.xml
+@@ -1,50 +1,50 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>RegexBlock</artifactId>
+-  <version>1.0</version>
++  <version>1.0.0</version>
+   <name>RegexBlock</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+             <url>http://repo.bukkit.org/content/repositories/releases/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+             <version>1.5.2-R1.0</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>
+
+commit 4ffcf052f056f334cbd40278ef6e96dcccf92f9a
+Author: Spencer Alderman <spam.mehere@hotmail.com>
+Date:   Tue Oct 8 11:57:58 2013 -0400
+
+    Move to 1.0.1, fix javadocs, update auto updater
+
+diff --git pom.xml pom.xml
+index d125686..e7c6b41 100644
+--- pom.xml
++++ pom.xml
+@@ -1,50 +1,50 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.rogue</groupId>
+   <artifactId>RegexBlock</artifactId>
+-  <version>1.0.0</version>
++  <version>1.0.1</version>
+   <name>RegexBlock</name>
+   
+   <repositories>
+         <repository>
+             <id>bukkit-repo</id>
+-            <url>http://repo.bukkit.org/content/repositories/releases/</url>
++            <url>http://repo.bukkit.org/content/public/</url>
+         </repository>
+     </repositories>
+     <licenses>
+         <license>
+             <name>General Public License, Version 3.0</name>
+             <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+             <distribution>repo</distribution>
+         </license>
+     </licenses>
+   <packaging>jar</packaging>
+   
+   <build>
+         <resources>
+             <resource>
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>plugin.yml</include>
+                 </includes>
+             </resource>
+         </resources>
+         <finalName>${project.artifactId}-${project.version}</finalName>
+   </build>
+   
+   <dependencies>
+         <dependency>
+             <groupId>org.bukkit</groupId>
+             <artifactId>bukkit</artifactId>
+-            <version>1.5.2-R1.0</version>
++            <version>1.6.4-R0.1-SNAPSHOT</version>
+             <type>jar</type>
+         </dependency>
+     </dependencies>
+ 
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+   
+ </project>

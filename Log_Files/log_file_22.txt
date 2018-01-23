@@ -1,0 +1,319 @@
+commit a4a1d1612deb2035f8cfa6674c0595a0c0070fbf
+Author: Jelle Herold <jelle@defekt.nl>
+Date:   Wed Oct 31 19:41:56 2012 +0100
+
+    some half baked broken work
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..930265e
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>blueprints-subgraphs</groupId>
++    <artifactId>blueprints-subgraphs</artifactId>
++    <version>0.1-SNAPSHOT</version>
++
++    <dependencies>
++        <dependency>
++            <groupId>com.tinkerpop.blueprints</groupId>
++            <artifactId>blueprints-core</artifactId>
++            <version>2.1.0</version>
++        </dependency>
++    </dependencies>
++
++</project>
+
+commit 6c12dc1e1b8884f7a1b3fc227013483a33b75a31
+Author: Jelle Herold <jelle@defekt.nl>
+Date:   Mon Nov 12 18:41:22 2012 +0100
+
+    Added failing unit tests, we all love failing unit tests
+
+diff --git pom.xml pom.xml
+index 930265e..f92ac33 100644
+--- pom.xml
++++ pom.xml
+@@ -1,19 +1,35 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+-    <groupId>blueprints-subgraphs</groupId>
+-    <artifactId>blueprints-subgraphs</artifactId>
++    <groupId>blueprints-versionedgraph</groupId>
++    <artifactId>blueprints-versionedgraph</artifactId>
+     <version>0.1-SNAPSHOT</version>
+ 
++    <properties>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
+     <dependencies>
+         <dependency>
+             <groupId>com.tinkerpop.blueprints</groupId>
+             <artifactId>blueprints-core</artifactId>
+             <version>2.1.0</version>
+         </dependency>
++        <dependency>
++            <groupId>org.testng</groupId>
++            <artifactId>testng</artifactId>
++            <version>6.8</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>org.easytesting</groupId>
++            <artifactId>fest-assert</artifactId>
++            <version>1.3</version>
++            <scope>test</scope>
++        </dependency>
+     </dependencies>
+ 
+ </project>
+
+commit c640f486641da97d0d1cdae81f178c1a3a296683
+Author: Jelle Herold <jelle@defekt.nl>
+Date:   Tue Nov 13 18:45:38 2012 +0100
+
+    some UML
+
+diff --git pom.xml pom.xml
+index f92ac33..1fead61 100644
+--- pom.xml
++++ pom.xml
+@@ -1,35 +1,63 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>blueprints-versionedgraph</groupId>
+     <artifactId>blueprints-versionedgraph</artifactId>
+     <version>0.1-SNAPSHOT</version>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>com.tinkerpop.blueprints</groupId>
+             <artifactId>blueprints-core</artifactId>
+             <version>2.1.0</version>
+         </dependency>
+         <dependency>
+             <groupId>org.testng</groupId>
+             <artifactId>testng</artifactId>
+             <version>6.8</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easytesting</groupId>
+             <artifactId>fest-assert</artifactId>
+             <version>1.3</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>com.github.jeluard</groupId>
++                <artifactId>maven-plantuml-plugin</artifactId>
++                <version>7934</version>
++                <configuration>
++                    <sourceFiles>
++                        <directory>${basedir}</directory>
++                        <includes>
++                            <include>doc/**/*.uml.txt</include>
++                        </includes>
++                    </sourceFiles>
++                    <outputInSourceDirectory>true</outputInSourceDirectory>
++                    <verbose>true</verbose>
++                </configuration>
++                <executions>
++                    <execution>
++                        <phase>site</phase>
++                        <goals>
++                            <goal>generate</goal>
++                        </goals>
++                    </execution>
++                </executions>
++            </plugin>
++        </plugins>
++    </build>
++
+ </project>
+
+commit 88175366fcc1f9c4090a930e95dbef85884859b6
+Author: Jelle Herold <jelle@defekt.nl>
+Date:   Thu Nov 15 20:13:06 2012 +0100
+
+    more unit tests
+
+diff --git pom.xml pom.xml
+index 1fead61..e124adb 100644
+--- pom.xml
++++ pom.xml
+@@ -1,63 +1,69 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>blueprints-versionedgraph</groupId>
+     <artifactId>blueprints-versionedgraph</artifactId>
+     <version>0.1-SNAPSHOT</version>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>com.tinkerpop.blueprints</groupId>
+             <artifactId>blueprints-core</artifactId>
+             <version>2.1.0</version>
+         </dependency>
+         <dependency>
+             <groupId>org.testng</groupId>
+             <artifactId>testng</artifactId>
+             <version>6.8</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easytesting</groupId>
+-            <artifactId>fest-assert</artifactId>
+-            <version>1.3</version>
++            <artifactId>fest-assert-core</artifactId>
++            <version>2.0M7</version>
++            <scope>test</scope>
++        </dependency>
++        <dependency>
++            <groupId>com.google.guava</groupId>
++            <artifactId>guava</artifactId>
++            <version>13.0.1</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>com.github.jeluard</groupId>
+                 <artifactId>maven-plantuml-plugin</artifactId>
+                 <version>7934</version>
+                 <configuration>
+                     <sourceFiles>
+                         <directory>${basedir}</directory>
+                         <includes>
+                             <include>doc/**/*.uml.txt</include>
+                         </includes>
+                     </sourceFiles>
+                     <outputInSourceDirectory>true</outputInSourceDirectory>
+                     <verbose>true</verbose>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <phase>site</phase>
+                         <goals>
+                             <goal>generate</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+ 
+ </project>
+
+commit 7319fa92749142aa2609a7f300c492cf4a0e2b78
+Author: Jelle Herold <jelle@defekt.nl>
+Date:   Fri Nov 16 13:11:05 2012 +0100
+
+    stuff
+
+diff --git pom.xml pom.xml
+index e124adb..aaee903 100644
+--- pom.xml
++++ pom.xml
+@@ -1,69 +1,68 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <groupId>blueprints-versionedgraph</groupId>
+     <artifactId>blueprints-versionedgraph</artifactId>
+     <version>0.1-SNAPSHOT</version>
+ 
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <dependencies>
+         <dependency>
+             <groupId>com.tinkerpop.blueprints</groupId>
+             <artifactId>blueprints-core</artifactId>
+             <version>2.1.0</version>
+         </dependency>
+         <dependency>
+             <groupId>org.testng</groupId>
+             <artifactId>testng</artifactId>
+             <version>6.8</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.easytesting</groupId>
+             <artifactId>fest-assert-core</artifactId>
+             <version>2.0M7</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>13.0.1</version>
+-            <scope>test</scope>
+         </dependency>
+     </dependencies>
+ 
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>com.github.jeluard</groupId>
+                 <artifactId>maven-plantuml-plugin</artifactId>
+                 <version>7934</version>
+                 <configuration>
+                     <sourceFiles>
+                         <directory>${basedir}</directory>
+                         <includes>
+                             <include>doc/**/*.uml.txt</include>
+                         </includes>
+                     </sourceFiles>
+                     <outputInSourceDirectory>true</outputInSourceDirectory>
+                     <verbose>true</verbose>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <phase>site</phase>
+                         <goals>
+                             <goal>generate</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+     </build>
+ 
+ </project>

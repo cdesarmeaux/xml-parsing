@@ -1,0 +1,153 @@
+commit 53e8f35302f492edf55f15fa41f7cb86c7612e42
+Author: 0swald <one@oswald.ru>
+Date:   Thu Aug 8 18:36:40 2013 +0400
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..4bf423a
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,39 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>com.inswood.web</groupId>
++  <artifactId>rewrite-integration-faces-easypack</artifactId>
++  <version>1.0</version>
++  <packaging>jar</packaging>
++  <name>rewrite-integration-faces-easypack</name>
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-compiler-plugin</artifactId>
++        <version>2.3.2</version>
++        <configuration>
++          <source>1.7</source>
++          <target>1.7</target>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
++  <dependencies>
++    <dependency>
++      <groupId>org.ocpsoft.rewrite</groupId>
++      <artifactId>rewrite-integration-faces</artifactId>
++      <version>2.0.5.Final</version>
++    </dependency>
++    <dependency>
++      <groupId>org.ocpsoft.rewrite</groupId>
++      <artifactId>rewrite-servlet</artifactId>
++      <version>2.0.5.Final</version>
++    </dependency>
++    <dependency>
++      <groupId>javax</groupId>
++      <artifactId>javaee-api</artifactId>
++      <version>6.0</version>
++    </dependency>
++  </dependencies>
++</project>
+
+commit e919be0c8143efc91ca1d5336e91f24548f49f4c
+Author: 0swald <one@oswald.ru>
+Date:   Sat Aug 10 12:31:00 2013 +0400
+
+diff --git pom.xml pom.xml
+index 4bf423a..917e1db 100644
+--- pom.xml
++++ pom.xml
+@@ -1,39 +1,39 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.inswood.web</groupId>
+   <artifactId>rewrite-integration-faces-easypack</artifactId>
+   <version>1.0</version>
+   <packaging>jar</packaging>
+   <name>rewrite-integration-faces-easypack</name>
+   <build>
+     <plugins>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>2.3.2</version>
+         <configuration>
+           <source>1.7</source>
+           <target>1.7</target>
+         </configuration>
+       </plugin>
+     </plugins>
+   </build>
+   <dependencies>
+     <dependency>
+       <groupId>org.ocpsoft.rewrite</groupId>
+       <artifactId>rewrite-integration-faces</artifactId>
+-      <version>2.0.5.Final</version>
++      <version>2.0.4.Final</version>
+     </dependency>
+     <dependency>
+       <groupId>org.ocpsoft.rewrite</groupId>
+       <artifactId>rewrite-servlet</artifactId>
+-      <version>2.0.5.Final</version>
++      <version>2.0.4.Final</version>
+     </dependency>
+     <dependency>
+       <groupId>javax</groupId>
+       <artifactId>javaee-api</artifactId>
+       <version>6.0</version>
+     </dependency>
+   </dependencies>
+ </project>
+
+commit 5708b968dfee5ddbe2561c2f92189672e79e9eca
+Author: 0swald <one@oswald.ru>
+Date:   Sat Aug 10 13:39:40 2013 +0400
+
+diff --git pom.xml pom.xml
+index 917e1db..fd9138a 100644
+--- pom.xml
++++ pom.xml
+@@ -1,39 +1,39 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.inswood.web</groupId>
+   <artifactId>rewrite-integration-faces-easypack</artifactId>
+   <version>1.0</version>
+   <packaging>jar</packaging>
+   <name>rewrite-integration-faces-easypack</name>
+   <build>
+     <plugins>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>2.3.2</version>
+         <configuration>
+           <source>1.7</source>
+           <target>1.7</target>
+         </configuration>
+       </plugin>
+     </plugins>
+   </build>
+   <dependencies>
+     <dependency>
+       <groupId>org.ocpsoft.rewrite</groupId>
+-      <artifactId>rewrite-integration-faces</artifactId>
+-      <version>2.0.4.Final</version>
++      <artifactId>rewrite-servlet</artifactId>
++      <version>2.0.6-SNAPSHOT</version>
+     </dependency>
+     <dependency>
+       <groupId>org.ocpsoft.rewrite</groupId>
+-      <artifactId>rewrite-servlet</artifactId>
+-      <version>2.0.4.Final</version>
++      <artifactId>rewrite-integration-faces</artifactId>
++      <version>2.0.6-SNAPSHOT</version>
+     </dependency>
+     <dependency>
+       <groupId>javax</groupId>
+       <artifactId>javaee-api</artifactId>
+       <version>6.0</version>
+     </dependency>
+   </dependencies>
+ </project>

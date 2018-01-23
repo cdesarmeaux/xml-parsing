@@ -1,0 +1,981 @@
+commit a2174400e7c585ace584e445022f72eacf0e63b6
+Author: tobias <tobias@dell-nb>
+Date:   Wed Jan 12 20:48:55 2011 +0100
+
+    erste Strukturen
+
+diff --git pom.xml pom.xml
+new file mode 100644
+index 0000000..c2aa86f
+--- /dev/null
++++ pom.xml
+@@ -0,0 +1,206 @@
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++  <modelVersion>4.0.0</modelVersion>
++  <groupId>de.mpg.mis.neuesbibliothekssystem</groupId>
++  <artifactId>mis-tree</artifactId>
++  <version>0.0.1-SNAPSHOT</version>
++  <name>MPI MIS SearchIndex Tree</name>
++  
++  <properties>
++    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    <spring.version>3.0.4.RELEASE</spring.version>
++    <aspectj.version>1.6.10.RELEASE</aspectj.version>
++    <slf4j.version>1.6.1</slf4j.version>
++    <datastore-graph.version>1.0.0.M1</datastore-graph.version>
++    <neo4j.version>1.2</neo4j.version>
++    <neo4j-kernel.version>1.1</neo4j-kernel.version>
++  </properties>
++
++  <repositories>
++    <repository>
++      <id>spring-maven-release</id>
++      <name>Spring Maven Release Repository</name>
++      <url>http://maven.springframework.org/release</url>
++    </repository>
++    <repository>
++      <id>spring-maven-snapshot</id>
++      <name>Spring Maven Snapshot Repository</name>
++      <snapshots>
++        <enabled>true</enabled>
++      </snapshots>
++      <url>http://maven.springframework.org/snapshot</url>
++    </repository>
++    <repository>
++      <id>spring-maven-milestone</id>
++      <name>Spring Maven Milestone Repository</name>
++      <url>http://maven.springframework.org/milestone</url>
++    </repository>
++    <repository>
++      <id>neo4j-public-repository</id>
++      <url>http://m2.neo4j.org/</url>
++      <name>Publicly available Maven 2 repository for Neo4j</name>
++    </repository>
++  </repositories>
++
++  <pluginRepositories>
++    <pluginRepository>
++      <id>spring-maven-release</id>
++      <name>Spring Maven Release Repository</name>
++      <url>http://maven.springframework.org/release</url>
++    </pluginRepository>
++    <pluginRepository>
++      <id>spring-maven-milestone</id>
++      <name>Spring Maven Milestone Repository</name>
++      <url>http://maven.springframework.org/milestone</url>
++    </pluginRepository>
++  </pluginRepositories>
++
++  <dependencies>
++    <dependency>
++      <groupId>junit</groupId>
++      <artifactId>junit</artifactId>
++      <version>4.8.1</version>
++      <scope>test</scope>
++    </dependency>
++    <!-- Spring dependencies -->
++    <dependency>
++      <groupId>org.springframework</groupId>
++      <artifactId>spring-core</artifactId>
++      <version>${spring.version}</version>
++      <exclusions>
++        <exclusion>
++          <groupId>commons-logging</groupId>
++          <artifactId>commons-logging</artifactId>
++        </exclusion>
++      </exclusions>
++    </dependency>
++    <dependency>
++      <groupId>org.springframework</groupId>
++      <artifactId>spring-test</artifactId>
++      <version>${spring.version}</version>
++      <scope>test</scope>
++      <exclusions>
++        <exclusion>
++          <groupId>commons-logging</groupId>
++          <artifactId>commons-logging</artifactId>
++        </exclusion>
++      </exclusions>
++    </dependency>
++    <dependency>
++      <groupId>org.springframework</groupId>
++      <artifactId>spring-context</artifactId>
++      <version>${spring.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>org.springframework</groupId>
++      <artifactId>spring-aop</artifactId>
++      <version>${spring.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>org.springframework</groupId>
++      <artifactId>spring-aspects</artifactId>
++      <version>${spring.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>org.springframework</groupId>
++      <artifactId>spring-tx</artifactId>
++      <version>${spring.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>org.springframework.data</groupId>
++      <artifactId>spring-data-graph-core</artifactId>
++      <version>${datastore-graph.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>org.springframework.data</groupId>
++      <artifactId>spring-data-neo4j</artifactId>
++      <version>${datastore-graph.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>cglib</groupId>
++      <artifactId>cglib-nodep</artifactId>
++      <version>2.2</version>
++    </dependency>
++    
++    <!-- Neo4j Libraries -->
++    <dependency>
++      <groupId>org.neo4j</groupId>
++      <artifactId>neo4j-kernel</artifactId>
++      <version>${neo4j-kernel.version}</version>
++    </dependency>
++    
++  </dependencies>
++
++  <build>
++    <plugins>
++      <plugin>
++        <!-- Must use java 1.5 or higher for annotations -->
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-compiler-plugin</artifactId>
++        <version>2.1</version>
++        <configuration>
++          <source>1.6</source>
++          <target>1.6</target>
++        </configuration>
++      </plugin>
++
++      <plugin>
++        <!-- required to resolve aspectj-enhanced class features -->
++        <groupId>org.codehaus.mojo</groupId>
++        <artifactId>aspectj-maven-plugin</artifactId>
++        <version>1.0</version>
++        <configuration>
++          <outxml>true</outxml>
++          <aspectLibraries>
++            <aspectLibrary>
++              <groupId>org.springframework</groupId>
++              <artifactId>spring-aspects</artifactId>
++            </aspectLibrary>
++            <aspectLibrary>
++              <groupId>org.springframework.data</groupId>
++              <artifactId>spring-data-neo4j</artifactId>
++            </aspectLibrary>
++          </aspectLibraries>
++          <source>1.6</source>
++          <target>1.6</target>
++        </configuration>
++        <executions>
++          <execution>
++            <goals>
++              <goal>compile</goal>
++              <goal>test-compile</goal>
++            </goals>
++          </execution>
++        </executions>
++        <dependencies>
++          <dependency>
++            <groupId>org.aspectj</groupId>
++            <artifactId>aspectjrt</artifactId>
++            <version>${aspectj.version}</version>
++          </dependency>
++          <dependency>
++            <groupId>org.aspectj</groupId>
++            <artifactId>aspectjtools</artifactId>
++            <version>${aspectj.version}</version>
++          </dependency>
++        </dependencies>
++      </plugin>
++
++      <plugin>
++        <!-- Execute the main class -->
++        <groupId>org.codehaus.mojo</groupId>
++        <artifactId>exec-maven-plugin</artifactId>
++        <executions>
++          <execution>
++            <goals>
++              <goal>exec</goal>
++            </goals>
++          </execution>
++        </executions>
++        <configuration>
++          <mainClass>org.springframework.data.neo4j.examples.hellograph.App</mainClass>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
++  
++</project>
+\ No newline at end of file
+
+commit 49d249e93089bbbcb2f1257b2ce5df3fde1ab7ce
+Author: Tobias Kaatz <Tobias.Kaatz@mis.mpg.de>
+Date:   Thu Jan 13 16:08:00 2011 +0100
+
+    Erweiterung des Baumes
+    Basisfunktionen zum Füllen
+
+diff --git pom.xml pom.xml
+index c2aa86f..4328852 100644
+--- pom.xml
++++ pom.xml
+@@ -1,206 +1,234 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>de.mpg.mis.neuesbibliothekssystem</groupId>
+   <artifactId>mis-tree</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   <name>MPI MIS SearchIndex Tree</name>
+   
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <spring.version>3.0.4.RELEASE</spring.version>
+     <aspectj.version>1.6.10.RELEASE</aspectj.version>
+     <slf4j.version>1.6.1</slf4j.version>
+     <datastore-graph.version>1.0.0.M1</datastore-graph.version>
+     <neo4j.version>1.2</neo4j.version>
+     <neo4j-kernel.version>1.1</neo4j-kernel.version>
+   </properties>
+ 
+   <repositories>
+     <repository>
+       <id>spring-maven-release</id>
+       <name>Spring Maven Release Repository</name>
+       <url>http://maven.springframework.org/release</url>
+     </repository>
+     <repository>
+       <id>spring-maven-snapshot</id>
+       <name>Spring Maven Snapshot Repository</name>
+       <snapshots>
+         <enabled>true</enabled>
+       </snapshots>
+       <url>http://maven.springframework.org/snapshot</url>
+     </repository>
+     <repository>
+       <id>spring-maven-milestone</id>
+       <name>Spring Maven Milestone Repository</name>
+       <url>http://maven.springframework.org/milestone</url>
+     </repository>
+     <repository>
+       <id>neo4j-public-repository</id>
+       <url>http://m2.neo4j.org/</url>
+       <name>Publicly available Maven 2 repository for Neo4j</name>
+     </repository>
+   </repositories>
+ 
+   <pluginRepositories>
+     <pluginRepository>
+       <id>spring-maven-release</id>
+       <name>Spring Maven Release Repository</name>
+       <url>http://maven.springframework.org/release</url>
+     </pluginRepository>
+     <pluginRepository>
+       <id>spring-maven-milestone</id>
+       <name>Spring Maven Milestone Repository</name>
+       <url>http://maven.springframework.org/milestone</url>
+     </pluginRepository>
+   </pluginRepositories>
+ 
+   <dependencies>
+     <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+       <version>4.8.1</version>
+       <scope>test</scope>
+     </dependency>
++    <dependency>
++      <groupId>log4j</groupId>
++      <artifactId>log4j</artifactId>
++      <version>1.2.16</version>
++    </dependency>
++    <dependency>
++      <groupId>org.slf4j</groupId>
++      <artifactId>slf4j-api</artifactId>
++      <version>${slf4j.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>org.slf4j</groupId>
++      <artifactId>jcl-over-slf4j</artifactId>
++      <version>${slf4j.version}</version>
++    </dependency>
++    <dependency>
++      <groupId>org.slf4j</groupId>
++      <artifactId>slf4j-log4j12</artifactId>
++      <version>${slf4j.version}</version>
++    </dependency>
+     <!-- Spring dependencies -->
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-core</artifactId>
+       <version>${spring.version}</version>
+       <exclusions>
+         <exclusion>
+           <groupId>commons-logging</groupId>
+           <artifactId>commons-logging</artifactId>
+         </exclusion>
+       </exclusions>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-test</artifactId>
+       <version>${spring.version}</version>
+       <scope>test</scope>
+       <exclusions>
+         <exclusion>
+           <groupId>commons-logging</groupId>
+           <artifactId>commons-logging</artifactId>
+         </exclusion>
+       </exclusions>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-context</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-aop</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-aspects</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-tx</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework.data</groupId>
+       <artifactId>spring-data-graph-core</artifactId>
+       <version>${datastore-graph.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework.data</groupId>
+       <artifactId>spring-data-neo4j</artifactId>
+       <version>${datastore-graph.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>cglib</groupId>
+       <artifactId>cglib-nodep</artifactId>
+       <version>2.2</version>
+     </dependency>
+     
+     <!-- Neo4j Libraries -->
+     <dependency>
+       <groupId>org.neo4j</groupId>
+       <artifactId>neo4j-kernel</artifactId>
+       <version>${neo4j-kernel.version}</version>
+     </dependency>
+     
+   </dependencies>
+ 
+   <build>
+     <plugins>
+       <plugin>
+         <!-- Must use java 1.5 or higher for annotations -->
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>2.1</version>
+         <configuration>
+           <source>1.6</source>
+           <target>1.6</target>
+         </configuration>
+       </plugin>
+-
++		<plugin>
++	        <groupId>org.apache.maven.plugins</groupId>
++	        <artifactId>maven-eclipse-plugin</artifactId>
++	        <version>2.7</version>
++	        <!-- Note 2.8 does not work with AspectJ aspect path -->
++	        <configuration>
++	          <downloadSources>true</downloadSources>
++	          <downloadJavadocs>false</downloadJavadocs>
++	          <additionalBuildcommands>
++	            <buildCommand>
++	              <name>org.eclipse.ajdt.core.ajbuilder</name>
++	              <arguments>
++	                <aspectPath>org.springframework.aspects</aspectPath>
++	              </arguments>
++	            </buildCommand>
++	            <buildCommand>
++	              <name>org.springframework.ide.eclipse.core.springbuilder</name>
++	            </buildCommand>
++	          </additionalBuildcommands>
++	          <additionalProjectnatures>
++	            <projectnature>org.eclipse.ajdt.ui.ajnature</projectnature>
++	            <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
++	          </additionalProjectnatures>
++	        </configuration>
++	      </plugin>
+       <plugin>
+         <!-- required to resolve aspectj-enhanced class features -->
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>aspectj-maven-plugin</artifactId>
+         <version>1.0</version>
+         <configuration>
+           <outxml>true</outxml>
+           <aspectLibraries>
+             <aspectLibrary>
+               <groupId>org.springframework</groupId>
+               <artifactId>spring-aspects</artifactId>
+             </aspectLibrary>
+             <aspectLibrary>
+               <groupId>org.springframework.data</groupId>
+               <artifactId>spring-data-neo4j</artifactId>
+             </aspectLibrary>
+           </aspectLibraries>
+           <source>1.6</source>
+           <target>1.6</target>
+         </configuration>
+         <executions>
+           <execution>
+             <goals>
+               <goal>compile</goal>
+               <goal>test-compile</goal>
+             </goals>
+           </execution>
+         </executions>
+         <dependencies>
+           <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjrt</artifactId>
+             <version>${aspectj.version}</version>
+           </dependency>
+           <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjtools</artifactId>
+             <version>${aspectj.version}</version>
+           </dependency>
+         </dependencies>
+       </plugin>
+-
+-      <plugin>
+-        <!-- Execute the main class -->
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>exec-maven-plugin</artifactId>
+-        <executions>
+-          <execution>
+-            <goals>
+-              <goal>exec</goal>
+-            </goals>
+-          </execution>
+-        </executions>
+-        <configuration>
+-          <mainClass>org.springframework.data.neo4j.examples.hellograph.App</mainClass>
+-        </configuration>
+-      </plugin>
+     </plugins>
+   </build>
+   
+ </project>
+\ No newline at end of file
+
+commit a76a67da93e50bf3ae516514bf069e1d7e31b545
+Author: kaatz <kaatz@bibdev.mis.mpg.de>
+Date:   Wed Mar 30 13:08:51 2011 +0200
+
+    Anpassungen für Spring Data 1.0.0.M5
+
+diff --git pom.xml pom.xml
+index 4328852..db82424 100644
+--- pom.xml
++++ pom.xml
+@@ -1,234 +1,227 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>de.mpg.mis.neuesbibliothekssystem</groupId>
+   <artifactId>mis-tree</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   <name>MPI MIS SearchIndex Tree</name>
+   
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <spring.version>3.0.4.RELEASE</spring.version>
+-    <aspectj.version>1.6.10.RELEASE</aspectj.version>
++    <aspectj.version>1.6.11.RELEASE</aspectj.version>
+     <slf4j.version>1.6.1</slf4j.version>
+-    <datastore-graph.version>1.0.0.M1</datastore-graph.version>
++    <datastore-graph.version>1.0.0.M5</datastore-graph.version>
+     <neo4j.version>1.2</neo4j.version>
+     <neo4j-kernel.version>1.1</neo4j-kernel.version>
+   </properties>
+ 
+   <repositories>
+     <repository>
+       <id>spring-maven-release</id>
+       <name>Spring Maven Release Repository</name>
+       <url>http://maven.springframework.org/release</url>
+     </repository>
+     <repository>
+       <id>spring-maven-snapshot</id>
+       <name>Spring Maven Snapshot Repository</name>
+       <snapshots>
+         <enabled>true</enabled>
+       </snapshots>
+       <url>http://maven.springframework.org/snapshot</url>
+     </repository>
+     <repository>
+       <id>spring-maven-milestone</id>
+       <name>Spring Maven Milestone Repository</name>
+       <url>http://maven.springframework.org/milestone</url>
+     </repository>
+     <repository>
+       <id>neo4j-public-repository</id>
+       <url>http://m2.neo4j.org/</url>
+       <name>Publicly available Maven 2 repository for Neo4j</name>
+     </repository>
+   </repositories>
+ 
+   <pluginRepositories>
+     <pluginRepository>
+       <id>spring-maven-release</id>
+       <name>Spring Maven Release Repository</name>
+       <url>http://maven.springframework.org/release</url>
+     </pluginRepository>
+     <pluginRepository>
+       <id>spring-maven-milestone</id>
+       <name>Spring Maven Milestone Repository</name>
+       <url>http://maven.springframework.org/milestone</url>
+     </pluginRepository>
+   </pluginRepositories>
+ 
+   <dependencies>
+     <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+       <version>4.8.1</version>
+       <scope>test</scope>
+     </dependency>
+     <dependency>
+       <groupId>log4j</groupId>
+       <artifactId>log4j</artifactId>
+       <version>1.2.16</version>
+     </dependency>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+       <version>${slf4j.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>jcl-over-slf4j</artifactId>
+       <version>${slf4j.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-log4j12</artifactId>
+       <version>${slf4j.version}</version>
+     </dependency>
+     <!-- Spring dependencies -->
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-core</artifactId>
+       <version>${spring.version}</version>
+       <exclusions>
+         <exclusion>
+           <groupId>commons-logging</groupId>
+           <artifactId>commons-logging</artifactId>
+         </exclusion>
+       </exclusions>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-test</artifactId>
+       <version>${spring.version}</version>
+       <scope>test</scope>
+       <exclusions>
+         <exclusion>
+           <groupId>commons-logging</groupId>
+           <artifactId>commons-logging</artifactId>
+         </exclusion>
+       </exclusions>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-context</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-aop</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-aspects</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-tx</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework.data</groupId>
+       <artifactId>spring-data-graph-core</artifactId>
+       <version>${datastore-graph.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework.data</groupId>
+       <artifactId>spring-data-neo4j</artifactId>
+       <version>${datastore-graph.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>cglib</groupId>
+       <artifactId>cglib-nodep</artifactId>
+       <version>2.2</version>
+     </dependency>
+     
+-    <!-- Neo4j Libraries -->
+-    <dependency>
+-      <groupId>org.neo4j</groupId>
+-      <artifactId>neo4j-kernel</artifactId>
+-      <version>${neo4j-kernel.version}</version>
+-    </dependency>
+-    
+   </dependencies>
+ 
+   <build>
+     <plugins>
+       <plugin>
+         <!-- Must use java 1.5 or higher for annotations -->
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>2.1</version>
+         <configuration>
+           <source>1.6</source>
+           <target>1.6</target>
+         </configuration>
+       </plugin>
+ 		<plugin>
+ 	        <groupId>org.apache.maven.plugins</groupId>
+ 	        <artifactId>maven-eclipse-plugin</artifactId>
+ 	        <version>2.7</version>
+ 	        <!-- Note 2.8 does not work with AspectJ aspect path -->
+ 	        <configuration>
+ 	          <downloadSources>true</downloadSources>
+ 	          <downloadJavadocs>false</downloadJavadocs>
+ 	          <additionalBuildcommands>
+ 	            <buildCommand>
+ 	              <name>org.eclipse.ajdt.core.ajbuilder</name>
+ 	              <arguments>
+ 	                <aspectPath>org.springframework.aspects</aspectPath>
+ 	              </arguments>
+ 	            </buildCommand>
+ 	            <buildCommand>
+ 	              <name>org.springframework.ide.eclipse.core.springbuilder</name>
+ 	            </buildCommand>
+ 	          </additionalBuildcommands>
+ 	          <additionalProjectnatures>
+ 	            <projectnature>org.eclipse.ajdt.ui.ajnature</projectnature>
+ 	            <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+ 	          </additionalProjectnatures>
+ 	        </configuration>
+ 	      </plugin>
+       <plugin>
+         <!-- required to resolve aspectj-enhanced class features -->
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>aspectj-maven-plugin</artifactId>
+         <version>1.0</version>
+         <configuration>
+           <outxml>true</outxml>
+           <aspectLibraries>
+             <aspectLibrary>
+               <groupId>org.springframework</groupId>
+               <artifactId>spring-aspects</artifactId>
+             </aspectLibrary>
+             <aspectLibrary>
+               <groupId>org.springframework.data</groupId>
+               <artifactId>spring-data-neo4j</artifactId>
+             </aspectLibrary>
+           </aspectLibraries>
+           <source>1.6</source>
+           <target>1.6</target>
+         </configuration>
+         <executions>
+           <execution>
+             <goals>
+               <goal>compile</goal>
+               <goal>test-compile</goal>
+             </goals>
+           </execution>
+         </executions>
+         <dependencies>
+           <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjrt</artifactId>
+             <version>${aspectj.version}</version>
+           </dependency>
+           <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjtools</artifactId>
+             <version>${aspectj.version}</version>
+           </dependency>
+         </dependencies>
+       </plugin>
+     </plugins>
+   </build>
+   
+ </project>
+\ No newline at end of file
+
+commit a7c0f7d762f187a552bfeda6089bab90aece9c0d
+Author: kaatz <kaatz@bibdev.mis.mpg.de>
+Date:   Thu Jun 9 16:15:47 2011 +0200
+
+    Traversal-Beispiel
+
+diff --git pom.xml pom.xml
+index db82424..e5daa76 100644
+--- pom.xml
++++ pom.xml
+@@ -1,227 +1,233 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>de.mpg.mis.neuesbibliothekssystem</groupId>
+   <artifactId>mis-tree</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   <name>MPI MIS SearchIndex Tree</name>
+   
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+-    <spring.version>3.0.4.RELEASE</spring.version>
++    <spring.version>3.0.5.RELEASE</spring.version>
+     <aspectj.version>1.6.11.RELEASE</aspectj.version>
+     <slf4j.version>1.6.1</slf4j.version>
+-    <datastore-graph.version>1.0.0.M5</datastore-graph.version>
++    <datastore-graph.version>1.0.0.RELEASE</datastore-graph.version>
+     <neo4j.version>1.2</neo4j.version>
+     <neo4j-kernel.version>1.1</neo4j-kernel.version>
++    <guava.version>r09</guava.version>
+   </properties>
+ 
+   <repositories>
+     <repository>
+       <id>spring-maven-release</id>
+       <name>Spring Maven Release Repository</name>
+       <url>http://maven.springframework.org/release</url>
+     </repository>
+     <repository>
+       <id>spring-maven-snapshot</id>
+       <name>Spring Maven Snapshot Repository</name>
+       <snapshots>
+         <enabled>true</enabled>
+       </snapshots>
+       <url>http://maven.springframework.org/snapshot</url>
+     </repository>
+     <repository>
+       <id>spring-maven-milestone</id>
+       <name>Spring Maven Milestone Repository</name>
+       <url>http://maven.springframework.org/milestone</url>
+     </repository>
+     <repository>
+       <id>neo4j-public-repository</id>
+       <url>http://m2.neo4j.org/</url>
+       <name>Publicly available Maven 2 repository for Neo4j</name>
+     </repository>
+   </repositories>
+ 
+   <pluginRepositories>
+     <pluginRepository>
+       <id>spring-maven-release</id>
+       <name>Spring Maven Release Repository</name>
+       <url>http://maven.springframework.org/release</url>
+     </pluginRepository>
+     <pluginRepository>
+       <id>spring-maven-milestone</id>
+       <name>Spring Maven Milestone Repository</name>
+       <url>http://maven.springframework.org/milestone</url>
+     </pluginRepository>
+   </pluginRepositories>
+ 
+   <dependencies>
+     <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+       <version>4.8.1</version>
+       <scope>test</scope>
+     </dependency>
+     <dependency>
+       <groupId>log4j</groupId>
+       <artifactId>log4j</artifactId>
+       <version>1.2.16</version>
+     </dependency>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+       <version>${slf4j.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>jcl-over-slf4j</artifactId>
+       <version>${slf4j.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-log4j12</artifactId>
+       <version>${slf4j.version}</version>
+     </dependency>
+     <!-- Spring dependencies -->
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-core</artifactId>
+       <version>${spring.version}</version>
+       <exclusions>
+         <exclusion>
+           <groupId>commons-logging</groupId>
+           <artifactId>commons-logging</artifactId>
+         </exclusion>
+       </exclusions>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-test</artifactId>
+       <version>${spring.version}</version>
+       <scope>test</scope>
+       <exclusions>
+         <exclusion>
+           <groupId>commons-logging</groupId>
+           <artifactId>commons-logging</artifactId>
+         </exclusion>
+       </exclusions>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-context</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-aop</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-aspects</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-tx</artifactId>
+       <version>${spring.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework.data</groupId>
+       <artifactId>spring-data-graph-core</artifactId>
+       <version>${datastore-graph.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>org.springframework.data</groupId>
+       <artifactId>spring-data-neo4j</artifactId>
+       <version>${datastore-graph.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>cglib</groupId>
+       <artifactId>cglib-nodep</artifactId>
+       <version>2.2</version>
+     </dependency>
++    <dependency>
++    	<groupId>com.google.guava</groupId>
++    	<artifactId>guava</artifactId>
++    	<version>${guava.version}</version>
++	</dependency>
+     
+   </dependencies>
+ 
+   <build>
+     <plugins>
+       <plugin>
+         <!-- Must use java 1.5 or higher for annotations -->
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>2.1</version>
+         <configuration>
+           <source>1.6</source>
+           <target>1.6</target>
+         </configuration>
+       </plugin>
+ 		<plugin>
+ 	        <groupId>org.apache.maven.plugins</groupId>
+ 	        <artifactId>maven-eclipse-plugin</artifactId>
+ 	        <version>2.7</version>
+ 	        <!-- Note 2.8 does not work with AspectJ aspect path -->
+ 	        <configuration>
+ 	          <downloadSources>true</downloadSources>
+ 	          <downloadJavadocs>false</downloadJavadocs>
+ 	          <additionalBuildcommands>
+ 	            <buildCommand>
+ 	              <name>org.eclipse.ajdt.core.ajbuilder</name>
+ 	              <arguments>
+ 	                <aspectPath>org.springframework.aspects</aspectPath>
+ 	              </arguments>
+ 	            </buildCommand>
+ 	            <buildCommand>
+ 	              <name>org.springframework.ide.eclipse.core.springbuilder</name>
+ 	            </buildCommand>
+ 	          </additionalBuildcommands>
+ 	          <additionalProjectnatures>
+ 	            <projectnature>org.eclipse.ajdt.ui.ajnature</projectnature>
+ 	            <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+ 	          </additionalProjectnatures>
+ 	        </configuration>
+ 	      </plugin>
+       <plugin>
+         <!-- required to resolve aspectj-enhanced class features -->
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>aspectj-maven-plugin</artifactId>
+         <version>1.0</version>
+         <configuration>
+           <outxml>true</outxml>
+           <aspectLibraries>
+             <aspectLibrary>
+               <groupId>org.springframework</groupId>
+               <artifactId>spring-aspects</artifactId>
+             </aspectLibrary>
+             <aspectLibrary>
+               <groupId>org.springframework.data</groupId>
+               <artifactId>spring-data-neo4j</artifactId>
+             </aspectLibrary>
+           </aspectLibraries>
+           <source>1.6</source>
+           <target>1.6</target>
+         </configuration>
+         <executions>
+           <execution>
+             <goals>
+               <goal>compile</goal>
+               <goal>test-compile</goal>
+             </goals>
+           </execution>
+         </executions>
+         <dependencies>
+           <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjrt</artifactId>
+             <version>${aspectj.version}</version>
+           </dependency>
+           <dependency>
+             <groupId>org.aspectj</groupId>
+             <artifactId>aspectjtools</artifactId>
+             <version>${aspectj.version}</version>
+           </dependency>
+         </dependencies>
+       </plugin>
+     </plugins>
+   </build>
+   
+ </project>
+\ No newline at end of file
